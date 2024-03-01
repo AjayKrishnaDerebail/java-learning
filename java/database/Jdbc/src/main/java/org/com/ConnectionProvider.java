@@ -12,8 +12,8 @@ public class ConnectionProvider {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         String url = "jdbc:mysql://127.0.0.1:3306/student";
-        String username = "ajaykdbadmin";
-        String password = "Derebail@1234";
+        String username = "";
+        String password = "";
         Connection conn = DriverManager.getConnection(url, username, password);
 
         if(conn.isClosed()) {
