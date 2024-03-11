@@ -1,0 +1,18 @@
+
+R
+java:S1141"5Extract this nested try block into a separate method.(¶Ý–ì8íµû®ß1
+W
+java:S11414"5Extract this nested try block into a separate method.(¦î‘Âÿÿÿÿÿ8îµû®ß1
+R
+java:S1141K"5Extract this nested try block into a separate method.(ŒÊ×É8îµû®ß1
+H
+java:S1481!"+Remove this unused "reader" local variable.(Ï ¾ð8è¶û®ß1
+W	java:S125""<This block of commented-out lines of code should be removed.(˜´+8è¶û®ß1
+X	java:S125)"<This block of commented-out lines of code should be removed.(‰×Ö™8é¶û®ß1
+D
+java:S14816"'Remove this unused "br" local variable.(ßÅÍ”8î¶û®ß1
+X	java:S1258"<This block of commented-out lines of code should be removed.(­´´Ã8ï¶û®ß1
+X	java:S125;"<This block of commented-out lines of code should be removed.(ŽÒ¯¦8ï¶û®ß1
+]	java:S125>"<This block of commented-out lines of code should be removed.(À¥·²ùÿÿÿÿ8ï¶û®ß1
+W	java:S125A"<This block of commented-out lines of code should be removed.(åÕÑ+8ð¶û®ß1
+X	java:S125E"<This block of commented-out lines of code should be removed.(‰×Ö™8ð¶û®ß1

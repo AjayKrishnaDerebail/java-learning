@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:p="http://www.springframework.org/schema/p"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       https://www.springframework.org/schema/p">
+
+    <bean class="org.springframework.jdbc.datasource.DriverManagerDataSource" name="datasource" >
+        <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
+        <property name="url" value="jdbc:mysql://localhost:3306/springjdbc"/>
+        <property name="username" value="ajaykdbadmin"/>
+        <property name="password" value="Derebail@1234"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.core.JdbcTemplate" name="JdbcTemplate" p:dataSource-ref="datasource"/>
+
+    <bean class="repository.StudentDaoImpl" name="studentDao">
+        <property name="jdbcTemplate" ref="JdbcTemplate"/>
+    </bean>
+
+</beans>
