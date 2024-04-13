@@ -19,8 +19,8 @@ public class Main {
 //        System.out.println("Records updated " +resultUpdate);
 
 
-          int resultDelete = studentDao.deleteStudent(1);
-          System.out.println("Records deleted " +resultDelete);
+        int resultDelete = studentDao.deleteStudent(1);
+        System.out.println("Records deleted " +resultDelete);
 
     }
 }

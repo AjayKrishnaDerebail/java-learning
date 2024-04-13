@@ -1,0 +1,7 @@
+
+m	java:S106"+Replace this use of System.out by a logger.(ŞªÏ8æ‰«Õç1J$212497d0-97d4-415c-b32d-517b383860ed
+r	java:S106"+Replace this use of System.out by a logger.(§£êüÿÿÿÿ8¤¤«Õç1J$6dfce671-bc9b-4051-b6fe-3f606a89f8a4
+t
+java:S1874",Remove this use of "load"; it is deprecated.(íä•”üÿÿÿÿ8å‰«Õç1J$cdcfe3f0-b007-4ac8-9bc4-45a083bc0535
+m	java:S106"+Replace this use of System.out by a logger.(ÂÆÙ™8¤ÕµÕç1J$71ab2594-7518-4ccb-a8fa-f532c8c34759
+m	java:S106"+Replace this use of System.out by a logger.(ÂÆÙ™8¥ÕµÕç1J$0205bbfe-be5a-4573-9055-4171225205e3
