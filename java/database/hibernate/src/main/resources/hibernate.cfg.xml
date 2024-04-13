@@ -15,5 +15,7 @@
         <mapping class="com.hibernate.Address"/>
         <mapping class="com.hibernate.NarutoVerse"/>
         <mapping class="com.hibernate.NinjaClan"/>
+        <mapping class="com.mapping.QuestionOneToOne"/>
+        <mapping class="com.mapping.AnswerOneToOne"/>
     </session-factory>
 </hibernate-configuration>

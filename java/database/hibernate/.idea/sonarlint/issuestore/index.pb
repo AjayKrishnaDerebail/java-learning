@@ -15,3 +15,13 @@ Z
 *src/main/java/com/hibernate/NinjaClan.java,e\8\e883e12f6e784e99d1a47944759cb3e0d7d62e0d
 Z
 *src/main/java/com/hibernate/NinjaMain.java,7\b\7be79e33b6f2c5361df5292d7255aeae5d30dd34
+W
+'src/main/java/com/mapping/Question.java,8\0\80efa3f73405af9f1c4747c023593f1b141a5c48
+_
+/src/main/java/com/mapping/QuestionOneToOne.java,a\a\aaa3c11d423a96d62d243ca26eee916b6454cb65
+]
+-src/main/java/com/mapping/AnswerOneToOne.java,d\0\d0a73a9502542c3463dc4ac5fe12850069aa7862
+U
+%src/main/java/com/mapping/Answer.java,4\d\4d42cf73d9b63a8df98e7197ff074a22602706a4
+V
+&src/main/java/com/mapping/MapDemo.java,1\b\1b11da3f917f1121e87dbdc9c635d07319a82e88
