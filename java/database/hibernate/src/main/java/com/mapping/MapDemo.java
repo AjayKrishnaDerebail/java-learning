@@ -8,10 +8,24 @@ import org.hibernate.cfg.Configuration;
 public class MapDemo {
     public static void main (String[] args) {
         SessionFactory sessionFactory = new Configuration().configure("hibernate.cfg.xml").buildSessionFactory();
-        AnswerOneToOne a1=new AnswerOneToOne(1001,"Java is a programming language");
-        QuestionOneToOne q1=new QuestionOneToOne(101,"What is Java",a1);
-        AnswerOneToOne a2=new AnswerOneToOne(1002,"Hitman Blood Money");
-        QuestionOneToOne q2=new QuestionOneToOne(102,"Which is the best Hitman game",a2);
+
+        QuestionOneToOne q1 = new QuestionOneToOne();
+        q1.setQuestionId(101);
+        q1.setQuestion("What is Java ?");
+        AnswerOneToOne a1 = new AnswerOneToOne();
+        a1.setAnswerId(1001);
+        a1.setAnswer("Java is a programming language");
+        a1.setQuestionOneToOne(q1);
+        q1.setAnswer(a1);
+
+        QuestionOneToOne q2 = new QuestionOneToOne();
+        q2.setQuestionId(102);
+        q2.setQuestion("Which is the best Hitman game ?");
+        AnswerOneToOne a2 = new AnswerOneToOne();
+        a2.setAnswerId(1002);
+        a2.setAnswer("Hitman Blood Money");
+        a2.setQuestionOneToOne(q2);
+        q2.setAnswer(a2);
 
         try (Session session = sessionFactory.openSession()) {
             Transaction tx;
