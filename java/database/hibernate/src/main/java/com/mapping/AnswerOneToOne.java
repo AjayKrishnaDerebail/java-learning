@@ -2,12 +2,15 @@ package com.mapping;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class AnswerOneToOne {
     @Id
     private int answerId;
     private String answer;
+    @OneToOne(mappedBy = "answer")
+    private QuestionOneToOne questionOneToOne;
 
     public AnswerOneToOne () {
     }
@@ -15,6 +18,12 @@ public class AnswerOneToOne {
     public AnswerOneToOne (int answerId, String answer) {
         this.answerId = answerId;
         this.answer = answer;
+    }
+
+    public AnswerOneToOne (int answerId, String answer, QuestionOneToOne questionOneToOne) {
+        this.answerId = answerId;
+        this.answer = answer;
+        this.questionOneToOne = questionOneToOne;
     }
 
     public int getAnswerId () {
@@ -31,5 +40,13 @@ public class AnswerOneToOne {
 
     public void setAnswer (String answer) {
         this.answer = answer;
+    }
+
+    public QuestionOneToOne getQuestionOneToOne () {
+        return questionOneToOne;
+    }
+
+    public void setQuestionOneToOne (QuestionOneToOne questionOneToOne) {
+        this.questionOneToOne = questionOneToOne;
     }
 }
