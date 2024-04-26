@@ -11,6 +11,7 @@
         <property name="connection.password">Derebail@1234</property>
         <property name="hbm2ddl.auto">create</property>
         <property name="show_sql">true</property>
+
         <mapping class="com.hibernate.Student"/>
         <mapping class="com.hibernate.Address"/>
         <mapping class="com.hibernate.NarutoVerse"/>
@@ -21,5 +22,6 @@
         <mapping class="com.mapping.onetomany.QuestionOneToMany"/>
         <mapping class="com.mapping.manytomany.Project"/>
         <mapping class="com.mapping.manytomany.Employee"/>
+
     </session-factory>
 </hibernate-configuration>
