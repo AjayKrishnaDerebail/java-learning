@@ -1,6 +1,7 @@
 package com.mapping.onetomany;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
@@ -11,7 +12,7 @@ public class QuestionOneToMany {
     @Id
     private int questionId;
     private String question;
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question",fetch = FetchType.EAGER)
     private List<AnswerOneToMany> answers;
 
     public QuestionOneToMany () {
