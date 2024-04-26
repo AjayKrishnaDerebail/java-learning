@@ -19,5 +19,7 @@
         <mapping class="com.mapping.onetoone.AnswerOneToOne"/>
         <mapping class="com.mapping.onetomany.AnswerOneToMany"/>
         <mapping class="com.mapping.onetomany.QuestionOneToMany"/>
+        <mapping class="com.mapping.manytomany.Project"/>
+        <mapping class="com.mapping.manytomany.Employee"/>
     </session-factory>
 </hibernate-configuration>

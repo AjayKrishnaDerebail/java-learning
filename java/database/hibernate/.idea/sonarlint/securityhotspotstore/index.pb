@@ -29,3 +29,13 @@ m
 =src/main/java/com/mapping/onetomany/OneToManyMappingDemo.java,e\7\e726249514442ed13849fcc27a691f915a7c1f53
 f
 6src/main/java/com/mapping/onetoone/AnswerOneToOne.java,9\0\902c4ed8ca4b2666a6b19b813b7b01e96c16ccf8
+j
+:src/main/java/com/mapping/manytomany/AnswerManyToMany.java,9\d\9de79a855d5e0d8bc6da3025b440d5e5d94880e4
+l
+<src/main/java/com/mapping/manytomany/QuestionManyToMany.java,5\7\57ee1f238f1441ca95a97918227a04d80070dd8e
+n
+>src/main/java/com/mapping/manytomany/ManyToManyMapingDemo.java,7\7\778d921897a01b792a3aa0d2c4da434afec70f70
+b
+2src/main/java/com/mapping/manytomany/Employee.java,2\f\2f0321933742939af2a2835126cc9bfd95dd8f77
+a
+1src/main/java/com/mapping/manytomany/Project.java,c\2\c2c7e6eca1f75c8eb8015a7cc08f9b77ee90da75
