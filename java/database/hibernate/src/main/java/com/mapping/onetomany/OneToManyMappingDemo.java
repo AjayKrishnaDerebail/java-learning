@@ -40,13 +40,26 @@ public class OneToManyMappingDemo {
         qm1.setAnswers(list1);
 
         try (Session session = sessionFactory.openSession()) {
+
             Transaction tx;
             tx = session.beginTransaction();
-            session.persist(am1);
-            session.persist(am2);
-            session.persist(am3);
-            session.persist(qm1);
-            tx.commit(); /* same as session.getTransaction().commit();*/
+            try {
+                session.persist(am1);
+                session.persist(am2);
+                session.persist(am3);
+                session.persist(qm1);
+                tx.commit(); /* same as session.getTransaction().commit();*/
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+            QuestionOneToMany q = (QuestionOneToMany) session.get(QuestionOneToMany.class, 201);
+
+            System.out.println(q.getQuestion());
+
+            /*for (AnswerOneToMany a : q.getAnswers()) {
+                System.out.println(a.getAnswer());
+            }*/
+
         }
         sessionFactory.close();
     }
