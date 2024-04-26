@@ -1,5 +1,6 @@
-package com.mapping;
+package com.mapping.onetoone;
 
+import com.mapping.onetoone.AnswerOneToOne;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToOne;

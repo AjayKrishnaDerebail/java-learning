@@ -1,4 +1,4 @@
-package com.mapping;
+package com.mapping.onetoone;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

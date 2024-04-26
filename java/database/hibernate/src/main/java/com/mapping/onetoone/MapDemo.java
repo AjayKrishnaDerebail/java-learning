@@ -1,4 +1,4 @@
-package com.mapping;
+package com.mapping.onetoone;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
