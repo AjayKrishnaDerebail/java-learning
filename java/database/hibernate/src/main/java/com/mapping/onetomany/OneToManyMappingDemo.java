@@ -54,7 +54,7 @@ public class OneToManyMappingDemo {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            QuestionOneToMany q = (QuestionOneToMany) session.get(QuestionOneToMany.class, 201);
+            QuestionOneToMany q = session.get(QuestionOneToMany.class, 201);
 
             System.out.println(q.getQuestion());
 
