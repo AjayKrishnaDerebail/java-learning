@@ -4,7 +4,14 @@ target/
 !**/src/test/**/target/
 
 ### IntelliJ IDEA ###
-.idea/
+.idea/inspectionProfiles/
+.idea/sonarlint/
+.idea/checkstyle-idea.xml
+.idea/encodings.xml
+.idea/jpa-buddy.xml
+.idea/misc.xml
+idea/uiDesigner.xml
+.idea/vcs.xml
 .idea/modules.xml
 .idea/jarRepositories.xml
 .idea/compiler.xml
