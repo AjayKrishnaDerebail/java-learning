@@ -4,8 +4,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.Query;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class OneToManyMappingDemo {
@@ -59,6 +61,13 @@ public class OneToManyMappingDemo {
             /*for (AnswerOneToMany a : q.getAnswers()) {
                 System.out.println(a.getAnswer());
             }*/
+
+            Query q3 = session.createQuery("select q.question , a.answer from QuestionOneToMany as q inner join q.answers as a");
+            List<Object[]> l3 = q3.getResultList();
+
+            for(Object[] i : l3){
+                System.out.println(Arrays.toString(i));
+            }
 
         }
         sessionFactory.close();
