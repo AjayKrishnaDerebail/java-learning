@@ -4,6 +4,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
+import org.hibernate.query.NativeQuery;
 import org.hibernate.query.Query;
 
 import java.util.ArrayList;
@@ -67,6 +68,12 @@ public class OneToManyMappingDemo {
 
             for(Object[] i : l3){
                 System.out.println(Arrays.toString(i));
+            }
+
+            NativeQuery nq4 =  session.createNativeQuery("Select * from AnswerOneToMany");
+            List<Object[]> oq4 = nq4.getResultList();
+            for (Object[] o :oq4){
+                System.out.println(Arrays.toString(o));
             }
 
         }
