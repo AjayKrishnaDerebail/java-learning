@@ -29,13 +29,13 @@ public class NinjaMain {
 
             List<NarutoVerse> n1 = q1.getResultList();
 
-            for(NarutoVerse i : n1){
-                System.out.println(i.getNinjaName() + " " +i.getNinjaClan().getClanName());
+            for (NarutoVerse i : n1) {
+                System.out.println(i.getNinjaName() + " " + i.getNinjaClan().getClanName());
             }
 
             Transaction tx;
             tx = session.beginTransaction();
-            Query deleteQuery =session.createQuery("delete from NarutoVerse where ninjaClan.clanName='Hyuga'");
+            Query deleteQuery = session.createQuery("delete from NarutoVerse where ninjaClan.clanName='Hyuga'");
             int r = deleteQuery.executeUpdate();
             tx.commit();
         }
