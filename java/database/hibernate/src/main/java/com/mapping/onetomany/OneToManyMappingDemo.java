@@ -42,15 +42,46 @@ public class OneToManyMappingDemo {
 
         qm1.setAnswers(list1);
 
+        QuestionOneToMany qm2 = new QuestionOneToMany();
+        qm2.setQuestionId(202);
+        qm2.setQuestion("Mention the ways in which the universe may come to an end");
+
+        AnswerOneToMany am4 = new AnswerOneToMany();
+        am4.setAnswerId(2004);
+        am4.setAnswer("The big crunch");
+        am4.setQuestionOneToMany(qm2);
+
+        AnswerOneToMany am5 = new AnswerOneToMany();
+        am5.setAnswerId(2005);
+        am5.setAnswer("The big rip");
+        am5.setQuestionOneToMany(qm2);
+
+        AnswerOneToMany am6 = new AnswerOneToMany();
+        am6.setAnswerId(2006);
+        am6.setAnswer("The big freeze");
+        am6.setQuestionOneToMany(qm2);
+
+        /*
+        List<AnswerOneToMany> list2 = new ArrayList<>();
+        list2.addAll(Arrays.asList(am4,am5,am6));
+
+        Deduplication of code
+         */
+        List<AnswerOneToMany> list2 = new ArrayList<>(Arrays.asList(am4, am5, am6));
+
+        qm2.setAnswers(list2);
+
+
         try (Session session = sessionFactory.openSession()) {
 
             Transaction tx;
             tx = session.beginTransaction();
             try {
-                session.persist(am1);
+                /*session.persist(am1);
                 session.persist(am2);
                 session.persist(am3);
-                session.persist(qm1);
+                session.persist(qm1);*/
+                session.persist(qm2);
                 tx.commit(); /* same as session.getTransaction().commit();*/
             } catch (Exception e) {
                 System.out.println(e.getMessage());

@@ -1,9 +1,6 @@
 package com.mapping.onetomany;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.util.List;
 
@@ -12,7 +9,7 @@ public class QuestionOneToMany {
     @Id
     private int questionId;
     private String question;
-    @OneToMany(mappedBy = "question",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "question", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private List<AnswerOneToMany> answers;
 
     public QuestionOneToMany () {
