@@ -1,11 +1,11 @@
 package com.hibernate;
 
-import jakarta.persistence.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import javax.persistence.Query;
 import java.util.List;
 
 public class NinjaMain {
