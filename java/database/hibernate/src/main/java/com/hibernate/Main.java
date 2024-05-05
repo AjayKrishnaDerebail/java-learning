@@ -32,17 +32,17 @@ public class Main {
                 session.persist(student2);
                 session.persist(student3);
                 session.persist(address);
-            }catch(Exception e){
+            } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
             tx.commit(); // same as session.getTransaction().commit();
 
-            Student s1 = session.get(Student.class , 103);
+            Student s1 = session.get(Student.class, 103);
             System.out.println(s1);
         }
 
         try (Session session1 = sessionFactory.openSession()) {
-            Student s1 = session1.get(Student.class , 103);
+            Student s1 = session1.get(Student.class, 103);
             System.out.println(s1);
         }
 

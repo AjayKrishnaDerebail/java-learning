@@ -3,11 +3,13 @@ package com.hibernate;
 import javax.persistence.*;
 
 import java.util.Date;
+
 @Entity
 @Table(name = "Student_Address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)    private int addressId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int addressId;
     @Column(length = 100, nullable = false)
     private String street;
     @Column(length = 40, nullable = false)

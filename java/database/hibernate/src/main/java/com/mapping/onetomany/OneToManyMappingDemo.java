@@ -97,13 +97,13 @@ public class OneToManyMappingDemo {
             Query q3 = session.createQuery("select q.question , a.answer from QuestionOneToMany as q inner join q.answers as a");
             List<Object[]> l3 = q3.getResultList();
 
-            for(Object[] i : l3){
+            for (Object[] i : l3) {
                 System.out.println(Arrays.toString(i));
             }
 
-            NativeQuery nq4 =  session.createNativeQuery("Select * from AnswerOneToMany");
+            NativeQuery nq4 = session.createNativeQuery("Select * from AnswerOneToMany");
             List<Object[]> oq4 = nq4.getResultList();
-            for (Object[] o :oq4){
+            for (Object[] o : oq4) {
                 System.out.println(Arrays.toString(o));
             }
 
