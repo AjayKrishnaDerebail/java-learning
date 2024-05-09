@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class FirstJdbcProgram {
-    public static void connectionCreation() throws SQLException {
+    public static void connectionCreation () throws SQLException {
         Connection conn = null;
         String url = "jdbc:mysql://127.0.0.1:3306/student";
         String username = "";

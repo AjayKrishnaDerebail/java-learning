@@ -5,9 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConnectionProvider {
-    private ConnectionProvider(){
+    private ConnectionProvider () {
 
     }
+
     public static Connection getConnection () throws SQLException, ClassNotFoundException {
 
         Class.forName("com.mysql.cj.jdbc.Driver");
