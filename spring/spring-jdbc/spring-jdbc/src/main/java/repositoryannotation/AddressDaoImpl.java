@@ -60,6 +60,7 @@ public class AddressDaoImpl implements AddressDao {
         return result;
     }
 
+    @Override
     public int insertMultiple (List<Address> addresses) throws SQLException, ClassNotFoundException {
         String insertQuery = "insert into address(addressId,houseNumber,area,city,state) values (?,?,?,?,?)";
 
