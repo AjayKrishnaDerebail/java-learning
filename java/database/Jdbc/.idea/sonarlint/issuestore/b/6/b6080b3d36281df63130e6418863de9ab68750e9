@@ -1,18 +1,13 @@
 
-R
-java:S1141"5Extract this nested try block into a separate method.(¶Ý–ì8íµû®ß1
-W
-java:S11414"5Extract this nested try block into a separate method.(¦î‘Âÿÿÿÿÿ8îµû®ß1
-R
-java:S1141K"5Extract this nested try block into a separate method.(ŒÊ×É8îµû®ß1
-H
-java:S1481!"+Remove this unused "reader" local variable.(Ï ¾ð8è¶û®ß1
-W	java:S125""<This block of commented-out lines of code should be removed.(˜´+8è¶û®ß1
-X	java:S125)"<This block of commented-out lines of code should be removed.(‰×Ö™8é¶û®ß1
-D
-java:S14816"'Remove this unused "br" local variable.(ßÅÍ”8î¶û®ß1
-X	java:S1258"<This block of commented-out lines of code should be removed.(­´´Ã8ï¶û®ß1
-X	java:S125;"<This block of commented-out lines of code should be removed.(ŽÒ¯¦8ï¶û®ß1
-]	java:S125>"<This block of commented-out lines of code should be removed.(À¥·²ùÿÿÿÿ8ï¶û®ß1
-W	java:S125A"<This block of commented-out lines of code should be removed.(åÕÑ+8ð¶û®ß1
-X	java:S125E"<This block of commented-out lines of code should be removed.(‰×Ö™8ð¶û®ß1
+x
+java:S1141"5Extract this nested try block into a separate method.(¶Ý–ì8íµû®ß1J$67db5229-69cb-4a65-ac77-494bf5d4d277
+}
+java:S11414"5Extract this nested try block into a separate method.(¦î‘Âÿÿÿÿÿ8îµû®ß1J$eb287f0d-4e6e-41bc-a3ce-37b538517c90
+x
+java:S1141K"5Extract this nested try block into a separate method.(ŒÊ×É8îµû®ß1J$8215494d-e774-440d-a2e7-2bf90d453e12
+n
+java:S1481!"+Remove this unused "reader" local variable.(Ï ¾ð8è¶û®ß1J$d7aab6fc-3349-453e-8b2d-111f73fda918
+j
+java:S14816"'Remove this unused "br" local variable.(ßÅÍ”8î¶û®ß1J$4eafb307-4cb1-420f-832d-0e94929c72e3
+g
+java:S6905J"Don't use the query "SELECT *".(Ç·ñþÿÿÿÿ8øÚƒéõ1J$c0135f38-0be2-4bb7-a962-4f3721a67dd2
