@@ -35,6 +35,9 @@ public class StudentDaoImpl implements StudentDao {
         Student student = this.hibernateTemplate.get(Student.class, studentId);
         if(student != null) {
             this.hibernateTemplate.delete(student);
+            System.out.println("Student deleted");
+        }else{
+            System.out.println("Incorrect id given");
         }
     }
 
