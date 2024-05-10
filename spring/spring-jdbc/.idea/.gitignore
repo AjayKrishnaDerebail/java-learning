@@ -2,8 +2,6 @@
 /shelf/
 /workspace.xml
 
-../../../java/database/Jdbc/.idea/sonarlint/
-
 .idea/inspectionProfiles/
 .idea/sonarlint/
 .idea/checkstyle-idea.xml
