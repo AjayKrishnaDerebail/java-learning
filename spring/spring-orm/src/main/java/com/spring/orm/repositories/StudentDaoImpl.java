@@ -7,14 +7,14 @@ import org.springframework.stereotype.Component;
 import javax.transaction.Transactional;
 
 @Component
-public class StudentDaoImpl implements StudentDao{
+public class StudentDaoImpl implements StudentDao {
     private HibernateTemplate hibernateTemplate;
 
     @Override
     @Transactional
-    public int insert(Student student){
+    public int insert (Student student) {
         int numberOfRecords;
-        numberOfRecords = (Integer)this.hibernateTemplate.save(student);
+        numberOfRecords = (Integer) this.hibernateTemplate.save(student);
         return numberOfRecords;
     }
 
