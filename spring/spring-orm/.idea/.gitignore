@@ -1,0 +1,14 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+/.idea/sonarlint
+
+/sonarlint/
+
+/.idea/sonarlint/
+/encodings.xml
+/compiler.xml
+/jarRepositories.xml
+/jpa-buddy.xml
+/vcs.xml
+/misc.xml
