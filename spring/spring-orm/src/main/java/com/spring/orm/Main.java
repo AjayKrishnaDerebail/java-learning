@@ -45,9 +45,10 @@ public class Main {
                         String studentCity = reader.readLine();
 
                         Student stud = new Student(studentId, studentName, studentCity);
-                        studentDao.insert(stud);
+                        int result=studentDao.insert(stud);
 
-                        System.out.println("** Student added **");
+                        System.out.println("Student added with id " +result);
+                        System.out.println(STAR_CHARACTER_IN_TERMINAL);
                     }
                     case 2 -> {
                         List<Student> students = studentDao.getAllStudents();
@@ -59,6 +60,7 @@ public class Main {
                             System.out.println("Student city " + i.getStudentCity());
                             System.out.println(STAR_CHARACTER_IN_TERMINAL);
                         }
+                        System.out.println(STAR_CHARACTER_IN_TERMINAL);
                     }
                     case 3 -> {
                         System.out.println("Enter student id whose details you want to retrieve");
@@ -69,12 +71,15 @@ public class Main {
                         System.out.println("Student id " + singleStudent.getStudentId());
                         System.out.println("Student name " + singleStudent.getStudentName());
                         System.out.println("Student city " + singleStudent.getStudentCity());
+
                         System.out.println(STAR_CHARACTER_IN_TERMINAL);
                     }
                     case 4 -> {
                         System.out.println("Enter student id whose details you want to delete");
                         int deleteId = Integer.parseInt(reader.readLine());
                         studentDao.deleteStudent(deleteId);
+
+                        System.out.println(STAR_CHARACTER_IN_TERMINAL);
                     }
                     case 5 -> {
                         System.out.println("Enter student id whose details you want to update");
@@ -116,6 +121,8 @@ public class Main {
                                 updateStudent.setStudentCity(newCity);
 
                                 studentDao.updateStudent(updateStudent);
+
+                                System.out.println(STAR_CHARACTER_IN_TERMINAL);
                             }
                             default -> System.out.println("Please enter correct character");
                         }
