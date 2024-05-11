@@ -13,48 +13,48 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     @Transactional
-    public int insert (Student student) {
+    public int insert(Student student) {
         int numberOfRecords;
         numberOfRecords = (Integer) this.hibernateTemplate.save(student);
         return numberOfRecords;
     }
 
     @Override
-    public Student getStudent (int studentId) {
+    public Student getStudent(int studentId) {
         return this.hibernateTemplate.get(Student.class, studentId);
     }
 
     @Override
-    public List<Student> getAllStudents () {
+    public List<Student> getAllStudents() {
         return this.hibernateTemplate.loadAll(Student.class);
     }
 
     @Override
     @Transactional
-    public void deleteStudent (int studentId) {
+    public void deleteStudent(int studentId) {
         Student student = this.hibernateTemplate.get(Student.class, studentId);
-        if(student != null) {
+        if (student != null) {
             this.hibernateTemplate.delete(student);
             System.out.println("Student deleted");
-        }else{
+        } else {
             System.out.println("Incorrect id given");
         }
     }
 
     @Override
     @Transactional
-    public void updateStudent (Student student) {
+    public void updateStudent(Student student) {
         this.hibernateTemplate.update(student);
     }
 
 
     @SuppressWarnings("unused")
-    public HibernateTemplate getHibernateTemplate () {
+    public HibernateTemplate getHibernateTemplate() {
         return hibernateTemplate;
     }
 
     @SuppressWarnings("unused")
-    public void setHibernateTemplate (HibernateTemplate hibernateTemplate) {
+    public void setHibernateTemplate(HibernateTemplate hibernateTemplate) {
         this.hibernateTemplate = hibernateTemplate;
     }
 }
