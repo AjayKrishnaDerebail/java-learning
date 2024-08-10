@@ -1,3 +1,5 @@
 # Default ignored files
 /shelf/
 /.idea/
+qodana.sarif.json
+qodana.yaml
