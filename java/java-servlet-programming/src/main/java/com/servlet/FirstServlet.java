@@ -27,6 +27,7 @@ public class FirstServlet implements Servlet {
         PrintWriter out =  resp.getWriter();
         out.println("<h1> This is my output from servlet method </h1>");
         out.println("<h1> Today's date is " + new Date().toString() + "</h1>");
+        out.println("<div><a href=\"index.html\">Click here to go back to index</a> </div>");
     }
 
     @Override

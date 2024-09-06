@@ -7,8 +7,16 @@
         <servlet-name>first</servlet-name>
         <servlet-class>com.servlet.FirstServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>second</servlet-name>
+        <servlet-class>com.servlet.GenericServletProg</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
-        <url-pattern>/web</url-pattern>
+        <url-pattern>/first</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>second</servlet-name>
+        <url-pattern>/second</url-pattern>
     </servlet-mapping>
 </web-app>
