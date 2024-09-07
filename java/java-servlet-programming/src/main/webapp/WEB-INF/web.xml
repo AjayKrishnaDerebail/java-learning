@@ -11,6 +11,10 @@
         <servlet-name>second</servlet-name>
         <servlet-class>com.servlet.GenericServletProg</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>third</servlet-name>
+        <servlet-class>com.servlet.HttpServletProg</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
         <url-pattern>/first</url-pattern>
@@ -18,5 +22,9 @@
     <servlet-mapping>
         <servlet-name>second</servlet-name>
         <url-pattern>/second</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>third</servlet-name>
+        <url-pattern>/third</url-pattern>
     </servlet-mapping>
 </web-app>
