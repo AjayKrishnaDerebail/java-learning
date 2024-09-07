@@ -1,0 +1,90 @@
+<!doctype HTML>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+    <head>
+        <title>My form</title>
+    </head>
+    <style>
+       .container{
+            display:flex;
+            justify-content:space-between;
+            flex-direction: column;
+            align-items: center;
+            border : 1px solid black;
+            padding:20px;
+            font-size:20px;
+       }
+    </style>
+    <body>
+        <div class="container">
+            <div>
+                <h1>My form</h1>
+            </div>
+            <form action="RegisterServlet" method="post">
+                <table>
+                    <tr>
+                        <td>Enter your name</td>
+                        <td>
+                            <label>
+                                <input type="text" name="userName" placeholder="Enter your name"/>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enter your password</td>
+                        <td>
+                            <label>
+                                <input type="password" name="password" placeholder="Enter your password"/>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Enter your email</td>
+                        <td>
+                            <label>
+                                <input type="email" name="email" placeholder="Enter your email"/>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Select gender</td>
+                        <td>
+                            <label>
+                                <input type="radio" name="gender" value="male"> Male
+                                <input type="radio" name="gender" value="female"> Female
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Select your course</td>
+                        <td>
+                            <label>
+                                <select name="userCourse">
+                                    <option value="Blank">--</option>
+                                    <option value="Java">Java</option>
+                                    <option value="Python">Python</option>
+                                    <option value="C++">C++</option>
+                                </select>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align:right">
+                            <label>
+                                <input type="checkbox" name="condition"/>
+                            </label>
+                        </td>
+                        <td>Click the checkbox to agree to terms and conditions</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <button type="submit">Register</button>
+                        </td>
+                        <td>
+                            <button type="reset">Reset</button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </body>
+</html>
