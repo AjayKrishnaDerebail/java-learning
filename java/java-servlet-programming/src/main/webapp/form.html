@@ -19,72 +19,75 @@
             <div>
                 <h1>My form</h1>
             </div>
-            <form action="RegisterServlet" method="post">
-                <table>
-                    <tr>
-                        <td>Enter your name</td>
-                        <td>
-                            <label>
-                                <input type="text" name="userName" placeholder="Enter your name"/>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Enter your password</td>
-                        <td>
-                            <label>
-                                <input type="password" name="password" placeholder="Enter your password"/>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Enter your email</td>
-                        <td>
-                            <label>
-                                <input type="email" name="email" placeholder="Enter your email"/>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Select gender</td>
-                        <td>
-                            <label>
-                                <input type="radio" name="gender" value="male"> Male
-                                <input type="radio" name="gender" value="female"> Female
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Select your course</td>
-                        <td>
-                            <label>
-                                <select name="userCourse">
-                                    <option value="Blank">--</option>
-                                    <option value="Java">Java</option>
-                                    <option value="Python">Python</option>
-                                    <option value="C++">C++</option>
-                                </select>
-                            </label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right">
-                            <label>
-                                <input type="checkbox" name="condition"/>
-                            </label>
-                        </td>
-                        <td>Click the checkbox to agree to terms and conditions</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <button type="submit">Register</button>
-                        </td>
-                        <td>
-                            <button type="reset">Reset</button>
-                        </td>
-                    </tr>
-                </table>
-            </form>
+            <div>
+                <form action="registerServlet" method="post">
+                    <table>
+                        <tr>
+                            <td>Enter your name</td>
+                            <td>
+                                <label>
+                                    <input type="text" name="userName" placeholder="Enter your name"/>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Enter your password</td>
+                            <td>
+                                <label>
+                                    <input type="password" name="password" placeholder="Enter your password"/>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Enter your email</td>
+                            <td>
+                                <label>
+                                    <input type="email" name="email" placeholder="Enter your email"/>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Select gender</td>
+                            <td>
+                                <label>
+                                    <input type="radio" name="gender" value="male"> Male
+                                    <input type="radio" name="gender" value="female"> Female
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Select your course</td>
+                            <td>
+                                <label>
+                                    <select name="userCourse">
+                                        <option value="Blank">--</option>
+                                        <option value="Java">Java</option>
+                                        <option value="Python">Python</option>
+                                        <option value="C++">C++</option>
+                                    </select>
+                                </label>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right">
+                                <label>
+                                    <input type="checkbox" name="condition" value="checked"/>
+                                </label>
+                            </td>
+                            <td>Click the checkbox to agree to terms and conditions</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button type="submit">Register</button>
+                            </td>
+                            <td>
+                                <button type="reset">Reset</button>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+                <div>Click here to go back to main page <a href="index.html">Main page</a></div>
+            </div>
         </div>
     </body>
 </html>
