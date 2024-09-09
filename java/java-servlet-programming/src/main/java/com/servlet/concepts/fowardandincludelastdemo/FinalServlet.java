@@ -22,9 +22,7 @@ public class FinalServlet extends HttpServlet {
         out.println("<h1>Product is = " + prod + "</h1>");
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("sum.html");
-        requestDispatcher.include(request,response);
-
-        out.println("<a href=\"sum.html\">Click here to go back to sum form</a>");
+        requestDispatcher.include(request, response);
 
     }
 }
