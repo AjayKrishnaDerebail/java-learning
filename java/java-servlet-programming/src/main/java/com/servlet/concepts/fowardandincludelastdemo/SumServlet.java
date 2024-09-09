@@ -19,14 +19,14 @@ public class SumServlet extends HttpServlet {
         int nn1 = Integer.parseInt(n1);
         int nn2 = Integer.parseInt(n2);
 
-        int s = nn1+nn2;
+        int s = nn1 + nn2;
 
-        request.setAttribute("sum",s);
+        request.setAttribute("sum", s);
 
         System.out.println(request.getAttribute("sum"));
 
         RequestDispatcher requestDispatcher = request.getRequestDispatcher("p1");
-        requestDispatcher.forward(request,response);
+        requestDispatcher.forward(request, response);
     }
 }
 

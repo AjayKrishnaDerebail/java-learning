@@ -17,9 +17,9 @@ public class ProductServlet extends HttpServlet {
         int nn1 = Integer.parseInt(n1);
         int nn2 = Integer.parseInt(n2);
 
-        int p = nn1*nn2;
+        int p = nn1 * nn2;
 
-        request.setAttribute("prod",p);
+        request.setAttribute("prod", p);
 
         System.out.println(request.getAttribute("prod"));
 
