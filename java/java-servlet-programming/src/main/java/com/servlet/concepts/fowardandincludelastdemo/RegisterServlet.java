@@ -1,4 +1,4 @@
-package com.servlet;
+package com.servlet.concepts.fowardandincludelastdemo;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;

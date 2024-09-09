@@ -1,4 +1,4 @@
-package com.servlet;
+package com.servlet.concepts.fowardandincludelastdemo;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

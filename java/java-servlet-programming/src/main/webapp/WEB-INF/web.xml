@@ -8,23 +8,35 @@
     </welcome-file-list>
     <servlet>
         <servlet-name>first</servlet-name>
-        <servlet-class>com.servlet.FirstServlet</servlet-class>
+        <servlet-class>com.servlet.basics.FirstServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>second</servlet-name>
-        <servlet-class>com.servlet.GenericServletProg</servlet-class>
+        <servlet-class>com.servlet.basics.GenericServletProg</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>third</servlet-name>
-        <servlet-class>com.servlet.HttpServletProg</servlet-class>
+        <servlet-class>com.servlet.basics.HttpServletProg</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>register</servlet-name>
-        <servlet-class>com.servlet.RegisterServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>success</servlet-name>
-        <servlet-class>com.servlet.SuccessServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.SuccessServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>s1</servlet-name>
+        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.SumServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>p1</servlet-name>
+        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.ProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>f1</servlet-name>
+        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.FinalServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
@@ -45,5 +57,17 @@
     <servlet-mapping>
         <servlet-name>success</servlet-name>
         <url-pattern>/success</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>s1</servlet-name>
+        <url-pattern>/s1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>p1</servlet-name>
+        <url-pattern>/p1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>f1</servlet-name>
+        <url-pattern>/f1</url-pattern>
     </servlet-mapping>
 </web-app>
