@@ -2,6 +2,7 @@ package com.servlet.concepts.fowardandincludelastdemo;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -23,6 +24,12 @@ public class RegisterServlet extends HttpServlet {
         String gender = request.getParameter("gender");
         String course = request.getParameter("userCourse");
         String condition = request.getParameter("condition");
+
+        Cookie c1 = new Cookie("userName",name);
+        Cookie c2 = new Cookie("password",password);
+
+        response.addCookie(c1);
+        response.addCookie(c2);
 
         if(!Objects.isNull(condition)){
             if(condition.equals("checked")) {
