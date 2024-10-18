@@ -13,6 +13,8 @@ public class HttpServletProg extends HttpServlet {
         response.setContentType("text/html");
         PrintWriter out = response.getWriter();
         out.println("<h1>This is from doGet method </h1>");
-        out.println("<div> <a href=\"index.html\">Click here to go back to index</a> </div>");
+        out.println("<form action=\"index\" method=\"get\">");
+        out.println("<button type=\"submit\">" +"Index page" + "</button>");
+        out.println("</form>");
     }
 }

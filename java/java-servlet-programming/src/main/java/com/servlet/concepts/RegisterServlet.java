@@ -1,4 +1,4 @@
-package com.servlet.concepts.fowardandincludelastdemo;
+package com.servlet.concepts;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -28,6 +28,12 @@ public class RegisterServlet extends HttpServlet {
         Cookie c1 = new Cookie("userName",name);
         Cookie c2 = new Cookie("password",password);
 
+        c1.setMaxAge(0);
+        c1.setPath("/");
+
+        c2.setMaxAge(0);
+        c2.setPath("/");
+
         response.addCookie(c1);
         response.addCookie(c2);
 
@@ -45,10 +51,14 @@ public class RegisterServlet extends HttpServlet {
         }
         else {
             out.println("<div>Please accept terms and condition</div>");
+            out.println("<div>Click to go back to registrationForm</div>");
+            out.println("<form action=\"goToRegistrationForm\" method=\"get\">");
+            out.println("<button type=\"submit\">" +"Registration page" + "</button>");
+            out.println("</form>");
             //Demonstration of RequestDispatcher include() method
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("form.html");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("registrationform.html");
             requestDispatcher.include(request, response);
         }
-        out.println("<div><a href=\"form.html\">Click here to go back to form main screen</a> </div>");
+        out.println("<div><a href=\"registrationform.html\">Click here to go back to form main screen</a> </div>");
     }
 }

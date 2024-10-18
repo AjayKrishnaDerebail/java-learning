@@ -8,10 +8,14 @@
 <div style="display: block ; direction : column; ">
     <h2>This is home page</h2>
     <div>Click here to go index page
-        <a href="index.html">Index page</a>
+        <form action="index" method="get">
+            <button type="submit">Go to index page</button>
+        </form>
     </div>
     <div>Click below link to go to sum and product page</div>
-    <a href="sum.html">Sum page</a>
+    <form action="sumForm" method="post">
+        <button type="submit">Go to sum page</button>
+    </form>
 </div>
 </body>
 </html>
