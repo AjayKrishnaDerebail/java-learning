@@ -4,11 +4,23 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
     <welcome-file-list>
-        <welcome-file>/WEB-INF/home.html</welcome-file>
+        <welcome-file>/WEB-INF/templates/home.html</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>first</servlet-name>
         <servlet-class>com.servlet.basics.FirstServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>index</servlet-name>
+        <servlet-class>com.servlet.basicsForwardingServlets.IndexServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>goToRegistrationForm</servlet-name>
+        <servlet-class>com.servlet.basicsForwardingServlets.ForwardToRegistrationForm</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>sumForm</servlet-name>
+        <servlet-class>com.servlet.basicsForwardingServlets.ForwardToSumPage</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>second</servlet-name>
@@ -20,23 +32,27 @@
     </servlet>
     <servlet>
         <servlet-name>register</servlet-name>
-        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.RegisterServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.RegisterServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>success</servlet-name>
-        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.SuccessServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.SuccessServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>s1</servlet-name>
-        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.SumServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.SumServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>p1</servlet-name>
-        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.ProductServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.ProductServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>f1</servlet-name>
-        <servlet-class>com.servlet.concepts.fowardandincludelastdemo.FinalServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.FinalServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>homeScreen</servlet-name>
+        <servlet-class>com.servlet.basicsForwardingServlets.ForwardToHomeScreen</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
@@ -69,5 +85,21 @@
     <servlet-mapping>
         <servlet-name>f1</servlet-name>
         <url-pattern>/f1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>index</servlet-name>
+        <url-pattern>/index</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>goToRegistrationForm</servlet-name>
+        <url-pattern>/goToRegistrationForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sumForm</servlet-name>
+        <url-pattern>/sumForm</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>homeScreen</servlet-name>
+        <url-pattern>/homeScreen</url-pattern>
     </servlet-mapping>
 </web-app>

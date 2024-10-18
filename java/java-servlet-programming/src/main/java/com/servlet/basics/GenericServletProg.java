@@ -15,7 +15,8 @@ public class GenericServletProg extends GenericServlet {
         resp.setContentType("text/html");
         PrintWriter out = resp.getWriter();
         out.println("This is generic servlet web output");
-        out.println("<div> <a href=\"index.html\">Click here to go back to index</a> </div>");
-
+        out.println("<form action=\"index\" method=\"get\">");
+        out.println("<button type=\"submit\">" +"Index page" + "</button>");
+        out.println("</form>");
     }
 }
