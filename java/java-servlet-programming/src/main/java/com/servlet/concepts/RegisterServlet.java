@@ -6,9 +6,9 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URLEncoder;
 import java.util.Objects;
 
 public class RegisterServlet extends HttpServlet {
@@ -25,29 +25,24 @@ public class RegisterServlet extends HttpServlet {
         String course = request.getParameter("userCourse");
         String condition = request.getParameter("condition");
 
-        Cookie c1 = new Cookie("userName",name);
-        Cookie c2 = new Cookie("password",password);
-
-        c1.setMaxAge(0);
-        c1.setPath("/");
-
-        c2.setMaxAge(0);
-        c2.setPath("/");
-
-        response.addCookie(c1);
-        response.addCookie(c2);
-
-        if(!Objects.isNull(condition)){
-            if(condition.equals("checked")) {
+        if(!Objects.isNull(condition) && condition.equals("checked")) {
                 out.println("<div>Name is " + name + "</div>");
                 out.println("<div>Password is " + password + "</div>");
                 out.println("<div>email is " + email + "</div>");
                 out.println("<div>Gender is " + gender + "</div>");
                 out.println("<div>Course is " + course + "</div>");
-            }
+
+            Cookie c1 = new Cookie("userName", URLEncoder.encode(name, "UTF-8"));
+            Cookie c2 = new Cookie("password", URLEncoder.encode(password, "UTF-8"));
+
+            response.addCookie(c1);
+            response.addCookie(c2);
+
+            response.sendRedirect("success");
+
             // Request is forwarded to another endpoint itself the output above of form contents won't be displayed
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("success");
-            requestDispatcher.forward(request,response);
+            //RequestDispatcher requestDispatcher = request.getRequestDispatcher("success");
+            //requestDispatcher.forward(request,response);
         }
         else {
             out.println("<div>Please accept terms and condition</div>");
