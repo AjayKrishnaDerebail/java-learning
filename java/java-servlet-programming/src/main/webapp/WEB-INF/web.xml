@@ -23,6 +23,10 @@
         <servlet-class>com.servlet.basicsForwardingServlets.ForwardToSumPage</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>sessionTrackingServlet</servlet-name>
+        <servlet-class>com.servlet.basicsForwardingServlets.ForwardToSessionTrackingOptionsPage</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>second</servlet-name>
         <servlet-class>com.servlet.basics.GenericServletProg</servlet-class>
     </servlet>
@@ -53,6 +57,14 @@
     <servlet>
         <servlet-name>homeScreen</servlet-name>
         <servlet-class>com.servlet.basicsForwardingServlets.ForwardToHomeScreen</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>initialServlet</servlet-name>
+        <servlet-class>com.servlet.concepts.sessionTracking.UrlRewriting.InitialServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>nextServlet</servlet-name>
+        <servlet-class>com.servlet.concepts.sessionTracking.UrlRewriting.NextServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
@@ -101,5 +113,17 @@
     <servlet-mapping>
         <servlet-name>homeScreen</servlet-name>
         <url-pattern>/homeScreen</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>initialServlet</servlet-name>
+        <url-pattern>/initialServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>nextServlet</servlet-name>
+        <url-pattern>/nextServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>sessionTrackingServlet</servlet-name>
+        <url-pattern>/sessionTrackingServlet</url-pattern>
     </servlet-mapping>
 </web-app>
