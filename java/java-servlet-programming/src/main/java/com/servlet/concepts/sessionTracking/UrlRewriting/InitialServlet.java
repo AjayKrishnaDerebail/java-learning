@@ -16,8 +16,17 @@ public class InitialServlet extends HttpServlet {
             out.println("<html>");
             out.println("<body>");
             String name = request.getParameter("userName");
+            String city = request.getParameter("userCity");
             out.println("<h1>" + "Your name is : " + name + "</h1>");
-            out.println("<a href='nextServlet?user="+name+"'> Go to second servlet  </a>");
+            out.println("<h1>" + "Your city is : " + city + "</h1>");
+            out.println("<a href='nextServlet?user=" + name + "&city=" + city + "'> Go to second servlet </a>");
+            out.println(
+                    "<form action='nextServlet' method='get'>" +
+                    "<input type='hidden' name='user' value='"+name+"'/>" +
+                    "<input type='hidden' name='city' value='"+city+"'/>" +
+                    "<button>Hidden form</button>" +
+                    "</form>"
+                    );
             out.println("</body>");
             out.println("</html>");
         }
