@@ -1,4 +1,4 @@
-package com.servlet.concepts.sessionTracking.UrlRewriting;
+package com.servlet.concepts.sessionTracking;
 
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;

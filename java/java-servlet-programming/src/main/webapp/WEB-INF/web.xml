@@ -60,11 +60,11 @@
     </servlet>
     <servlet>
         <servlet-name>initialServlet</servlet-name>
-        <servlet-class>com.servlet.concepts.sessionTracking.UrlRewriting.InitialServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.sessionTracking.InitialServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>nextServlet</servlet-name>
-        <servlet-class>com.servlet.concepts.sessionTracking.UrlRewriting.NextServlet</servlet-class>
+        <servlet-class>com.servlet.concepts.sessionTracking.NextServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
