@@ -16,7 +16,9 @@ public class NextServlet extends HttpServlet {
             out.println("<html>");
             out.println("<body>");
             String user = request.getParameter("user");
+            String city = request.getParameter("city");
             out.println("<h1>" + "Your name is : " + user + "</h1>");
+            out.println("<h1>" + "Your name is : " + city + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
