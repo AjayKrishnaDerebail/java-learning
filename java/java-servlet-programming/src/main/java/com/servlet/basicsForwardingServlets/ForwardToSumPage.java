@@ -12,7 +12,7 @@ public class ForwardToSumPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/sum.html");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/basics/sum.html");
         dispatcher.forward(request, response);
     }
 }

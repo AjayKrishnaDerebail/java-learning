@@ -4,7 +4,7 @@
          xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
          version="5.0">
     <welcome-file-list>
-        <welcome-file>/WEB-INF/templates/home.html</welcome-file>
+        <welcome-file>/WEB-INF/templates/basics/home.html</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>first</servlet-name>
