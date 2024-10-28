@@ -2,6 +2,7 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
 <%@ page import="java.util.Random" %>
 <%@ page isErrorPage="false" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <!--Check page directive additional parameters-->
 <html>
     <head>
@@ -31,6 +32,8 @@
            printWriter.println(n);
     %>
        <br>
-    <%= n %>
+       <h1> Random n is <%= n %> </h1>
+    <c:set var="name" value="hello agad"></c:set>
+    <c:out value="${name}"></c:out>
 </body>
 </html>
