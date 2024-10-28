@@ -66,6 +66,14 @@
         <servlet-name>nextServlet</servlet-name>
         <servlet-class>com.servlet.concepts.sessionTracking.NextServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>jspbasicServlet</servlet-name>
+        <servlet-class>com.servlet.concepts.jspbasics.ForwardToJspBasicsPage</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>jspbasicServlet</servlet-name>
+        <url-pattern>/jspbasicServlet</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>first</servlet-name>
         <url-pattern>/first</url-pattern>
