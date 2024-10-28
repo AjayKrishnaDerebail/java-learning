@@ -25,7 +25,7 @@ public class RegisterServlet extends HttpServlet {
         String course = request.getParameter("userCourse");
         String condition = request.getParameter("condition");
 
-        if(!Objects.isNull(condition) && condition.equals("checked")) {
+        if(!Objects.isNull(condition) && condition.equals("on")) {
                 out.println("<div>Name is " + name + "</div>");
                 out.println("<div>Password is " + password + "</div>");
                 out.println("<div>email is " + email + "</div>");
@@ -51,7 +51,7 @@ public class RegisterServlet extends HttpServlet {
             out.println("<button type=\"submit\">" +"Registration page" + "</button>");
             out.println("</form>");
             //Demonstration of RequestDispatcher include() method
-            RequestDispatcher requestDispatcher = request.getRequestDispatcher("registrationform.html");
+            RequestDispatcher requestDispatcher = request.getRequestDispatcher("basics/registrationform.html");
             requestDispatcher.include(request, response);
         }
         out.println("<div><a href=\"registrationform.html\">Click here to go back to form main screen</a> </div>");

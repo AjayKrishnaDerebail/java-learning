@@ -12,7 +12,7 @@ public class ForwardToHomeScreen extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/home.html");
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/templates/basics/home.html");
         dispatcher.forward(request, response);
     }
 }
