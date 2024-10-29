@@ -29,17 +29,16 @@
         %>
         <!-- This is a scriplet tag (You can write processing logic here)-->
         <%
-            PrintWriter printWriter = response.getWriter();
-            printWriter.println(seeA());
-            printWriter.println("<br><br>");
-            printWriter.println(divide());
+            out.println(seeA());
+            out.println("<br><br>");
+            out.println(divide());
         %>
         <!--This is an expression tag alternative of scriplet tag-->
         <h1>Value of a is  <%= seeA()%>
         <%
            Random r = new Random();
            int n = r.nextInt(10);
-           printWriter.println(n);
+           out.println(n);
         %>
        <br>
        <h1> Random n is <%= n %> </h1>
