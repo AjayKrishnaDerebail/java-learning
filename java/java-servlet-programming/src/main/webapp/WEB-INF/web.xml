@@ -70,6 +70,14 @@
         <servlet-name>jspbasicServlet</servlet-name>
         <servlet-class>com.servlet.concepts.jspbasics.ForwardToJspBasicsPage</servlet-class>
     </servlet>
+    <filter>
+        <filter-name>firstFilter</filter-name>
+        <filter-class>com.servlet.concepts.jspbasics.FilterExample</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>firstFilter</filter-name>
+        <url-pattern>/s1</url-pattern>
+    </filter-mapping>
     <servlet-mapping>
         <servlet-name>jspbasicServlet</servlet-name>
         <url-pattern>/jspbasicServlet</url-pattern>

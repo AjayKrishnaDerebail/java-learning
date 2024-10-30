@@ -24,6 +24,7 @@ public class FinalServlet extends HttpServlet {
     } else {
       out.println("<h1>Sum is = " + sum + "</h1>");
       out.println("<h1>Product is = " + prod + "</h1>");
+      out.println(request.getAttribute("notEmpty"));
     }
 
     RequestDispatcher requestDispatcher = request.getRequestDispatcher("sum.html");
