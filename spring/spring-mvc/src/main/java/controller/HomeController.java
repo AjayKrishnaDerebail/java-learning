@@ -3,9 +3,11 @@ package controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
+@RequestMapping("/first")
 public class HomeController {
 
     @RequestMapping("/")
@@ -17,17 +19,17 @@ public class HomeController {
         return "index";
     }
 
-    @RequestMapping("/about")
+    @RequestMapping(path = "/about", method = RequestMethod.GET)
     public String about(){
         System.out.println("Inside about method of controller");
         return "about";
     }
 
-    @RequestMapping("/help")
+    @RequestMapping(path = "/help" ,method = RequestMethod.GET)
     public ModelAndView help(){
         System.out.println("Inside help method of controller");
         ModelAndView mv = new ModelAndView();
-        mv.addObject("messageFromHelp", "This is help page of Spring MVC");
+        mv.addObject("messageFromHelp", ": This is help page of Spring MVC");
         mv.setViewName("help");
         return mv;
     }
