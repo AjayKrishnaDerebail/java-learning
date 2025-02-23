@@ -44,6 +44,12 @@
       <version>${lombok.version}</version>
       <scope>provided</scope>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-orm -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-orm</artifactId>
+      <version>${spring-orm.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
@@ -62,6 +68,7 @@
     <jakarta.servlet.jsp.jstl.version>3.0.1</jakarta.servlet.jsp.jstl.version>
     <lombok.version>1.18.26</lombok.version>
     <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
+    <spring-orm.version>6.2.3</spring-orm.version>
     <spring-webmvc.version>6.2.0</spring-webmvc.version>
   </properties>
 </project>
