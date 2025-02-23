@@ -1,20 +1,49 @@
 package controller;
 
+import model.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class ContactController {
-    @RequestMapping(path="contact",method = RequestMethod.GET)
-    public String showRegistrationForm() {
-        return "contact";
+
+  @ModelAttribute
+  public void addCommonData(Model model) {
+    model.addAttribute("helpSection", "Contact Us");
+  }
+
+  @RequestMapping(path = "contact", method = RequestMethod.GET)
+  @ModelAttribute
+  public String showRegistrationForm(Model model) {
+    model.addAttribute("headerForContactPage", "Contact Registration Page");
+    return "contact";
+  }
+
+  @RequestMapping(path = "processForm", method = RequestMethod.POST)
+  public String formProcess(@ModelAttribute User user, Model model) {
+
+    System.out.println(user);
+
+    return "success";
+  }
+
+/*
+    Previous implementation
+    @RequestMapping(path = "processForm", method = RequestMethod.POST)
+    public String formProcess (@RequestParam(name = "email") String email,
+                               @RequestParam(name = "userName", required = false) String userName,
+                               @RequestParam("password") String password, Model model) {
+        User user = new User(userName, email, password);
+        model.addAttribute("user", user);
+
+        return "success";
     }
 
     @RequestMapping(path="processForm",method = RequestMethod.POST)
-    public String formProcess (@RequestParam(name = "email") String email,
+    public String formProcess (@RequestParam(name = "email", required=true) String email,
                                @RequestParam(name ="userName", required=false) String userName,
                                @RequestParam("password") String password , Model model) {
         System.out.println(email);
@@ -26,6 +55,7 @@ public class ContactController {
 
         return "success";
     }
+*/
 
 
 }

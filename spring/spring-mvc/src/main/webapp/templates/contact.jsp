@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" %>
+<%@ page isELIgnored="false" %>
 <!doctype html>
 <html lang="en">
 <head>
@@ -15,7 +16,7 @@
     <title>Sign up</title>
 </head>
 <body>
-<h1 class="text-center">Sign up form</h1>
+<h1 class="text-center">${headerForContactPage}</h1>
 <div class="container mt-5">
     <form action="${pageContext.request.contextPath}/processForm" method="post">
         <div class="form-group">

@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/first")
+@RequestMapping("/")
 public class HomeController {
 
     @RequestMapping("/")
@@ -15,7 +15,7 @@ public class HomeController {
         System.out.println("Inside home method of controller");
         System.out.println("This returns default view of index.jsp");
         model.addAttribute("message", "Welcome to Spring MVC");
-        
+
         return "index";
     }
 
