@@ -1,14 +1,19 @@
-package controller;
+package com.spring.mvc.controller;
 
-import model.User;
+import com.spring.mvc.model.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import com.spring.mvc.service.UserService;
 
 @Controller
 public class ContactController {
+
+  @Autowired
+  private UserService userService;
 
   @ModelAttribute
   public void addCommonData(Model model) {
@@ -23,10 +28,11 @@ public class ContactController {
   }
 
   @RequestMapping(path = "processForm", method = RequestMethod.POST)
-  public String formProcess(@ModelAttribute User user, Model model) {
+  public String formProcess(@ModelAttribute User user , Model model) {
 
     System.out.println(user);
-
+    int createdUser = this.userService.saveUser(user);
+    model.addAttribute("successMessage", "User created with id {} " + createdUser);
     return "success";
   }
 
