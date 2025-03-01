@@ -21,4 +21,9 @@ public class SearchController {
     redirectView.setUrl(url);
     return redirectView;
   }
+
+  @RequestMapping("/goBackToIndex")
+  public String goBack(){
+    return "index";
+  }
 }
