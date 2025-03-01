@@ -30,7 +30,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleInputEmail">Your Id</label>
-                            <input name="id" type="text" class="form-control" id="exampleInputEmail"
+                            <input name="id" type="number" class="form-control" id="exampleInputEmail"
                                    aria-describedby="emailHelp" placeholder="Enter ID"/>
                         </div>
                         <div class="form-group">
@@ -67,6 +67,16 @@
                                 <option value="oldStudent">Old Student</option>
                                 <option value="normalStudent">Normal Student</option>
                             </select>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <div>Your address</div>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" name="address.city" placeholder="Enter city">
+                                    <br>
+                                    <input type="text" class="form-control" name="address.state" placeholder="Enter state">
+                                </div>
+                            </div>
                         </div>
                         <div class="container text-center">
                             <button type="submit" class="btn btn-primary">Submit</button>

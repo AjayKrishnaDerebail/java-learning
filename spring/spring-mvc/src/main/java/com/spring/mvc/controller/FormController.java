@@ -14,9 +14,10 @@ public class FormController {
     return "complexForm";
   }
 
-  @RequestMapping(value = "handleComplexForm",method = RequestMethod.POST)
+  @RequestMapping(value = "handleComplexForm",method  = RequestMethod.POST)
   public String handleForm(@ModelAttribute("student") Student student) {
     System.out.println(student);
+    System.out.println(student.getAddress());
     return "successStudent";
   }
 }

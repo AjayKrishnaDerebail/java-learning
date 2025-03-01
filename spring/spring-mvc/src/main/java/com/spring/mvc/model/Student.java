@@ -3,6 +3,7 @@ package com.spring.mvc.model;
 import java.util.Date;
 import java.util.List;
 import lombok.Data;
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Data
 public class Student {
@@ -13,4 +14,5 @@ public class Student {
   private List<String> courses;
   private String gender;
   private String type;
+  private Address address;
 }
