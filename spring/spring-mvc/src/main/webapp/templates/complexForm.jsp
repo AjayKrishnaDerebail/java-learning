@@ -21,7 +21,7 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="text-center">Complex Form</h3>
-                    <form action="handleComplexForm">
+                    <form action="handleComplexForm" method="post">
                         <div class="form-group">
                             <label for="exampleInputName">Your Name</label>
                             <input name="name" type="text" class="form-control"
@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group">
                             <label for="exampleFormControlSelect1">Select Courses</label>
-                            <select name="subjects" class="form-control" id="exampleFormControlSelect1" multiple>
+                            <select name="courses" class="form-control" id="exampleFormControlSelect1" multiple>
                                 <option>Java</option>
                                 <option>Python</option>
                                 <option>C++</option>
