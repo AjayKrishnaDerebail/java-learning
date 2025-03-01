@@ -28,6 +28,12 @@
                         <button class="btn btn-outline-light">Search</button>
                     </div>
                 </form>
+                <form action="${pageContext.request.contextPath}/goBackToIndex" method="post">
+                    <h4>Click below button to go back to index page</h4>
+                    <div class="container text-center">
+                        <button class="btn btn-outline-light">Go Back</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
