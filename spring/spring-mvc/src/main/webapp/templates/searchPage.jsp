@@ -11,7 +11,7 @@
     <title>Hello, world!</title>
 </head>
 <body>
-<h1>Hello, world!</h1>
+<h1>This is search page</h1>
     <div class="container">
         <div class="card mx-auto mt-5 bg-secondary" style="width: 50%">
             <div class="card-body">
@@ -28,13 +28,15 @@
                         <button class="btn btn-outline-light">Search</button>
                     </div>
                 </form>
-                <form action="${pageContext.request.contextPath}/goBackToIndex" method="post">
-                    <h4>Click below button to go back to index page</h4>
-                    <div class="container text-center">
-                        <button class="btn btn-outline-light">Go Back</button>
-                    </div>
-                </form>
             </div>
+        </div>
+        <div class="container text-center">
+            <form action="${pageContext.request.contextPath}/goBackToIndex" method="post">
+                <h4>Click below button to go back to index page</h4>
+                <div class="container text-center">
+                    <button class="btn btn-outline-dark">Go Back</button>
+                </div>
+            </form>
         </div>
     </div>
 
