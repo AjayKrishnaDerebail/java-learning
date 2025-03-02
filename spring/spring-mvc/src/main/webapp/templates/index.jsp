@@ -25,6 +25,9 @@
         <h1> Click the submit button to go File form page</h1>
         <button type="submit">Click to go to File form page</button>
     </form>
-
+    <div>
+        <h1>${userId}</h1>
+        <h1>${userName}</h1>
+    </div>
 </body>
 </html>
