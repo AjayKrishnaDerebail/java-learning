@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!doctype html>
 <html lang="en">
 <head>
@@ -21,6 +22,9 @@
             <div class="card">
                 <div class="card-body">
                     <h3 class="text-center">Complex Form</h3>
+                    <div class="alert alert-danger" role="alert">
+                        <form:errors path="student.*"/>
+                    </div>
                     <form action="handleComplexForm" method="post">
                         <div class="form-group">
                             <label for="exampleInputName">Your Name</label>
