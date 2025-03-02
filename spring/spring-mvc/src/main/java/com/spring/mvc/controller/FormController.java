@@ -24,4 +24,11 @@ public class FormController {
     System.out.println(student.getAddress());
     return "successStudent";
   }
+
+  @RequestMapping("/goBackToIndexFromStudentSuccessPage")
+  public String goBack(){
+    return "index";
+  }
+
+
 }
