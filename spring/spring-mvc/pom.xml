@@ -11,6 +11,12 @@
   <url>https://maven.apache.org</url>
 
   <dependencies>
+    <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+    <dependency>
+      <groupId>commons-io</groupId>
+      <artifactId>commons-io</artifactId>
+      <version>${commons-io.version}</version>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/jakarta.persistence/jakarta.persistence-api -->
     <dependency>
       <groupId>jakarta.persistence</groupId>
@@ -71,6 +77,12 @@
       <artifactId>spring-orm</artifactId>
       <version>${spring-orm.version}</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.springframework/spring-web -->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-web</artifactId>
+      <version>${spring-web.version}</version>
+    </dependency>
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
@@ -83,6 +95,7 @@
   </build>
 
   <properties>
+    <commons-io.version>2.18.0</commons-io.version>
     <hibernate-core.version>6.6.8.Final</hibernate-core.version>
     <jakarta.persistence-api.version>3.2.0</jakarta.persistence-api.version>
     <jakarta.servlet-api.version>6.1.0</jakarta.servlet-api.version>
@@ -94,6 +107,7 @@
     <mysql-connector-java.version>8.0.33</mysql-connector-java.version>
     <spring-jdbc.version>6.2.3</spring-jdbc.version>
     <spring-orm.version>6.2.3</spring-orm.version>
+    <spring-web.version>6.2.3</spring-web.version>
     <spring-webmvc.version>6.2.3</spring-webmvc.version>
   </properties>
 </project>

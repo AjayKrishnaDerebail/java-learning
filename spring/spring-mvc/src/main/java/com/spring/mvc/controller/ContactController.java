@@ -27,6 +27,12 @@ public class ContactController {
     return "contact";
   }
 
+  @RequestMapping(path = "/complexForm" ,method = RequestMethod.POST)
+  public String contact(){
+    System.out.println("Inside contact method of controller");
+    return "complexForm";
+  }
+
   @RequestMapping(path = "processForm", method = RequestMethod.POST)
   public String formProcess(@ModelAttribute User user , Model model) {
 

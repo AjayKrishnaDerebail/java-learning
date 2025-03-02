@@ -17,5 +17,14 @@
         <h1> Click the submit button to go search page</h1>
         <button type="submit">Click to go to search page</button>
     </form>
+    <form action="${pageContext.request.contextPath}/complexForm" method="post">
+        <h1> Click the submit button to go complex form page</h1>
+        <button type="submit">Click to go to complex form page</button>
+    </form>
+    <form action="${pageContext.request.contextPath}/goToFileForm" method="post">
+        <h1> Click the submit button to go File form page</h1>
+        <button type="submit">Click to go to File form page</button>
+    </form>
+
 </body>
 </html>
