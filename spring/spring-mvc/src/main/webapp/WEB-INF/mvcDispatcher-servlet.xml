@@ -22,6 +22,13 @@
   <mvc:annotation-driven/>
   <mvc:resources mapping="/static/**" location="/static"/>
 
+  <mvc:interceptors>
+    <mvc:interceptor>
+      <mvc:mapping path="/uploadImage"/>
+      <bean class="com.spring.mvc.interceptor.FileUploadInterceptor"/>
+    </mvc:interceptor>
+  </mvc:interceptors>
+
   <!-- Component Scanning for Spring Beans -->
   <context:component-scan base-package="com.spring.mvc"/>
 
