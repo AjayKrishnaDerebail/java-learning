@@ -10,10 +10,6 @@ public class Layer<T extends Mappable> {
     this.layerElements = new ArrayList<>(List.of(layerElements));
   }
 
-  public void addElements(T... elements) {
-    layerElements.addAll(List.of(elements));
-  }
-
   public void renderLayer() {
     for (T element : layerElements) {
       element.render();
