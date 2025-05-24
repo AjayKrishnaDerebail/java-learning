@@ -1,8 +1,4 @@
-package com.java.generics;
-
-import com.java.generics.challenge.Layer;
-import com.java.generics.challenge.Park;
-import com.java.generics.challenge.River;
+package com.java.generics.challenge;
 
 public class Main {
   public static void main(String[] args) {
