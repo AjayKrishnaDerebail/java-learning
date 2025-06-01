@@ -9,4 +9,10 @@ import lombok.ToString;
 @Setter
 public class Box <T extends Number>{
   private T value;
+
+  public <Z> void printBoxName(Z[] array){
+    for (Z element : array) {
+      System.out.println(element);
+    }
+  }
 }

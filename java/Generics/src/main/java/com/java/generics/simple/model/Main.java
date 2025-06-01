@@ -1,6 +1,5 @@
 package com.java.generics.simple.model;
 
-import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -32,6 +31,9 @@ public class Main {
     Container<Integer> container = new GenericContainer<>(20);
     container.add(10);
     log.info(container.get().toString());
+
+    Box<Double> doubleBox2 = new Box<>();
+    doubleBox2.printBoxName(new Double[]{1.0, 2.0, 3.0});
   }
 
 }
