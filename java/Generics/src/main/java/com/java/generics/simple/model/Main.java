@@ -1,5 +1,6 @@
 package com.java.generics.simple.model;
 
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -15,7 +16,22 @@ public class Main {
       log.error(e.getMessage());
     }
 
-    System.out.println(box.getValue());
+    Box<Double> doubleBox = new Box<>();
+    doubleBox.setValue(10.0);
+    log.info(doubleBox.getValue().toString());
+    try{
+      doubleBox.setValue(Double.valueOf("Hello"));
+    } catch (NumberFormatException e) {
+      log.error(e.getMessage());
+    }
+
+    GenericContainer<String> genericContainer = new GenericContainer<>("Hello");
+    genericContainer.add("Hello");
+    log.info(genericContainer.get());
+
+    Container<Integer> container = new GenericContainer<>(20);
+    container.add(10);
+    log.info(container.get().toString());
   }
 
 }

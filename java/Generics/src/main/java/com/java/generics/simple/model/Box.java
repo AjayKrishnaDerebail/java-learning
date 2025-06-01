@@ -7,6 +7,6 @@ import lombok.ToString;
 @ToString
 @Getter
 @Setter
-public class Box <T>{
+public class Box <T extends Number>{
   private T value;
 }
