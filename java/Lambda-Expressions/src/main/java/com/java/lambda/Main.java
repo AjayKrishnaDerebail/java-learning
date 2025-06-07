@@ -8,7 +8,7 @@ public class Main {
 
     myLambda.myMethod();
 
-    MyInterfaceAdd myLambdaAdd = (int a, int b) -> a + b;
+    MyInterfaceAdd myLambdaAdd = Integer::sum;
 
     System.out.println(myLambdaAdd.myMethodAdd(1, 2));
 
@@ -20,7 +20,7 @@ public class Main {
 
     greeting.myMethod();
 
-    StringLengthLambda stringLengthLambda = (String str) -> str.length() + 1;
+    StringLengthLambda stringLengthLambda = String :: length;
 
     System.out.println(stringLengthLambda.getStringLength("Hello World!"));
 
@@ -50,7 +50,7 @@ abstract class Greeting {
 interface StringLengthLambda {
   int getStringLength(String str);
 
-  public default int getCharLength(String str) {
+  default int getCharLength(String str) {
     return str.length();
   }
 }
