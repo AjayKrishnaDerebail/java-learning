@@ -19,6 +19,16 @@ public class Main {
     };
 
     greeting.myMethod();
+
+    StringLengthLambda stringLengthLambda = (String str) -> str.length();
+
+    System.out.println(stringLengthLambda.getStringLength("Hello World!"));
+
+    printStringLengthLambda(stringLengthLambda, "Hello World!");
+  }
+
+  public static void printStringLengthLambda(StringLengthLambda str , String str1) {
+    System.out.println(str.getStringLength(str1));
   }
 }
 
@@ -30,8 +40,11 @@ interface MyInterfaceAdd {
     int myMethodAdd(int a, int b);
 }
 
-class Greeting {
-
+abstract class Greeting {
   public void myMethod() {
   }
+}
+
+interface StringLengthLambda {
+  int getStringLength(String str);
 }
