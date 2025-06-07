@@ -20,7 +20,7 @@ public class Main {
 
     greeting.myMethod();
 
-    StringLengthLambda stringLengthLambda = (String str) -> str.length();
+    StringLengthLambda stringLengthLambda = (String str) -> str.length() + 1;
 
     System.out.println(stringLengthLambda.getStringLength("Hello World!"));
 
@@ -29,6 +29,7 @@ public class Main {
 
   public static void printStringLengthLambda(StringLengthLambda str , String str1) {
     System.out.println(str.getStringLength(str1));
+    System.out.println(str.getCharLength(str1));
   }
 }
 
@@ -45,6 +46,11 @@ abstract class Greeting {
   }
 }
 
+@FunctionalInterface
 interface StringLengthLambda {
   int getStringLength(String str);
+
+  public default int getCharLength(String str) {
+    return str.length();
+  }
 }
