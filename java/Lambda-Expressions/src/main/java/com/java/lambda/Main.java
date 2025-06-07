@@ -4,13 +4,7 @@ package com.java.lambda;
 public class Main {
 
   public static void main(String[] args) {
-    MyInterface myLambda = () -> System.out.println("Hello and welcome! ");
 
-    myLambda.myMethod();
-
-    MyInterfaceAdd myLambdaAdd = (int a, int b) -> a + b;
-
-    System.out.println(myLambdaAdd.myMethodAdd(1, 2));
   }
 }
 
@@ -20,4 +14,10 @@ interface MyInterface {
 
 interface MyInterfaceAdd {
     int myMethodAdd(int a, int b);
+}
+
+class Greeting {
+
+  public void myMethod() {
+  }
 }
