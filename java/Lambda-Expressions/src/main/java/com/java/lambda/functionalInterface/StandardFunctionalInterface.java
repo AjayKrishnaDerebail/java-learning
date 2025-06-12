@@ -30,6 +30,10 @@ public class StandardFunctionalInterface {
         p -> p.getLastName().endsWith("e") && p.getFirstName().startsWith("J"),
         System.out::println);
 
+    System.out.println("Printing using for each loop");
+
+    personList.forEach(System.out::println);
+
   }
 
   public static void printConditionally(List<Person> personList, Predicate<Person> predicate,
