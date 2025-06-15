@@ -34,6 +34,34 @@ public class StandardFunctionalInterface {
 
     personList.forEach(System.out::println);
 
+    System.out.println("Understanding lambda expressions better");
+
+    class AddOperation implements Operation<Integer> {
+
+      @Override
+      public Integer execute(Integer a, Integer b) {
+        return a + b;
+      }
+    }
+
+    Operation<Integer> addOperation = new AddOperation();
+    int result1 = executeOperation(addOperation, 1, 2);
+
+    System.out.println(result1);
+
+    int result2 = executeOperation(new Operation<>() {
+      @Override
+      public Integer execute(Integer a, Integer b) {
+        return a - b;
+      }
+    },10,2);
+
+    System.out.println(result2);
+
+    int result3 = executeOperation((a, b) -> a + b, 1, 2);
+
+    System.out.println(result3);
+
   }
 
   public static void printConditionally(List<Person> personList, Predicate<Person> predicate,
@@ -45,4 +73,13 @@ public class StandardFunctionalInterface {
     }
   }
 
+  public static <T> T executeOperation(Operation<T> operation, T a, T b) {
+    return operation.execute(a, b);
+  }
+}
+
+@FunctionalInterface
+interface Operation<T> {
+
+  T execute(T a, T b);
 }
