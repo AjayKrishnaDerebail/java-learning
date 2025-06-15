@@ -2,8 +2,10 @@ package com.java.lambda.functionalInterface;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import lombok.val;
 
 public class StandardFunctionalInterface {
 
@@ -62,6 +64,19 @@ public class StandardFunctionalInterface {
 
     System.out.println(result3);
 
+    System.out.println("Using binary operator String concatenation");
+
+    String result4 = executeOperationUsingBinaryOperator(
+        (a, b) -> a.toLowerCase() + b.toUpperCase(), "Hello", "World");
+
+    System.out.println(result4);
+
+    System.out.println("Using binary operator arithmetic division");
+
+    val result5 = executeOperationUsingBinaryOperator((a,b)-> a / b , 9.0 ,2.0);
+
+    System.out.println(result5);
+
   }
 
   public static void printConditionally(List<Person> personList, Predicate<Person> predicate,
@@ -75,6 +90,10 @@ public class StandardFunctionalInterface {
 
   public static <T> T executeOperation(Operation<T> operation, T a, T b) {
     return operation.execute(a, b);
+  }
+
+  public static <T> T executeOperationUsingBinaryOperator(BinaryOperator<T> operation, T a, T b) {
+    return operation.apply(a, b);
   }
 }
 
