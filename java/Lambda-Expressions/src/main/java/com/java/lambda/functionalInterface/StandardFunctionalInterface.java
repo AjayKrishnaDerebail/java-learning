@@ -2,6 +2,7 @@ package com.java.lambda.functionalInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -25,7 +26,7 @@ public class StandardFunctionalInterface {
     );
 
     // 🔹 2. Sorting using lambda comparator
-    personList.sort((p1, p2) -> p1.getLastName().compareTo(p2.getLastName()));
+    personList.sort(Comparator.comparing(Person::getLastName));
 
     // 🔹 3. Filtering using Predicate and Consumer combinations
     System.out.println("\n🔹 Print All:");
@@ -74,7 +75,7 @@ public class StandardFunctionalInterface {
     System.out.println("Using anonymous inner class: " + result2);
 
     // Lambda expression
-    int result3 = executeOperation((a, b) -> a + b, 1, 2);  // 1 + 2 = 3
+    int result3 = executeOperation(Integer::sum, 1, 2);  // 1 + 2 = 3
     System.out.println("Using lambda: " + result3);
 
     // 🔹 7. BinaryOperator Examples
