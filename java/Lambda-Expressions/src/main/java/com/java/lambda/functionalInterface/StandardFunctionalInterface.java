@@ -2,7 +2,6 @@ package com.java.lambda.functionalInterface;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.List;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -26,7 +25,7 @@ public class StandardFunctionalInterface {
     );
 
     // 🔹 2. Sorting using lambda comparator
-    personList.sort(Comparator.comparing(Person::getLastName));
+    personList.sort((p1, p2) -> p1.getLastName().compareTo(p2.getLastName()));
 
     // 🔹 3. Filtering using Predicate and Consumer combinations
     System.out.println("\n🔹 Print All:");
@@ -75,20 +74,24 @@ public class StandardFunctionalInterface {
     System.out.println("Using anonymous inner class: " + result2);
 
     // Lambda expression
-    int result3 = executeOperation(Integer::sum, 1, 2);  // 1 + 2 = 3
+    int result3 = executeOperation((a, b) -> a + b, 1, 2);  // 1 + 2 = 3
     System.out.println("Using lambda: " + result3);
+
+    // Using method reference
+    int result4 = executeOperation(Integer::sum, 1, 2);  // 1 + 2 = 3
+    System.out.println("Using lambda: " + result4);
 
     // 🔹 7. BinaryOperator Examples
     System.out.println("\n🔹 Using BinaryOperator Functional Interface:");
 
     // String concatenation with case transformation
-    String result4 = executeOperationUsingBinaryOperator(
+    String result5 = executeOperationUsingBinaryOperator(
         (a, b) -> a.toLowerCase() + b.toUpperCase(), "Hello", "World");
-    System.out.println("String concat: " + result4);  // helloWORLD
+    System.out.println("String concat: " + result5);  // helloWORLD
 
     // Arithmetic division with double values
-    val result5 = executeOperationUsingBinaryOperator((a, b) -> a / b, 9.0, 2.0);
-    System.out.println("Division result: " + result5);  // 4.5
+    val result6 = executeOperationUsingBinaryOperator((a, b) -> a / b, 9.0, 2.0);
+    System.out.println("Division result: " + result6);  // 4.5
 
   }
 
