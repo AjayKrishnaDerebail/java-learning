@@ -14,6 +14,8 @@ import org.springframework.batch.core.configuration.annotation.StepBuilderFactor
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
+import org.springframework.batch.item.database.JdbcPagingItemReader;
+import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -133,7 +135,7 @@ public class BatchConfiguration {
    */
   @Bean
   public ItemReader<Product> jdbcCursorItemReader() {
-    // Create a new JDBC cursor reader for Product type
+    // Create a new JDBC cursor reader for a Product type
     JdbcCursorItemReader<Product> itemReader = new JdbcCursorItemReader<>();
     
     // Set the data source for database connection
@@ -148,6 +150,60 @@ public class BatchConfiguration {
     itemReader.setRowMapper(new ProductRowMapper());
     
     return itemReader;
+  }
+
+  /**
+   * Creates and configures a paging-based ItemReader for Product entities. This reader fetches data
+   * in pages (chunks) from the database, making it memory-efficient for large datasets by loading
+   * only a subset of records at a time.
+   *
+   * @return Configured ItemReader that reads Product entities using paging
+   * @throws Exception if there's an error creating the query provider
+   * @see Product
+   * @see ProductRowMapper
+   * @see JdbcPagingItemReader
+   */
+  @Bean
+  public ItemReader<Product> jdbcPagingItemItemReader() throws Exception {
+    // Initialize the paging item reader
+    JdbcPagingItemReader<Product> itemReader = new JdbcPagingItemReader<>();
+
+    // Set the data source for database connection
+    itemReader.setDataSource(datasource);
+
+    // Create and configure the query provider factory
+    SqlPagingQueryProviderFactoryBean sqlPagingQueryProviderFactoryBean =
+        getSqlPagingQueryProviderFactoryBean();
+
+    // Configure the reader with the query provider
+    itemReader.setQueryProvider(sqlPagingQueryProviderFactoryBean.getObject());
+
+    // Set the row mapper to convert ResultSet rows into Product objects
+    itemReader.setRowMapper(new ProductRowMapper());
+
+    // Set the page size (number of records per page)
+    itemReader.setPageSize(2);
+
+    return itemReader;
+  }
+
+  private SqlPagingQueryProviderFactoryBean getSqlPagingQueryProviderFactoryBean() {
+    SqlPagingQueryProviderFactoryBean sqlPagingQueryProviderFactoryBean =
+        new SqlPagingQueryProviderFactoryBean();
+
+    // Configure the query provider with data source and SQL components
+    sqlPagingQueryProviderFactoryBean.setDataSource(datasource);
+
+    // Define the SELECT clause with required columns
+    sqlPagingQueryProviderFactoryBean.setSelectClause(
+        "SELECT product_id, product_name, product_category, product_price");
+
+    // Define the FROM clause with the table name
+    sqlPagingQueryProviderFactoryBean.setFromClause("FROM products");
+
+    // Set the sort key for consistent paging (required for paging to work correctly)
+    sqlPagingQueryProviderFactoryBean.setSortKey("product_id");
+    return sqlPagingQueryProviderFactoryBean;
   }
 
   @Bean
@@ -199,12 +255,28 @@ public class BatchConfiguration {
   }
 
   @Bean
-  public Job firstJob() {
+  public Step fourthStep() throws Exception {
+    return this.stepBuilderFactory
+        .get("chunkBasedSecondStep")
+        .<Product, Product>chunk(2)
+        .reader(jdbcPagingItemItemReader())
+        .writer(
+            (items) -> {
+              System.out.println("Chunk processing started");
+              items.forEach(System.out::println);
+              System.out.println("Chunk processing ended");
+            })
+        .build();
+  }
+
+  @Bean
+  public Job firstJob() throws Exception {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
         //.start(secondStep())
-        .start(thirdStep())
+        //.start(thirdStep())
+        .start(fourthStep())
         .build();
   }
 }
