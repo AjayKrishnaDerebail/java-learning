@@ -5,6 +5,7 @@ import com.springbatch.model.OnlineSalesProduct;
 import com.springbatch.model.Product;
 import com.springbatch.processor.FilterItemProcessor;
 import com.springbatch.processor.ProductItemProcessor;
+import com.springbatch.processor.ProductValidatingProcessor;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -322,6 +324,15 @@ public class BatchConfiguration {
   }
 
   @Bean
+  public ValidatingItemProcessor<Product> validatingItemProcessor() {
+    ValidatingItemProcessor<Product> validatingItemProcessor =
+        new ValidatingItemProcessor<>(new ProductValidatingProcessor());
+
+    validatingItemProcessor.setFilter(true);
+    return validatingItemProcessor;
+  }
+
+  @Bean
   public Step firstStep() {
     return this.stepBuilderFactory
         .get("chunkBasedFirstStep")
@@ -345,6 +356,7 @@ public class BatchConfiguration {
         .get("chunkBasedSecondStep")
         .<Product, Product>chunk(2)
         .reader(flatFileItemReader())
+        .processor(validatingItemProcessor())
         .writer(
             (items) -> {
               System.out.println("Chunk processing started");
@@ -398,9 +410,9 @@ public class BatchConfiguration {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
-        //.start(secondStep())
+        .start(secondStep())
         //.start(thirdStep())
-        .start(fourthStep())
+        //.start(fourthStep())
         //.start(fifthStep())
         .build();
   }
