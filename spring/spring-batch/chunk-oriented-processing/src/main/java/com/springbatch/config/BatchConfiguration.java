@@ -2,6 +2,7 @@ package com.springbatch.config;
 
 import com.springbatch.mapper.ProductRowMapper;
 import com.springbatch.model.Product;
+import com.springbatch.processor.ProductItemProcessor;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.BeanPropertyItemSqlParameterSourceProvider;
@@ -249,9 +251,7 @@ public class BatchConfiguration {
 
     // Set the data source for database connection
     itemWriter.setDataSource(datasource);
-
-    /*
-     *
+    /**
      * Configure the SQL insert statement
      * Note: Column order must match the parameter indexes in the setValues method
       itemWriter.setSql(
@@ -267,13 +267,32 @@ public class BatchConfiguration {
           ps.setString(3, item.getProductCategory()); // product_category
           ps.setDouble(4, item.getProductPrice()); // product_price
         });*/
+
+
+    /*
+     *
+       Configure the SQL insert statement with named parameters
+       The parameter names must match the property names of the Product class
+     */
+
     itemWriter.setSql(
-        "INSERT INTO product_details_output values "
-            + "(:productId, :productName, :productCategory, :productPrice)");
+        "INSERT INTO product_details_output (product_id, product_name, product_category, product_price) "
+            + "VALUES (:productId, :productName, :productCategory, :productPrice)");
+            
+    /**
+      Configure the parameter source provider to automatically map JavaBean properties
+      to the named parameters in the SQL query. This will automatically match the
+      getter methods of the Product class (getProductId(), getProductName(), etc.)
+      with the corresponding named parameters in the SQL query.
+     */
+
     itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
-
-
     return itemWriter;
+  }
+
+  @Bean
+  public ItemProcessor<Product, Product> itemProcessor() {
+    return new ProductItemProcessor();
   }
 
   @Bean
@@ -300,6 +319,7 @@ public class BatchConfiguration {
         .get("chunkBasedSecondStep")
         .<Product, Product>chunk(2)
         .reader(flatFileItemReader())
+        .processor(itemProcessor())
         .writer(
             (items) -> {
               System.out.println("Chunk processing started");
@@ -350,10 +370,10 @@ public class BatchConfiguration {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
-        //.start(secondStep())
+        .start(secondStep())
         //.start(thirdStep())
         //.start(fourthStep())
-        .start(fifthStep())
+        //.start(fifthStep())
         .build();
   }
 }
