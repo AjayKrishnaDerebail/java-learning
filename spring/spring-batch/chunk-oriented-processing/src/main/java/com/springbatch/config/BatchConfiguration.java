@@ -3,8 +3,6 @@ package com.springbatch.config;
 import com.springbatch.mapper.ProductRowMapper;
 import com.springbatch.model.Product;
 import com.springbatch.reader.ProductNameItemReader;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import javax.sql.DataSource;
@@ -15,7 +13,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.ItemPreparedStatementSetter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
@@ -232,15 +229,12 @@ public class BatchConfiguration {
     JdbcBatchItemWriter<Product> itemWriter = new JdbcBatchItemWriter<>();
     itemWriter.setDataSource(datasource);
     itemWriter.setSql("INSERT INTO product_details_output values(?,?,?,?)");
-    itemWriter.setItemPreparedStatementSetter(new ItemPreparedStatementSetter<Product>(){
-      @Override
-      public void setValues(Product item, PreparedStatement ps) throws SQLException {
-        ps.setLong(1, item.getProductId());
-        ps.setString(2, item.getProductName());
-        ps.setString(3, item.getProductCategory());
-        ps.setDouble(4, item.getProductPrice());
-      }
-    });
+    itemWriter.setItemPreparedStatementSetter((item, ps) -> {
+          ps.setLong(1, item.getProductId());
+          ps.setString(2, item.getProductName());
+          ps.setString(3, item.getProductCategory());
+          ps.setDouble(4, item.getProductPrice());
+        });
     return itemWriter;
   }
 
