@@ -1,5 +1,6 @@
 package com.springbatch.config;
 
+import com.springbatch.mapper.ProductRowMapper;
 import com.springbatch.model.Product;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
+import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
@@ -25,6 +28,8 @@ public class BatchConfiguration {
   private JobBuilderFactory jobBuilderFactory;
 
   private StepBuilderFactory stepBuilderFactory;
+
+  private DataSource datasource;
 
   @Autowired
   public void setStepBuilderFactory(StepBuilderFactory stepBuilderFactory) {
@@ -34,6 +39,10 @@ public class BatchConfiguration {
   @Autowired
   public void setJobBuilderFactory(JobBuilderFactory jobBuilderFactory) {
     this.jobBuilderFactory = jobBuilderFactory;
+  }
+  @Autowired
+  public void setDatasource(DataSource datasource) {
+    this.datasource = datasource;
   }
 
   @Bean
@@ -113,6 +122,26 @@ public class BatchConfiguration {
     return itemReader;
   }
 
+  /**
+   * Creates and configures a JdbcCursorItemReader to read Product data from the database.
+   * The reader fetches product records ordered by product_id and maps them to Product objects
+   * using a ProductRowMapper.
+   *
+   * @return Configured ItemReader instance for Product objects
+   * @see Product
+   * @see ProductRowMapper
+   */
+  @Bean
+  public ItemReader<Product> jdbcCursorItemReader() {
+    JdbcCursorItemReader<Product> itemReader = new JdbcCursorItemReader<>();
+    itemReader.setDataSource(datasource);
+    String sql =
+        "SELECT product_id, product_name, product_category, product_price FROM products order by product_id";
+    itemReader.setSql(sql);
+    itemReader.setRowMapper(new ProductRowMapper());
+    return itemReader;
+  }
+
   @Bean
   public Step firstStep() {
     return this.stepBuilderFactory
@@ -147,11 +176,27 @@ public class BatchConfiguration {
   }
 
   @Bean
+  public Step thirdStep() {
+    return this.stepBuilderFactory
+        .get("chunkBasedSecondStep")
+        .<Product, Product>chunk(2)
+        .reader(jdbcCursorItemReader())
+        .writer(
+            (items) -> {
+              System.out.println("Chunk processing started");
+              items.forEach(System.out::println);
+              System.out.println("Chunk processing ended");
+            })
+        .build();
+  }
+
+  @Bean
   public Job firstJob() {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
-        .start(secondStep())
+        //.start(secondStep())
+        .start(thirdStep())
         .build();
   }
 }
