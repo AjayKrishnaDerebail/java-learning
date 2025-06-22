@@ -1,6 +1,7 @@
 package com.springbatch.config;
 
 import com.springbatch.mapper.ProductRowMapper;
+import com.springbatch.model.OnlineSalesProduct;
 import com.springbatch.model.Product;
 import com.springbatch.processor.ProductItemProcessor;
 import com.springbatch.reader.ProductNameItemReader;
@@ -291,8 +292,23 @@ public class BatchConfiguration {
   }
 
   @Bean
-  public ItemProcessor<Product, Product> itemProcessor() {
+  public ItemProcessor<Product, OnlineSalesProduct> itemProcessor() {
     return new ProductItemProcessor();
+  }
+
+  @Bean
+  public JdbcBatchItemWriter<OnlineSalesProduct> jdbcBatchItemWriterForTransformationDemo() {
+    JdbcBatchItemWriter<OnlineSalesProduct> itemWriter = new JdbcBatchItemWriter<>();
+
+    itemWriter.setDataSource(datasource);
+
+    itemWriter.setSql(
+        "INSERT INTO online_sales_product "
+            + "VALUES (:productId, :productName, :productCategory, :productPrice, "
+            + ":taxPercent, :sku, :shippingRate)");
+
+    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+    return itemWriter;
   }
 
   @Bean
@@ -319,7 +335,6 @@ public class BatchConfiguration {
         .get("chunkBasedSecondStep")
         .<Product, Product>chunk(2)
         .reader(flatFileItemReader())
-        .processor(itemProcessor())
         .writer(
             (items) -> {
               System.out.println("Chunk processing started");
@@ -358,9 +373,10 @@ public class BatchConfiguration {
   public Step fifthStep() throws Exception {
     return this.stepBuilderFactory
         .get("chunkBasedFourthStep")
-        .<Product, Product>chunk(2)
+        .<Product, OnlineSalesProduct>chunk(2)
         .reader(jdbcPagingItemItemReader())
-        .writer(jdbcBatchItemWriter())
+        .processor(itemProcessor())
+        .writer(jdbcBatchItemWriterForTransformationDemo())
         .build();
   }
 
@@ -370,10 +386,10 @@ public class BatchConfiguration {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
-        .start(secondStep())
+        //.start(secondStep())
         //.start(thirdStep())
         //.start(fourthStep())
-        //.start(fifthStep())
+        .start(fifthStep())
         .build();
   }
 }
