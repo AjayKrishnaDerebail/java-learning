@@ -224,17 +224,48 @@ public class BatchConfiguration {
     return itemWriter;
   }
 
+  /**
+   * Creates and configures a JdbcBatchItemWriter for efficiently writing Product records to a
+   * database table. This writer uses JDBC batch updates for optimal performance when processing
+   * large datasets.
+   *
+   * <p>Key features:
+   *
+   * <ul>
+   *   <li>Uses JDBC batch processing for efficient bulk inserts
+   *   <li>Maps Product object fields to prepared statement parameters
+   *   <li>Requires a table named 'product_details_output' with matching column order
+   * </ul>
+   *
+   * @return Configured JdbcBatchItemWriter instance for Product objects
+   * @see JdbcBatchItemWriter
+   * @see Product
+   */
   @Bean
   public JdbcBatchItemWriter<Product> jdbcBatchItemWriter() {
+    // Initialize the batch item writer
     JdbcBatchItemWriter<Product> itemWriter = new JdbcBatchItemWriter<>();
+
+    // Set the data source for database connection
     itemWriter.setDataSource(datasource);
-    itemWriter.setSql("INSERT INTO product_details_output values(?,?,?,?)");
-    itemWriter.setItemPreparedStatementSetter((item, ps) -> {
-          ps.setLong(1, item.getProductId());
-          ps.setString(2, item.getProductName());
-          ps.setString(3, item.getProductCategory());
-          ps.setDouble(4, item.getProductPrice());
+
+    // Configure the SQL insert statement
+    // Note: Column order must match the parameter indexes in the setValues method
+    itemWriter.setSql(
+        "INSERT INTO product_details_output "
+            + "(product_id, product_name, product_category, product_price) VALUES (?, ?, ?, ?)");
+
+    // Configure the parameter mapping using a lambda expression
+    itemWriter.setItemPreparedStatementSetter(
+        (item, ps) -> {
+          // Map Product fields to prepared statement parameters
+          // Parameter indices are 1-based
+          ps.setLong(1, item.getProductId()); // product_id
+          ps.setString(2, item.getProductName()); // product_name
+          ps.setString(3, item.getProductCategory()); // product_category
+          ps.setDouble(4, item.getProductPrice()); // product_price
         });
+
     return itemWriter;
   }
 
