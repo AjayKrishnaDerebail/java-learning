@@ -91,10 +91,10 @@ public class BatchConfiguration {
     // Set the tokenizer to the line mapper
     lineMapper.setLineTokenizer(lineTokenizer);
     
-    // Configure how to map tokenized fields to Product object
+    // Configure how to map tokenized fields to a Product object
     lineMapper.setFieldSetMapper(
         fieldSet -> {
-          // Create new Product instance for each line
+          // Create a new Product instance for each line
           Product product = new Product();
           
           // Map each CSV column to the corresponding Product field
@@ -138,7 +138,7 @@ public class BatchConfiguration {
         .<Product, Product>chunk(2)
         .reader(flatFileItemReader())
         .writer(
-            items -> {
+            (items) -> {
               System.out.println("Chunk processing started");
               items.forEach(System.out::println);
               System.out.println("Chunk processing ended");
