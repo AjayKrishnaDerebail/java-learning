@@ -29,6 +29,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -327,7 +328,14 @@ public class BatchConfiguration {
   public ValidatingItemProcessor<Product> validatingItemProcessor() {
     ValidatingItemProcessor<Product> validatingItemProcessor =
         new ValidatingItemProcessor<>(new ProductValidatingProcessor());
+    validatingItemProcessor.setFilter(true);
+    return validatingItemProcessor;
+  }
 
+  @Bean
+  public BeanValidatingItemProcessor<Product> beanValidatingItemProcessor() {
+    BeanValidatingItemProcessor<Product> validatingItemProcessor =
+        new BeanValidatingItemProcessor<>();
     validatingItemProcessor.setFilter(true);
     return validatingItemProcessor;
   }
@@ -369,9 +377,10 @@ public class BatchConfiguration {
   @Bean
   public Step thirdStep() {
     return this.stepBuilderFactory
-        .get("chunkBasedSecondStep")
+        .get("chunkBasedThirdStep")
         .<Product, Product>chunk(2)
         .reader(jdbcCursorItemReader())
+        .processor(beanValidatingItemProcessor())
         .writer(
             (items) -> {
               System.out.println("Chunk processing started");
@@ -410,9 +419,8 @@ public class BatchConfiguration {
     return this.jobBuilderFactory
         .get("firstJob")
         // .start(firstStep())
-        .start(secondStep())
-        //.start(thirdStep())
-        //.start(fourthStep())
+        //.start(secondStep())
+        .start(thirdStep())
         //.start(fifthStep())
         .build();
   }

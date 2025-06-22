@@ -5,6 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.validation.constraints.Pattern;
+
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -13,6 +15,7 @@ import lombok.Setter;
 public class Product {
   private Long productId;
   private String productName;
+  @Pattern(regexp = "Furniture|Televisions")
   private String productCategory;
   private Double productPrice;
 
