@@ -17,12 +17,16 @@ import org.springframework.batch.item.database.JdbcCursorItemReader;
 import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
+import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
+import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 
 @Configuration
 @EnableBatchProcessing
@@ -207,6 +211,19 @@ public class BatchConfiguration {
   }
 
   @Bean
+  public FlatFileItemWriter<Product> itemWriter() {
+    FlatFileItemWriter<Product> itemWriter = new FlatFileItemWriter<>();
+    itemWriter.setResource(new FileSystemResource("src/main/resources/data/ecommerceDevicesOutput.csv"));
+    DelimitedLineAggregator<Product> lineAggregator = new DelimitedLineAggregator<>();
+    lineAggregator.setDelimiter(",");
+    BeanWrapperFieldExtractor<Product> fieldExtractor = new BeanWrapperFieldExtractor<>();
+    fieldExtractor.setNames(new String[] { "productId", "productName", "productCategory", "productPrice" });
+    lineAggregator.setFieldExtractor(fieldExtractor);
+    itemWriter.setLineAggregator(lineAggregator);
+    return itemWriter;
+  }
+
+  @Bean
   public Step firstStep() {
     return this.stepBuilderFactory
         .get("chunkBasedFirstStep")
@@ -257,17 +274,13 @@ public class BatchConfiguration {
   @Bean
   public Step fourthStep() throws Exception {
     return this.stepBuilderFactory
-        .get("chunkBasedSecondStep")
+        .get("chunkBasedFourthStep")
         .<Product, Product>chunk(2)
         .reader(jdbcPagingItemItemReader())
-        .writer(
-            (items) -> {
-              System.out.println("Chunk processing started");
-              items.forEach(System.out::println);
-              System.out.println("Chunk processing ended");
-            })
+        .writer(itemWriter()) // ✅ Let Spring Batch manage opening/writing/closing
         .build();
   }
+
 
   @Bean
   public Job firstJob() throws Exception {
