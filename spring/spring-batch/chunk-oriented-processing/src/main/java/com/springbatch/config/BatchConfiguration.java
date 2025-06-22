@@ -5,6 +5,7 @@ import com.springbatch.model.Product;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
 import java.util.List;
+import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -20,7 +21,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import javax.sql.DataSource;
 
 @Configuration
 @EnableBatchProcessing
@@ -133,12 +133,20 @@ public class BatchConfiguration {
    */
   @Bean
   public ItemReader<Product> jdbcCursorItemReader() {
+    // Create a new JDBC cursor reader for Product type
     JdbcCursorItemReader<Product> itemReader = new JdbcCursorItemReader<>();
+    
+    // Set the data source for database connection
     itemReader.setDataSource(datasource);
-    String sql =
-        "SELECT product_id, product_name, product_category, product_price FROM products order by product_id";
+    
+    // Define the SQL query to fetch products, ordered by product_id
+    String sql = "SELECT product_id, product_name, product_category, product_price " +
+                "FROM products ORDER BY product_id";
     itemReader.setSql(sql);
+    
+    // Configure the row mapper to convert ResultSet rows into Product objects
     itemReader.setRowMapper(new ProductRowMapper());
+    
     return itemReader;
   }
 
