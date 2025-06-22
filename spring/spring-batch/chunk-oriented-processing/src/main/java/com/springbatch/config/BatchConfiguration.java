@@ -3,6 +3,7 @@ package com.springbatch.config;
 import com.springbatch.mapper.ProductRowMapper;
 import com.springbatch.model.OnlineSalesProduct;
 import com.springbatch.model.Product;
+import com.springbatch.processor.FilterItemProcessor;
 import com.springbatch.processor.ProductItemProcessor;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
@@ -255,10 +256,12 @@ public class BatchConfiguration {
     /**
      * Configure the SQL insert statement
      * Note: Column order must match the parameter indexes in the setValues method
+     *
+     */
       itemWriter.setSql(
         "INSERT INTO product_details_output "
             + "(product_id, product_name, product_category, product_price) VALUES (?, ?, ?, ?)");
-     * Configure the parameter mapping using a lambda expression
+     /* Configure the parameter mapping using a lambda expression */
         itemWriter.setItemPreparedStatementSetter(
         (item, ps) -> {
           // Map Product fields to prepared statement parameters
@@ -267,7 +270,7 @@ public class BatchConfiguration {
           ps.setString(2, item.getProductName()); // product_name
           ps.setString(3, item.getProductCategory()); // product_category
           ps.setDouble(4, item.getProductPrice()); // product_price
-        });*/
+        });
 
 
     /*
@@ -276,9 +279,9 @@ public class BatchConfiguration {
        The parameter names must match the property names of the Product class
      */
 
-    itemWriter.setSql(
-        "INSERT INTO product_details_output (product_id, product_name, product_category, product_price) "
-            + "VALUES (:productId, :productName, :productCategory, :productPrice)");
+/*    itemWriter.setSql("INSERT INTO product_details_output
+        (product_id, product_name, product_category, product_price) "
+            + "VALUES (:productId, :productName, :productCategory, :productPrice)");*/
             
     /**
       Configure the parameter source provider to automatically map JavaBean properties
@@ -287,7 +290,9 @@ public class BatchConfiguration {
       with the corresponding named parameters in the SQL query.
      */
 
+/*
     itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+*/
     return itemWriter;
   }
 
@@ -309,6 +314,11 @@ public class BatchConfiguration {
 
     itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
     return itemWriter;
+  }
+
+  @Bean
+  public ItemProcessor<Product, Product> filterItemProcessor() {
+    return new FilterItemProcessor();
   }
 
   @Bean
@@ -361,11 +371,13 @@ public class BatchConfiguration {
 
   @Bean
   public Step fourthStep() throws Exception {
+    System.out.println("Executing step 4");
     return this.stepBuilderFactory
         .get("chunkBasedFourthStep")
         .<Product, Product>chunk(2)
         .reader(jdbcPagingItemItemReader())
-        .writer(itemWriter()) // ✅ Let Spring Batch manage opening/writing/closing
+        .processor(filterItemProcessor())
+        .writer(jdbcBatchItemWriter()) // ✅ Let Spring Batch manage opening/writing/closing
         .build();
   }
 
@@ -388,8 +400,8 @@ public class BatchConfiguration {
         // .start(firstStep())
         //.start(secondStep())
         //.start(thirdStep())
-        //.start(fourthStep())
-        .start(fifthStep())
+        .start(fourthStep())
+        //.start(fifthStep())
         .build();
   }
 }
