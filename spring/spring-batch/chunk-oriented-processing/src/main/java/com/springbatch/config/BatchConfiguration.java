@@ -8,6 +8,7 @@ import com.springbatch.processor.ProductItemProcessor;
 import com.springbatch.processor.ProductValidatingProcessor;
 import com.springbatch.reader.ProductNameItemReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
 import org.springframework.batch.core.Job;
@@ -29,6 +30,7 @@ import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
+import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -341,6 +343,15 @@ public class BatchConfiguration {
   }
 
   @Bean
+  public CompositeItemProcessor<Product, Product> compositeItemProcessor() {
+    CompositeItemProcessor<Product, Product> compositeItemProcessor =
+        new CompositeItemProcessor<>();
+    compositeItemProcessor.setDelegates(
+        Arrays.asList(filterItemProcessor(), validatingItemProcessor()));
+    return compositeItemProcessor;
+  }
+
+  @Bean
   public Step firstStep() {
     return this.stepBuilderFactory
         .get("chunkBasedFirstStep")
@@ -413,6 +424,17 @@ public class BatchConfiguration {
         .build();
   }
 
+  @Bean
+  public Step sixthStep() throws Exception {
+    return this.stepBuilderFactory
+        .get("chunkBasedSixthStep")
+        .<Product, Product>chunk(2)
+        .reader(jdbcPagingItemItemReader())
+        .processor(compositeItemProcessor())
+        .writer(jdbcBatchItemWriter())
+        .build();
+  }
+
 
   @Bean
   public Job firstJob() throws Exception {
@@ -420,8 +442,9 @@ public class BatchConfiguration {
         .get("firstJob")
         // .start(firstStep())
         //.start(secondStep())
-        .start(thirdStep())
+        //.start(thirdStep())
         //.start(fifthStep())
+        .start(sixthStep())
         .build();
   }
 }
