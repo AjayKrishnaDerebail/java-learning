@@ -8,6 +8,8 @@ public class ProductItemProcessor implements ItemProcessor<Product, Product> {
   @Override
   public Product process(Product item) {
     System.out.println("Executed processor");
+    Double productPrice = item.getProductPrice();
+    item.setProductPrice(productPrice - (productPrice * 0.1));
     return item;
   }
 }
