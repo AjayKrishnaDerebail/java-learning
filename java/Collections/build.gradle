@@ -20,11 +20,11 @@ test {
 }
 
 application {
-    mainClass = 'com.collections.Main'
+    mainClass = 'com.collections.main.Main'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.collections.Main'
+        attributes 'Main-Class': 'com.collections.main.Main'
     }
 }
