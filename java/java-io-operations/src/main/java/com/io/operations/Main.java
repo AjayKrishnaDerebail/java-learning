@@ -1,5 +1,7 @@
 package com.io.operations;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -54,13 +56,13 @@ public class Main {
       }
     }
     log.info("File exists , file path {}", file.getAbsolutePath());
-    if(file.canWrite()){
+    if (file.canWrite()) {
       log.info("File is writable");
     }
   }
 
-  private static void usePath(String pathofFile) {
-    Path path = Path.of(pathofFile);
+  private static void usePath(String pathOfFile) {
+    Path path = Path.of(pathOfFile);
     boolean fileExists = false;
     if (Files.exists(path)) {
       log.info("File existed deleting current file");
@@ -73,15 +75,19 @@ public class Main {
     if (!fileExists) {
       log.info("Creating new file");
       try {
-        Path createdFile= Files.createFile(path);
+        Path createdFile = Files.createFile(path);
         log.info("File created : {} , in path : {}", createdFile, createdFile.getFileName());
+        if (Files.isWritable(path)) {
+          log.info("File is writable");
+          Files.writeString(path, """
+              Hello this is a test file created
+              Its created using Files and paths API""", UTF_8);
+        }
+        log.info("-------------------------------------------------------");
+        Files.readAllLines(path).forEach(log::info);
       } catch (IOException e) {
         throw new RuntimeException(e);
       }
     }
-    if(Files.isWritable(path)){
-      log.info("File is writable");
-    }
   }
-
 }
