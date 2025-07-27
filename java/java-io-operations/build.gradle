@@ -13,6 +13,14 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+
+    // Lombok
+    compileOnly 'org.projectlombok:lombok:1.18.30'
+    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+
+    // SLF4J with Simple binding
+    implementation 'org.slf4j:slf4j-api:2.0.7'
+    runtimeOnly 'org.slf4j:slf4j-simple:2.0.7'
 }
 
 test {
@@ -27,4 +35,12 @@ jar {
     manifest {
         attributes 'Main-Class': 'com.io.operations.Main'
     }
+
+    // This will create a fat JAR with all dependencies
+    from {
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+
+    // To avoid duplicate files in the JAR
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }

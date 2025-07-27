@@ -1,15 +1,11 @@
 package com.io.operations;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 public class Main {
 
   public static void main(String[] args) {
-
-    System.out.printf("Hello and welcome!");
-
-    for (int i = 1; i <= 5; i++) {
-      System.out.println("i = " + i);
-    }
+    log.info("Hello and welcome!");
   }
 }
