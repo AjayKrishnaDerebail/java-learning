@@ -12,12 +12,14 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class Main {
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     //log.info("Hello and welcome!");
     //testFile();
     //testFileUsingPath("files/test2."csv");
     //useFile();
-    usePath("files/test2.csv");
+    //usePath("files/test2.csv");
+    Path path = Path.of("files/test2.csv");
+    getFileMetadata(path);
   }
 
   private static void testFile() {
@@ -89,5 +91,31 @@ public class Main {
         throw new RuntimeException(e);
       }
     }
+  }
+
+  private static void getFileMetadata(Path path) throws IOException {
+    log.info("File name is : {}", path.getFileName());
+    log.info("File parent is  : {}", path.getParent());
+    Path absolutePath = path.toAbsolutePath();
+    log.info("File absolute path is : {}", absolutePath);
+    log.info("File root is : {}", absolutePath.getRoot());
+    log.info("File size is : {}", Files.size(path));
+    log.info("File last modified is : {}", Files.getLastModifiedTime(path));
+    log.info("File is writable : {}", Files.isWritable(path));
+    log.info("File is readable : {}", Files.isReadable(path));
+    log.info("File is executable : {}", Files.isExecutable(path));
+    log.info("File is directory : {}", Files.isDirectory(path));
+    log.info("File is hidden : {}", Files.isHidden(path));
+    log.info("File is absolute : {}", path.isAbsolute());
+    log.info("File is symbolic link : {}", Files.isSymbolicLink(path));
+    log.info("File is regular file : {}", Files.isRegularFile(path));
+
+    var iterator = path.toAbsolutePath().iterator();
+    int i = 1;
+    while (iterator.hasNext()) {
+      log.info(".".repeat(i++) + " " + iterator.next());
+    }
+
+    log.info("-------------------------------------------------------");
   }
 }
