@@ -13,8 +13,9 @@ public class Main {
   public static void main(String[] args) {
     //log.info("Hello and welcome!");
     //testFile();
-    //testFileUsingPath();
-    useFile();
+    //testFileUsingPath("files/test2."csv");
+    //useFile();
+    usePath("files/test2.csv");
   }
 
   private static void testFile() {
@@ -26,9 +27,9 @@ public class Main {
     log.info("File exists , file path {}", file.getAbsolutePath());
   }
 
-  private static void testFileUsingPath() {
-    File file = new File("files/test.csv");
-    Path path = Paths.get("files/test.csv");
+  private static void testFileUsingPath(String pathOfFile) {
+    File file = new File(pathOfFile);
+    Path path = Paths.get(pathOfFile);
     if (!Files.exists(path)) {
       log.info("File does not exist using path");
       return;
@@ -54,6 +55,31 @@ public class Main {
     }
     log.info("File exists , file path {}", file.getAbsolutePath());
     if(file.canWrite()){
+      log.info("File is writable");
+    }
+  }
+
+  private static void usePath(String pathofFile) {
+    Path path = Path.of(pathofFile);
+    boolean fileExists = false;
+    if (Files.exists(path)) {
+      log.info("File existed deleting current file");
+      try {
+        Files.delete(path);
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    if (!fileExists) {
+      log.info("Creating new file");
+      try {
+        Path createdFile= Files.createFile(path);
+        log.info("File created : {} , in path : {}", createdFile, createdFile.getFileName());
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+    if(Files.isWritable(path)){
       log.info("File is writable");
     }
   }
