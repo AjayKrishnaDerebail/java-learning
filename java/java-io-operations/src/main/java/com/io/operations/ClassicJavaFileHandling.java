@@ -2,7 +2,6 @@ package com.io.operations;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -47,5 +46,11 @@ public class ClassicJavaFileHandling {
     }
   }
 
-
+  private static void readUsingBufferedReader(String path) {
+    try (BufferedReader reader = new BufferedReader(new FileReader(path))) {
+      reader.lines().forEach(log::info);
+    } catch (IOException ex) {
+      throw new RuntimeException(ex);
+    }
+  }
 }
