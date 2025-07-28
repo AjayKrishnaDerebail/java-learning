@@ -28,12 +28,12 @@ test {
 }
 
 application {
-    mainClass = 'com.io.operations.ClassicJavaFileHandling'
+    mainClass = 'com.io.operations.FileWriting'
 }
 
 jar {
     manifest {
-        attributes 'Main-Class': 'com.io.operations.ClassicJavaFileHandling'
+        attributes 'Main-Class': 'com.io.operations.FileWriting'
     }
 
     // This will create a fat JAR with all dependencies
