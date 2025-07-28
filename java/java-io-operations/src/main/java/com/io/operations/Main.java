@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -18,8 +19,9 @@ public class Main {
     //testFileUsingPath("files/test2."csv");
     //useFile();
     //usePath("files/test2.csv");
-    Path path = Path.of("files/test2.csv");
-    getFileMetadata(path);
+    Path path = Path.of("");
+    //getFileMetadata(path);
+    directoryListingMaster(path);
   }
 
   private static void testFile() {
@@ -117,5 +119,19 @@ public class Main {
     }
 
     log.info("-------------------------------------------------------");
+  }
+
+  private static void directoryListingMaster(Path directoryPath){
+
+    try(Stream<Path> pathStream = Files.walk(directoryPath,2)){
+      pathStream
+          .filter(file -> file.toFile().isDirectory())
+          .filter(Files :: isDirectory)
+          .peek(file -> System.out.print("Directory : " + file.getFileName() + " "))
+          .forEach(file -> System.out.println(file.getFileName()));
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+
   }
 }
