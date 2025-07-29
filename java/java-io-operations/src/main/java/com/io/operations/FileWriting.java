@@ -5,10 +5,13 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Stream;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -27,7 +30,43 @@ public class FileWriting {
 
     //renameFile();
 
-    createDirectoryAndMoveFile();
+    //createDirectoryAndMoveFile();
+
+    // Example usage of recursive deletion
+    Path directoryToDelete = Path.of("newFilesPath");
+    deleteDirectoryRecursively(directoryToDelete);
+
+  }
+
+  /**
+   * Recursively deletes a directory and all its contents using Java Streams
+   *
+   * @param directory Path to the directory to delete
+   */
+  private static void deleteDirectoryRecursively(Path directory) {
+    log.info("Attempting to delete directory: {}", directory);
+    if (Files.notExists(directory)) {
+      log.warn("Directory does not exist: {}", directory);
+      return;
+    }
+
+    try (Stream<Path> pathStream = Files.walk(directory)) {
+      // Sort in reverse order to delete files before their parent directories
+      pathStream
+          .sorted(Comparator.reverseOrder())
+          .forEach(path -> {
+            try {
+              Files.delete(path);
+              log.debug("Deleted: {}", path);
+            } catch (IOException e) {
+              log.error("Failed to delete: {}", path, e);
+              throw new UncheckedIOException(e);
+            }
+          });
+      log.info("Successfully deleted directory: {}", directory);
+    } catch (UncheckedIOException | IOException e) {
+      log.error("Error during directory deletion", e);
+    }
   }
 
   private static void createDirectoryAndMoveFile() {
