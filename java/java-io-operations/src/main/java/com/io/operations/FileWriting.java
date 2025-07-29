@@ -25,7 +25,20 @@ public class FileWriting {
     Path bufferedFilePath = Path.of("files/students_data_buffered.csv");
     //writeWithBufferedWriter(bufferedFilePath, students);
 
-    renameFile();
+    //renameFile();
+
+    createDirectoryAndMoveFile();
+  }
+
+  private static void createDirectoryAndMoveFile() {
+    Path oldPath = Path.of("test.csv");
+    Path newPath = Path.of("newFilesPath/test.csv");
+    try {
+      Files.createDirectories(newPath.getParent());
+      Files.move(oldPath, newPath);
+    } catch (IOException e) {
+      log.error("Error moving file", e);
+    }
   }
 
   private static void renameFile() {
