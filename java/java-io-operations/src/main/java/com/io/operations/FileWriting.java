@@ -25,7 +25,7 @@ public class FileWriting {
     //writeWithFileWriter(filePath, students);
 
     // Write using BufferedWriter
-    Path bufferedFilePath = Path.of("files/students_data_buffered.csv");
+    //Path bufferedFilePath = Path.of("files/students_data_buffered.csv");
     //writeWithBufferedWriter(bufferedFilePath, students);
 
     //renameFile();
@@ -33,7 +33,7 @@ public class FileWriting {
     //createDirectoryAndMoveFile();
 
     // Example usage of recursive deletion
-    Path directoryToDelete = Path.of("newFilesPath");
+    Path directoryToDelete = Path.of("filesToDelete");
     deleteDirectoryRecursively(directoryToDelete);
 
   }
@@ -57,7 +57,7 @@ public class FileWriting {
           .forEach(path -> {
             try {
               Files.delete(path);
-              log.debug("Deleted: {}", path);
+              log.info("Deleted: {}", path);
             } catch (IOException e) {
               log.error("Failed to delete: {}", path, e);
               throw new UncheckedIOException(e);
