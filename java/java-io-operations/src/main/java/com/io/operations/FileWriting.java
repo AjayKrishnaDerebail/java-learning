@@ -2,13 +2,16 @@ package com.io.operations;
 
 import com.io.model.Student;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public class FileWriting {
 
   public static void main(String[] args) {
@@ -16,11 +19,37 @@ public class FileWriting {
     String filePath = "files/students_data.csv";
 
     // Write using FileWriter
-    writeWithFileWriter(filePath, students);
+    //writeWithFileWriter(filePath, students);
 
     // Write using BufferedWriter
     Path bufferedFilePath = Path.of("files/students_data_buffered.csv");
-    writeWithBufferedWriter(bufferedFilePath, students);
+    //writeWithBufferedWriter(bufferedFilePath, students);
+
+    renameFile();
+  }
+
+  private static void renameFile() {
+    boolean renamed = false;
+    File oldFile = new File("files/test2.csv");
+    File newFile = new File("files/test3.csv");
+    if (oldFile.exists()) {
+      renamed = oldFile.renameTo(newFile);
+    }
+    log.info(renamed ? "File renamed" : "File not renamed");
+
+    // This is not preferred as java.io classes dont throw exceptions
+
+    Path oldFilePath = Path.of("files/test3.csv");
+    Path newFilePath = Path.of("files/test4.csv");
+    if (Files.exists(oldFilePath)) {
+      try {
+        Files.move(oldFilePath, newFilePath);
+        log.info("File renamed using java.nio classes");
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    }
+
   }
 
   /**
