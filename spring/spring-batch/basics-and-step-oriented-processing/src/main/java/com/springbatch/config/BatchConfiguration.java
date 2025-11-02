@@ -6,7 +6,6 @@ import com.springbatch.listener.CustomStepExecutionListener;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.StepExecutionListener;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
@@ -20,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @EnableBatchProcessing
+@SuppressWarnings("unused")
 public class BatchConfiguration {
   @Autowired
   private JobBuilderFactory jobBuilderFactory;
@@ -27,16 +27,13 @@ public class BatchConfiguration {
   @Autowired
   private StepBuilderFactory stepBuilderFactory;
 
-  @Bean
-  public StepExecutionListener customStepExecutionListener(){
-      return new CustomStepExecutionListener();
-  }
+  @Autowired
+  private CustomStepExecutionListener customStepExecutionListener;
 
   @Bean
   public JobExecutionDecider customJobExecutionDecider(){
     return new CustomJobExecutionDecider();
   }
-
   @Bean
   public Step firstStep() {
     return this.stepBuilderFactory
@@ -66,7 +63,7 @@ public class BatchConfiguration {
               System.out.println("Step 2 executed");
               return RepeatStatus.FINISHED;
             })
-        .listener(customStepExecutionListener()) // CustomStepExecutionListener
+        .listener(customStepExecutionListener) // CustomStepExecutionListener
         .build();
   }
 
@@ -138,8 +135,8 @@ public class BatchConfiguration {
           .on("FAILED")
           .to(fourthStep())
         .from(secondStep())
-        .on("*") // catch all
-        .to(fifthStep())
+          .on("*") // catch all
+          .to(fifthStep())
         .end()
         .build();
         // on to from, on to from ,...... , on to end.
