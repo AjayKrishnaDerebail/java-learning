@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@SuppressWarnings("unused")
 public class JobLaunchController {
 
-  private JobLauncher jobLauncher;
+  private final JobLauncher jobLauncher;
 
   @Autowired
   JobLaunchController(JobLauncher jobLauncher) {
