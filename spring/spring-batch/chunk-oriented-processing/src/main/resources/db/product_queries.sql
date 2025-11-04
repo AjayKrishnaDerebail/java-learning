@@ -1,5 +1,5 @@
 -- Create the product table
-CREATE TABLE IF NOT EXISTS products
+CREATE TABLE IF NOT EXISTS product
 (
     product_id
     INT
