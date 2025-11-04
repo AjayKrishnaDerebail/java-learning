@@ -41,7 +41,6 @@ public class JobLaunchController {
     logger.info("Received request to launch job with id: {}", id);
     try {
       JobParameters jobParameters = new JobParametersBuilder()
-          .addString("jobId", "JobInstanceId:" + System.currentTimeMillis())
           .addString("id", id)
           .toJobParameters();
 
