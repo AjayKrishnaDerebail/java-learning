@@ -11,11 +11,14 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import javax.sql.DataSource;
+import lombok.NonNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
-import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
-import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
+import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.repository.JobRepository;
+import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.ItemWriter;
@@ -38,28 +41,23 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @EnableBatchProcessing
+@SuppressWarnings("unused")
 public class BatchConfiguration {
-  private JobBuilderFactory jobBuilderFactory;
 
-  private StepBuilderFactory stepBuilderFactory;
-
-  private DataSource datasource;
-
-  @Autowired
-  public void setStepBuilderFactory(StepBuilderFactory stepBuilderFactory) {
-    this.stepBuilderFactory = stepBuilderFactory;
-  }
+  private final DataSource datasource;
+  private final JobRepository jobRepository;
+  private final PlatformTransactionManager transactionManager;
 
   @Autowired
-  public void setJobBuilderFactory(JobBuilderFactory jobBuilderFactory) {
-    this.jobBuilderFactory = jobBuilderFactory;
-  }
-  @Autowired
-  public void setDatasource(DataSource datasource) {
+  public BatchConfiguration(DataSource datasource, JobRepository jobRepository,
+      PlatformTransactionManager transactionManager) {
     this.datasource = datasource;
+    this.jobRepository = jobRepository;
+    this.transactionManager = transactionManager;
   }
 
   @Bean
@@ -79,17 +77,17 @@ public class BatchConfiguration {
 
   /**
    * Creates and configures an ItemReader that reads Product data from a CSV file.
-   * 
+   *
    * <p>This reader is responsible for:
+   *
    * <ul>
-   *   <li>Reading data from 'data/ecommerceDevices.csv'</li>
-   *   <li>Skipping the header row (line 1)</li>
-   *   <li>Parsing each line into a Product object</li>
-   *   <li>Handling CSV format with comma delimiters</li>
+   *   <li>Reading data from 'data/ecommerceDevices.csv'
+   *   <li>Skipping the header row (line 1)
+   *   <li>Parsing each line into a Product object
+   *   <li>Handling CSV format with comma delimiters
    * </ul>
-   * 
+   *
    * @return Configured ItemReader that produces Product objects
-   * 
    * @see Product
    * @see FlatFileItemReader
    * @see DefaultLineMapper
@@ -98,51 +96,51 @@ public class BatchConfiguration {
   public ItemReader<Product> flatFileItemReader() {
     // Create a reader for Product objects
     FlatFileItemReader<Product> itemReader = new FlatFileItemReader<>();
-    
+
     // Configure the CSV file location and skip the header row
-    itemReader.setLinesToSkip(1);  // Skip header row
+    itemReader.setLinesToSkip(1); // Skip header row
     itemReader.setResource(new ClassPathResource("data/ecommerceDevices.csv"));
 
     // Create a line mapper to convert each line into a Product object
     DefaultLineMapper<Product> lineMapper = new DefaultLineMapper<>();
-    
+
     // Configure the tokenizer to parse CSV lines
     DelimitedLineTokenizer lineTokenizer = new DelimitedLineTokenizer();
-    
+
     // Map CSV columns to fields (must match CSV header exactly)
     lineTokenizer.setNames("product_id", "product_name", "product_category", "product_price");
-    lineTokenizer.setDelimiter(",");  // Set CSV delimiter
-    lineTokenizer.setStrict(false);     // Be lenient with line parsing
+    lineTokenizer.setDelimiter(","); // Set CSV delimiter
+    lineTokenizer.setStrict(false); // Be lenient with line parsing
 
     // Set the tokenizer to the line mapper
     lineMapper.setLineTokenizer(lineTokenizer);
-    
+
     // Configure how to map tokenized fields to a Product object
     lineMapper.setFieldSetMapper(
         fieldSet -> {
           // Create a new Product instance for each line
           Product product = new Product();
-          
+
           // Map each CSV column to the corresponding Product field
           // Note: Field names must match those in the CSV header
           product.setProductId(fieldSet.readLong("product_id"));
           product.setProductName(fieldSet.readString("product_name"));
           product.setProductCategory(fieldSet.readString("product_category"));
           product.setProductPrice(fieldSet.readDouble("product_price"));
-          
+
           return product;
         });
 
     // Set the configured line mapper to the reader
     itemReader.setLineMapper(lineMapper);
-    
+
     return itemReader;
   }
 
   /**
-   * Creates and configures a JdbcCursorItemReader to read Product data from the database.
-   * The reader fetches product records ordered by product_id and maps them to Product objects
-   * using a ProductRowMapper.
+   * Creates and configures a JdbcCursorItemReader to read Product data from the database. The
+   * reader fetches product records ordered by product_id and maps them to Product objects using a
+   * ProductRowMapper.
    *
    * @return Configured ItemReader instance for Product objects
    * @see Product
@@ -152,18 +150,19 @@ public class BatchConfiguration {
   public ItemReader<Product> jdbcCursorItemReader() {
     // Create a new JDBC cursor reader for a Product type
     JdbcCursorItemReader<Product> itemReader = new JdbcCursorItemReader<>();
-    
+
     // Set the data source for database connection
     itemReader.setDataSource(datasource);
-    
+
     // Define the SQL query to fetch products, ordered by product_id
-    String sql = "SELECT product_id, product_name, product_category, product_price " +
-                "FROM products ORDER BY product_id";
+    String sql =
+        "SELECT product_id, product_name, product_category, product_price "
+            + "FROM products ORDER BY product_id";
     itemReader.setSql(sql);
-    
+
     // Configure the row mapper to convert ResultSet rows into Product objects
     itemReader.setRowMapper(new ProductRowMapper());
-    
+
     return itemReader;
   }
 
@@ -224,11 +223,13 @@ public class BatchConfiguration {
   @Bean
   public FlatFileItemWriter<Product> itemWriter() {
     FlatFileItemWriter<Product> itemWriter = new FlatFileItemWriter<>();
-    itemWriter.setResource(new FileSystemResource("src/main/resources/data/ecommerceDevicesOutput.csv"));
+    itemWriter.setResource(
+        new FileSystemResource("src/main/resources/data/ecommerceDevicesOutput.csv"));
     DelimitedLineAggregator<Product> lineAggregator = new DelimitedLineAggregator<>();
     lineAggregator.setDelimiter(",");
     BeanWrapperFieldExtractor<Product> fieldExtractor = new BeanWrapperFieldExtractor<>();
-    fieldExtractor.setNames(new String[] { "productId", "productName", "productCategory", "productPrice" });
+    fieldExtractor.setNames(
+        new String[] {"productId", "productName", "productCategory", "productPrice"});
     lineAggregator.setFieldExtractor(fieldExtractor);
     itemWriter.setLineAggregator(lineAggregator);
     return itemWriter;
@@ -259,15 +260,14 @@ public class BatchConfiguration {
     // Set the data source for database connection
     itemWriter.setDataSource(datasource);
     /**
-     * Configure the SQL insert statement
-     * Note: Column order must match the parameter indexes in the setValues method
-     *
+     * Configure the SQL insert statement Note: Column order must match the parameter indexes in the
+     * setValues method
      */
-      itemWriter.setSql(
+    itemWriter.setSql(
         "INSERT INTO product_details_output "
             + "(product_id, product_name, product_category, product_price) VALUES (?, ?, ?, ?)");
-     /* Configure the parameter mapping using a lambda expression */
-        itemWriter.setItemPreparedStatementSetter(
+    /* Configure the parameter mapping using a lambda expression */
+    itemWriter.setItemPreparedStatementSetter(
         (item, ps) -> {
           // Map Product fields to prepared statement parameters
           // Parameter indices are 1-based
@@ -277,27 +277,26 @@ public class BatchConfiguration {
           ps.setDouble(4, item.getProductPrice()); // product_price
         });
 
+    /*
+    *
+      Configure the SQL insert statement with named parameters
+      The parameter names must match the property names of the Product class
+    */
+
+    /*    itemWriter.setSql("INSERT INTO product_details_output
+    (product_id, product_name, product_category, product_price) "
+        + "VALUES (:productId, :productName, :productCategory, :productPrice)");*/
+
+    /**
+     * Configure the parameter source provider to automatically map JavaBean properties to the named
+     * parameters in the SQL query. This will automatically match the getter methods of the Product
+     * class (getProductId(), getProductName(), etc.) with the corresponding named parameters in the
+     * SQL query.
+     */
 
     /*
-     *
-       Configure the SQL insert statement with named parameters
-       The parameter names must match the property names of the Product class
-     */
-
-/*    itemWriter.setSql("INSERT INTO product_details_output
-        (product_id, product_name, product_category, product_price) "
-            + "VALUES (:productId, :productName, :productCategory, :productPrice)");*/
-            
-    /**
-      Configure the parameter source provider to automatically map JavaBean properties
-      to the named parameters in the SQL query. This will automatically match the
-      getter methods of the Product class (getProductId(), getProductName(), etc.)
-      with the corresponding named parameters in the SQL query.
-     */
-
-/*
-    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
-*/
+        itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+    */
     return itemWriter;
   }
 
@@ -317,7 +316,8 @@ public class BatchConfiguration {
             + "VALUES (:productId, :productName, :productCategory, :productPrice, "
             + ":taxPercent, :sku, :shippingRate)");
 
-    itemWriter.setItemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>());
+    itemWriter.setItemSqlParameterSourceProvider(
+        new BeanPropertyItemSqlParameterSourceProvider<>());
     return itemWriter;
   }
 
@@ -353,16 +353,15 @@ public class BatchConfiguration {
 
   @Bean
   public Step firstStep() {
-    return this.stepBuilderFactory
-        .get("chunkBasedFirstStep")
-        .<String, String>chunk(2)
+    return new StepBuilder("chunkBasedFirstStep", jobRepository)
+        .<String, String>chunk(2, transactionManager)
         .reader(itemReader())
         .writer(
             new ItemWriter<>() {
               @Override
-              public void write(List<? extends String> items) {
+              public void write(@NonNull Chunk<? extends String> chunk) {
                 System.out.println("Chunk processing started");
-                items.forEach(System.out::println);
+                chunk.forEach(System.out::println);
                 System.out.println("Chunk processing ended");
               }
             })
@@ -371,9 +370,8 @@ public class BatchConfiguration {
 
   @Bean
   public Step secondStep() {
-    return this.stepBuilderFactory
-        .get("chunkBasedSecondStep")
-        .<Product, Product>chunk(2)
+    return new StepBuilder("chunkBasedSecondStep", jobRepository)
+        .<Product, Product>chunk(2, transactionManager)
         .reader(flatFileItemReader())
         .processor(validatingItemProcessor())
         .writer(
@@ -387,9 +385,8 @@ public class BatchConfiguration {
 
   @Bean
   public Step thirdStep() {
-    return this.stepBuilderFactory
-        .get("chunkBasedThirdStep")
-        .<Product, Product>chunk(2)
+    return new StepBuilder("chunkBasedThirdStep", jobRepository)
+        .<Product, Product>chunk(2, transactionManager)
         .reader(jdbcCursorItemReader())
         .processor(beanValidatingItemProcessor())
         .writer(
@@ -404,20 +401,18 @@ public class BatchConfiguration {
   @Bean
   public Step fourthStep() throws Exception {
     System.out.println("Executing step 4");
-    return this.stepBuilderFactory
-        .get("chunkBasedFourthStep")
-        .<Product, Product>chunk(2)
+    return new StepBuilder("chunkBasedFourthStep", jobRepository)
+        .<Product, Product>chunk(2, transactionManager)
         .reader(jdbcPagingItemItemReader())
         .processor(filterItemProcessor())
-        .writer(jdbcBatchItemWriter()) // ✅ Let Spring Batch manage opening/writing/closing
+        .writer(jdbcBatchItemWriter())
         .build();
   }
 
   @Bean
   public Step fifthStep() throws Exception {
-    return this.stepBuilderFactory
-        .get("chunkBasedFourthStep")
-        .<Product, OnlineSalesProduct>chunk(2)
+    return new StepBuilder("chunkBasedFourthStep", jobRepository)
+        .<Product, OnlineSalesProduct>chunk(2, transactionManager)
         .reader(jdbcPagingItemItemReader())
         .processor(itemProcessor())
         .writer(jdbcBatchItemWriterForTransformationDemo())
@@ -425,26 +420,27 @@ public class BatchConfiguration {
   }
 
   @Bean
-  public Step sixthStep() throws Exception {
-    return this.stepBuilderFactory
-        .get("chunkBasedSixthStep")
-        .<Product, Product>chunk(2)
+  public Step sixthStep(
+      JobRepository jobRepository, PlatformTransactionManager platformTransactionManager)
+      throws Exception {
+    return new StepBuilder("chunkBasedSixthStep", jobRepository)
+        .<Product, Product>chunk(2, platformTransactionManager)
         .reader(jdbcPagingItemItemReader())
         .processor(compositeItemProcessor())
         .writer(jdbcBatchItemWriter())
         .build();
   }
 
-
-  @Bean
-  public Job firstJob() throws Exception {
-    return this.jobBuilderFactory
-        .get("firstJob")
+  @Bean(name = "firstJob")
+  public Job firstJob(
+      JobRepository jobRepository, PlatformTransactionManager platformTransactionManager)
+      throws Exception {
+    return new JobBuilder("firstJob", jobRepository)
         // .start(firstStep())
-        //.start(secondStep())
-        //.start(thirdStep())
-        //.start(fifthStep())
-        .start(sixthStep())
+        // .start(secondStep())
+        // .start(thirdStep())
+        // .start(fifthStep())
+        .start(sixthStep(jobRepository, platformTransactionManager))
         .build();
   }
 }
