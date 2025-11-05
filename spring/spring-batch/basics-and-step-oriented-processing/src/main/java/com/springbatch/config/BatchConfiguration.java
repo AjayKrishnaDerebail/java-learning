@@ -45,7 +45,6 @@ public class BatchConfiguration {
 
   @Bean
   public Step firstStep() {
-    log.info("Executing first step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("firstStep", jobRepository)
         .tasklet(
             new Tasklet() {
@@ -53,7 +52,7 @@ public class BatchConfiguration {
               public RepeatStatus execute(
                   @NonNull final StepContribution stepContribution,
                   @NonNull final ChunkContext chunkContext) {
-                System.out.println("Step 1 executed");
+                log.info("Executing first step on thread : {}" , Thread.currentThread().getName());
                 return RepeatStatus.FINISHED;
               }
             },
@@ -63,15 +62,14 @@ public class BatchConfiguration {
 
   @Bean
   public Step secondStep() {
-    log.info("Executing second step on thread : {}" , Thread.currentThread().getName());
     //boolean isSuccess = false;
     return new StepBuilder("secondStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
+              log.info("Executing second step on thread : {}" , Thread.currentThread().getName());
               /*if (isSuccess) {
                 throw new Exception("Testing exception");
               }*/
-              System.out.println("Step 2 executed");
               return RepeatStatus.FINISHED;
             },
             transactionManager)
@@ -81,11 +79,10 @@ public class BatchConfiguration {
 
   @Bean
   public Step thirdStep() {
-    log.info("Executing third step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("thirdStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
-              System.out.println("Step 3 executed");
+              log.info("Executing third step on thread : {}" , Thread.currentThread().getName());
               return RepeatStatus.FINISHED;
             },
             transactionManager)
@@ -94,11 +91,10 @@ public class BatchConfiguration {
 
   @Bean
   public Step fourthStep() {
-    log.info("Executing fourth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("fourthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
-              System.out.println("Step 4 executed");
+              log.info("Executing fourth step on thread : {}" , Thread.currentThread().getName());
               return RepeatStatus.FINISHED;
             },
             transactionManager)
@@ -107,11 +103,10 @@ public class BatchConfiguration {
 
   @Bean
   public Step fifthStep() {
-    log.info("Executing fifth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("fifthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
-              System.out.println("Step 5 executed");
+              log.info("Executing fifth step on thread : {}" , Thread.currentThread().getName());
               return RepeatStatus.FINISHED;
             },
             transactionManager)
@@ -120,11 +115,10 @@ public class BatchConfiguration {
 
   @Bean
   public Step sixthStep() {
-    log.info("Executing sixth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("sixthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
-              System.out.println("Step 6 executed");
+              log.info("Executing sixth step on thread : {}" , Thread.currentThread().getName());
               return RepeatStatus.FINISHED;
             },
             transactionManager)
@@ -133,7 +127,6 @@ public class BatchConfiguration {
 
   @Bean
   public Flow firstFlow(Step thirdStep , Step fourthStep){
-    log.info("Executing first flow on thread : {}" , Thread.currentThread().getName());
     FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("firstFlow");
     flowBuilder.start(thirdStep)
         .next(fourthStep)
@@ -143,8 +136,7 @@ public class BatchConfiguration {
 
   @Bean
   public Flow secondFlow(Step fifthStep , Step sixthStep){
-    log.info("Executing second flow on thread : {}" , Thread.currentThread().getName());
-    FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("firstFlow");
+    FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("secondFlow");
     flowBuilder.start(fifthStep)
         .next(sixthStep)
         .end();
