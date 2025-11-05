@@ -123,23 +123,23 @@ public class BatchConfiguration {
 
 
   @Bean
-  public Job firstJob() {
+  public Job firstJob(Step firstStep , Step secondStep , Step thirdStep , Step fourthStep , Step fifthStep) {
     return new JobBuilder("firstJob",jobRepository)
-        .start(firstStep())
+        .start(firstStep)
           .on("COMPLETED")
           .to(customJobExecutionDecider())
           .from(customJobExecutionDecider())
           .on("TEST_DECIDER_STATUS") // the status is not persisted in DB in case of JobExecutionDecider
-          .to(secondStep())
+          .to(secondStep)
           .from(secondStep()) //conditional flow
             .on("TEST_LISTENER_STATUS")
-            .to(thirdStep())
-          .from(secondStep()) //conditional flow
+            .to(thirdStep)
+          .from(secondStep) //conditional flow
             .on("FAILED")
-            .to(fourthStep())
-          .from(secondStep())
+            .to(fourthStep)
+          .from(secondStep)
             .on("*") // catch all
-            .to(fifthStep())
+            .to(fifthStep)
           .end()
         .build();
     // on to from, on to from ,...... , on to end.
