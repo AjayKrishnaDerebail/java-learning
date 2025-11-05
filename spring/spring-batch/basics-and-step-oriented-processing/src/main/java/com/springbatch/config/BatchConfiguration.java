@@ -6,9 +6,7 @@ import lombok.NonNull;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
-import org.springframework.batch.core.job.builder.FlowBuilder;
 import org.springframework.batch.core.job.builder.JobBuilder;
-import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -59,13 +57,13 @@ public class BatchConfiguration {
 
   @Bean
   public Step secondStep() {
-    boolean isSuccess = false;
+    //boolean isSuccess = false;
     return new StepBuilder("secondStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
-              if (isSuccess) {
+              /*if (isSuccess) {
                 throw new Exception("Testing exception");
-              }
+              }*/
               System.out.println("Step 2 executed");
               return RepeatStatus.FINISHED;
             },
@@ -122,30 +120,28 @@ public class BatchConfiguration {
         .build();
   }
 
+
+
   @Bean
   public Job firstJob() {
-    FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("jobFlow");
-
-    // Define the flow
-    Flow flow =
-        flowBuilder
-            .start(firstStep())
-            .on("COMPLETED")
-            .to(customJobExecutionDecider())
-            .from(customJobExecutionDecider())
-            .on("TEST_DECIDER_STATUS")
-            .to(secondStep())
-            .from(secondStep())
+    return new JobBuilder("firstJob",jobRepository)
+        .start(firstStep())
+          .on("COMPLETED")
+          .to(customJobExecutionDecider())
+          .from(customJobExecutionDecider())
+          .on("TEST_DECIDER_STATUS") // the status is not persisted in DB in case of JobExecutionDecider
+          .to(secondStep())
+          .from(secondStep()) //conditional flow
             .on("TEST_LISTENER_STATUS")
             .to(thirdStep())
-            .from(secondStep())
+          .from(secondStep()) //conditional flow
             .on("FAILED")
             .to(fourthStep())
-            .from(secondStep())
-            .on("*")
+          .from(secondStep())
+            .on("*") // catch all
             .to(fifthStep())
-            .end();
-
-    return new JobBuilder("firstJob", jobRepository).start(flow).end().build();
+          .end()
+        .build();
+    // on to from, on to from ,...... , on to end.
   }
 }
