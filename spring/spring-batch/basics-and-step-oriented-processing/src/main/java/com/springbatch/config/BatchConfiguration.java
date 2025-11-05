@@ -3,10 +3,13 @@ package com.springbatch.config;
 import com.springbatch.decider.CustomJobExecutionDecider;
 import com.springbatch.listener.CustomStepExecutionListener;
 import lombok.NonNull;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
+import org.springframework.batch.core.job.builder.FlowBuilder;
 import org.springframework.batch.core.job.builder.JobBuilder;
+import org.springframework.batch.core.job.flow.Flow;
 import org.springframework.batch.core.job.flow.JobExecutionDecider;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.scope.context.ChunkContext;
@@ -16,10 +19,12 @@ import org.springframework.batch.repeat.RepeatStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @SuppressWarnings("unused")
+@Slf4j
 public class BatchConfiguration {
 
   private final JobRepository jobRepository;
@@ -40,6 +45,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step firstStep() {
+    log.info("Executing first step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("firstStep", jobRepository)
         .tasklet(
             new Tasklet() {
@@ -57,6 +63,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step secondStep() {
+    log.info("Executing second step on thread : {}" , Thread.currentThread().getName());
     //boolean isSuccess = false;
     return new StepBuilder("secondStep", jobRepository)
         .tasklet(
@@ -74,6 +81,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step thirdStep() {
+    log.info("Executing third step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("thirdStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
@@ -86,6 +94,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step fourthStep() {
+    log.info("Executing fourth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("fourthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
@@ -98,6 +107,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step fifthStep() {
+    log.info("Executing fifth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("fifthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
@@ -110,6 +120,7 @@ public class BatchConfiguration {
 
   @Bean
   public Step sixthStep() {
+    log.info("Executing sixth step on thread : {}" , Thread.currentThread().getName());
     return new StepBuilder("sixthStep", jobRepository)
         .tasklet(
             (stepContribution, chunkContext) -> {
@@ -120,10 +131,29 @@ public class BatchConfiguration {
         .build();
   }
 
+  @Bean
+  public Flow firstFlow(Step thirdStep , Step fourthStep){
+    log.info("Executing first flow on thread : {}" , Thread.currentThread().getName());
+    FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("firstFlow");
+    flowBuilder.start(thirdStep)
+        .next(fourthStep)
+        .end();
+    return flowBuilder.build();
+  }
 
+  @Bean
+  public Flow secondFlow(Step fifthStep , Step sixthStep){
+    log.info("Executing second flow on thread : {}" , Thread.currentThread().getName());
+    FlowBuilder<Flow> flowBuilder = new FlowBuilder<>("firstFlow");
+    flowBuilder.start(fifthStep)
+        .next(sixthStep)
+        .end();
+    return flowBuilder.build();
+  }
 
   @Bean
   public Job firstJob(Step firstStep , Step secondStep , Step thirdStep , Step fourthStep , Step fifthStep) {
+    log.info("Executing firstJob");
     return new JobBuilder("firstJob",jobRepository)
         .start(firstStep)
           .on("COMPLETED")
@@ -143,5 +173,32 @@ public class BatchConfiguration {
           .end()
         .build();
     // on to from, on to from ,...... , on to end.
+  }
+
+  @Bean
+  public Job secondJob(
+      Step firstStep, Step secondStep, Flow firstFlow, Step fifthStep, Step sixthStep) {
+    log.info("Executing secondJob");
+    return new JobBuilder("secondJob", jobRepository)
+        .start(firstStep)
+        .next(secondStep)
+        .on("TEST_LISTENER_STATUS")
+        .to(firstFlow)
+        .next(fifthStep)
+        .next(sixthStep)
+        .end()
+        .build();
+  }
+
+  @Bean
+  public Job thirdJob(
+      Step firstStep, Step secondStep, Flow firstFlow, Flow secondFlow) {
+    log.info("Executing thirdJob");
+    return new JobBuilder("thirdJob", jobRepository)
+          .start(firstStep)
+          .split(new SimpleAsyncTaskExecutor())
+          .add(firstFlow,secondFlow)
+          .end()
+        .build();
   }
 }
