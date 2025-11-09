@@ -1,10 +1,12 @@
 package com.springbatch.config;
 
 import com.springbatch.decider.CustomJobExecutionDecider;
+import com.springbatch.listener.CustomJobExecutionListener;
 import com.springbatch.listener.CustomStepExecutionListener;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.StepContribution;
 import org.springframework.batch.core.job.builder.FlowBuilder;
@@ -41,6 +43,11 @@ public class BatchConfiguration {
   @Bean
   public JobExecutionDecider customJobExecutionDecider() {
     return new CustomJobExecutionDecider();
+  }
+
+  @Bean
+  public JobExecutionListener customJobExecutionListener() {
+    return new CustomJobExecutionListener();
   }
 
   @Bean
@@ -184,9 +191,14 @@ public class BatchConfiguration {
 
   @Bean
   public Job thirdJob(
-      Step firstStep, Step secondStep, Flow firstFlow, Flow secondFlow) {
+      Step firstStep,
+      Step secondStep,
+      Flow firstFlow,
+      Flow secondFlow,
+      JobExecutionListener customJobExecutionListener) {
     log.info("Executing thirdJob");
     return new JobBuilder("thirdJob", jobRepository)
+          .listener(customJobExecutionListener)
           .start(firstStep)
           .split(new SimpleAsyncTaskExecutor())
           .add(firstFlow,secondFlow)

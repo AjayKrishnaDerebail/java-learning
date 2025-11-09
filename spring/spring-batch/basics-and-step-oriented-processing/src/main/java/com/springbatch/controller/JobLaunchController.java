@@ -32,7 +32,6 @@ public class JobLaunchController {
   @Qualifier("thirdJob")
   private Job job;
 
-/* <<<<<<<<<<<<<<  ✨ Windsurf Command ⭐ >>>>>>>>>>>>>>>> */
   /**
    * Launch a job with the given id.
    * @param id the id to pass as a job parameter
@@ -42,7 +41,6 @@ public class JobLaunchController {
    * @throws JobParametersInvalidException if the job parameters are invalid
    * @throws JobRestartException if the job instance cannot be restarted
    */
-/* <<<<<<<<<<  fbc5963f-ef8b-4b17-ba69-f8fc7b30adcf  >>>>>>>>>>> */
   @GetMapping("/launchJob/{id}")
   public ResponseEntity<String> launchJob(@PathVariable("id") String id)
       throws JobInstanceAlreadyCompleteException, JobExecutionAlreadyRunningException,
