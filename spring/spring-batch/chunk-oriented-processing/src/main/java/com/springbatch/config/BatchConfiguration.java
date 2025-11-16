@@ -1,5 +1,6 @@
 package com.springbatch.config;
 
+import com.springbatch.listener.MySkipListener;
 import com.springbatch.mapper.ProductRowMapper;
 import com.springbatch.model.OnlineSalesProduct;
 import com.springbatch.model.Product;
@@ -29,6 +30,7 @@ import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
@@ -59,6 +61,11 @@ public class BatchConfiguration {
     this.datasource = datasource;
     this.jobRepository = jobRepository;
     this.transactionManager = transactionManager;
+  }
+
+  @Bean
+  public MySkipListener skipListener(){
+    return new MySkipListener();
   }
 
   @Bean
@@ -431,7 +438,9 @@ public class BatchConfiguration {
         .writer(jdbcBatchItemWriter())
         .faultTolerant()
         .skip(ValidationException.class)
-        .skipLimit(2)
+        .skip(FlatFileParseException.class)
+        .skipLimit(3)
+        .listener(skipListener())
         .build();
   }
 

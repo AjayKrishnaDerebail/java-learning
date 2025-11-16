@@ -1,0 +1,1 @@
+Failed Item: Product{productId=7, productName='Samsung Galaxy S24', productCategory='Smartphones', productPrice=-100000.0}
