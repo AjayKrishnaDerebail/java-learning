@@ -8,6 +8,7 @@ import com.springbatch.processor.FilterItemProcessor;
 import com.springbatch.processor.ProductItemProcessor;
 import com.springbatch.processor.ProductValidatingProcessor;
 import com.springbatch.reader.ProductNameItemReader;
+import com.springbatch.skipPolicy.MySkipPolicy;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,7 +31,6 @@ import org.springframework.batch.item.database.JdbcPagingItemReader;
 import org.springframework.batch.item.database.support.SqlPagingQueryProviderFactoryBean;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
-import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.batch.item.file.mapping.DefaultLineMapper;
 import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
 import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
@@ -38,7 +38,6 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
-import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -66,6 +65,11 @@ public class BatchConfiguration {
   @Bean
   public MySkipListener skipListener(){
     return new MySkipListener();
+  }
+
+  @Bean
+  public MySkipPolicy skipPolicy(){
+    return new MySkipPolicy();
   }
 
   @Bean
@@ -429,17 +433,17 @@ public class BatchConfiguration {
 
   @Bean
   public Step sixthStep(
-      JobRepository jobRepository, PlatformTransactionManager platformTransactionManager)
-      throws Exception {
+      JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
     return new StepBuilder("chunkBasedSixthStep", jobRepository)
         .<Product, Product>chunk(2, platformTransactionManager)
         .reader(flatFileItemReader())
         .processor(compositeItemProcessor())
         .writer(jdbcBatchItemWriter())
         .faultTolerant()
-        .skip(ValidationException.class)
-        .skip(FlatFileParseException.class)
-        .skipLimit(3)
+        //.skip(ValidationException.class)
+        //.skip(FlatFileParseException.class)
+        //.skipLimit(3) if policy is configured then no need of this
+        .skipPolicy(skipPolicy())
         .listener(skipListener())
         .build();
   }
