@@ -36,6 +36,7 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.support.CompositeItemProcessor;
 import org.springframework.batch.item.validator.BeanValidatingItemProcessor;
 import org.springframework.batch.item.validator.ValidatingItemProcessor;
+import org.springframework.batch.item.validator.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -245,7 +246,7 @@ public class BatchConfiguration {
    * <ul>
    *   <li>Uses JDBC batch processing for efficient bulk inserts
    *   <li>Maps Product object fields to prepared statement parameters
-   *   <li>Requires a table named 'product_details_output' with matching column order
+   *   <li>Requires a table named 'products' with matching column order
    * </ul>
    *
    * @return Configured JdbcBatchItemWriter instance for Product objects
@@ -264,7 +265,7 @@ public class BatchConfiguration {
      * setValues method
      */
     itemWriter.setSql(
-        "INSERT INTO product_details_output "
+        "INSERT INTO products"
             + "(product_id, product_name, product_category, product_price) VALUES (?, ?, ?, ?)");
     /* Configure the parameter mapping using a lambda expression */
     itemWriter.setItemPreparedStatementSetter(
@@ -330,7 +331,7 @@ public class BatchConfiguration {
   public ValidatingItemProcessor<Product> validatingItemProcessor() {
     ValidatingItemProcessor<Product> validatingItemProcessor =
         new ValidatingItemProcessor<>(new ProductValidatingProcessor());
-    validatingItemProcessor.setFilter(true);
+    //validatingItemProcessor.setFilter(true);
     return validatingItemProcessor;
   }
 
@@ -425,9 +426,12 @@ public class BatchConfiguration {
       throws Exception {
     return new StepBuilder("chunkBasedSixthStep", jobRepository)
         .<Product, Product>chunk(2, platformTransactionManager)
-        .reader(jdbcPagingItemItemReader())
+        .reader(flatFileItemReader())
         .processor(compositeItemProcessor())
         .writer(jdbcBatchItemWriter())
+        .faultTolerant()
+        .skip(ValidationException.class)
+        .skipLimit(2)
         .build();
   }
 

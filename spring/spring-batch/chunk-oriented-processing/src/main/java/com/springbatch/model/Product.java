@@ -1,11 +1,11 @@
 package com.springbatch.model;
 
+import jakarta.validation.constraints.Min;
 import java.util.Objects;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import jakarta.validation.constraints.Pattern;
 
 
 @NoArgsConstructor
@@ -15,8 +15,9 @@ import jakarta.validation.constraints.Pattern;
 public class Product {
   private Long productId;
   private String productName;
-  @Pattern(regexp = "Furniture|Televisions")
+  //@Pattern(regexp = "Furniture|Televisions")
   private String productCategory;
+  @Min(0)
   private Double productPrice;
 
   @Override
