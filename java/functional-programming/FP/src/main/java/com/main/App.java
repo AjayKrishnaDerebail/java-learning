@@ -18,11 +18,13 @@ public class App {
 
     /* Section 5 */
 
-    val declarativeStyleList = ImperativeVsDeclarative.getNonDuplicateListDeclarativeStyle();
-    val imperativeStyleList = ImperativeVsDeclarative.getNonDuplicateListImperativeStyle();
+    {
+      val declarativeStyleList = ImperativeVsDeclarative.getNonDuplicateListDeclarativeStyle();
+      val imperativeStyleList = ImperativeVsDeclarative.getNonDuplicateListImperativeStyle();
 
-    log.info("{}", declarativeStyleList);
-    log.info("{}", imperativeStyleList);
+      log.info("{}", declarativeStyleList);
+      log.info("{}", imperativeStyleList);
+    }
 
     /* Section 6 */
 
