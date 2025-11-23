@@ -26,26 +26,29 @@ public class App {
 
     /* Section 6 */
 
-    //Runnable
+    {
 
-    Thread t1 = new Thread(new RunnableExample());
-    t1.start();
+      //Runnable
 
-    final Runnable runnableLambda = () -> log.info("Inside runnable lambda");
+      Thread t1 = new Thread(new RunnableExample());
+      t1.start();
 
-    new Thread(runnableLambda).start();
+      final Runnable runnableLambda = () -> log.info("Inside runnable lambda");
 
-    //Comparator
+      new Thread(runnableLambda).start();
 
-    Comparator<Integer> integerComparator = (x, y) -> x.compareTo(y); //Integer::compareTo
+      //Comparator
 
-    log.info("{}", integerComparator.compare(5, 10));
+      Comparator<Integer> integerComparator = (x, y) -> x.compareTo(y); //Integer::compareTo
 
-    log.info("{}", integerComparator.compare(10, 5));
+      log.info("{}", integerComparator.compare(5, 10));
 
-    Comparator<Integer> integerComparatorWithNaturalOrderMethodReference = Comparator.naturalOrder();
+      log.info("{}", integerComparator.compare(10, 5));
 
-    log.info("{}", integerComparatorWithNaturalOrderMethodReference.compare(5, 5));
+      Comparator<Integer> integerComparatorWithNaturalOrderMethodReference = Comparator.naturalOrder();
+
+      log.info("{}", integerComparatorWithNaturalOrderMethodReference.compare(5, 5));
+    }
   }
 
 }
