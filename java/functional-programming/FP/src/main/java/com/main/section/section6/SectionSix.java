@@ -1,4 +1,4 @@
-package com.main.section;
+package com.main.section.section6;
 
 import com.main.lambdaintros.RunnableExample;
 import java.util.Comparator;

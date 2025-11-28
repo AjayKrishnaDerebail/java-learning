@@ -1,4 +1,4 @@
-package com.main.section;
+package com.main.section.section7;
 
 import com.main.database.StudentDatabase;
 import com.main.model.Student;
@@ -7,7 +7,7 @@ import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
-public class SectionSeven {
+public class ConsumerExamples {
 
   public static void consumerExamples(){
 
