@@ -9,15 +9,10 @@ import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
-/**
- * Hello world!
- *
- */
-
 @Slf4j
 public class App {
 
-  public static void main(String[] args) {
+  static void main() {
 
     /* Section 5 */
 
@@ -69,9 +64,6 @@ public class App {
 
       upperCaseConsumer.accept("hello");
 
-    }
-
-    {
       Consumer<Student> firstConsumer = (student) -> log.info(student.toString());
       Consumer<Student> secondConsumer = (student) -> log.info("{} gpa is {}", student.firstName(),
           student.gpa());
@@ -82,6 +74,41 @@ public class App {
           secondConsumer.andThen(firstConsumer).accept(student);
         }
       });
+
+      log.info("Challenge portion \n");
+
+      Consumer<Student> printFullNameConsumer = (student) -> log.info(
+          student.firstName() + " " + student.lastName());
+
+      Consumer<Student> gradeStudent = (student) ->{
+        if(student.gpa() >= 4)
+          log.info("Honor student : {}",student.firstName());
+        else if(student.gpa() >= 3)
+          log.info("Good student : {}",student.firstName());
+        else
+          log.info("Academic Probation : {}",student.firstName());
+      };
+
+      Consumer<Student> printPrimaryHobbyConsumer = (student) -> {
+        if(!student.hobbies().isEmpty())
+          log.info("{}'s primary hobby is {}",student.firstName(),student.hobbies().getFirst());
+      };
+
+      Consumer<Student> warnStudentHobbiesTooMuchConsumer = (student) -> {
+        if (student.hobbies().size() >= 3 ){
+          log.info("{} , you have too many hobbies",student.firstName());
+        }
+      };
+
+      Consumer<Student> lineSeparator = (s) -> log.info("------------------------");
+
+      Consumer<Student> chain = printFullNameConsumer
+          .andThen(gradeStudent)
+          .andThen(printPrimaryHobbyConsumer)
+          .andThen(warnStudentHobbiesTooMuchConsumer)
+          .andThen(lineSeparator);
+
+      studentList.forEach(chain);
     }
   }
 

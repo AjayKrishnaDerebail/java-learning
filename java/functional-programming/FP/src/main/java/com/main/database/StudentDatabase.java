@@ -10,7 +10,7 @@ public class StudentDatabase {
     
     private static List<Student> createSampleStudents() {
         return Arrays.asList(
-            new Student("John", "Doe", 3.8, Arrays.asList("Reading", "Swimming", "Chess")),
+            new Student("John", "Doe", 3.8, Arrays.asList("Reading", "Swimming", "Chess","Dancing")),
             new Student("Alice", "Smith", 2.9, Arrays.asList("Painting", "Dancing")),
             new Student("Bob", "Johnson", 2.5, Arrays.asList("Coding", "Gaming", "Hiking")),
             new Student("Emma", "Williams", 3.7, Arrays.asList("Singing", "Photography")),
