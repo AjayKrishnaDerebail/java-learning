@@ -9,7 +9,7 @@ import lombok.val;
 @Slf4j
 public class ConsumerExamples {
 
-  public static void consumerExamples(){
+  public static void consumerExamples() {
 
     log.info("Simple examples of consumer");
 
@@ -28,31 +28,31 @@ public class ConsumerExamples {
 
     log.info("Challenge portion \n");
 
-    Consumer<Student> printFullNameConsumer = (student) -> log.info(
-        student.firstName() + " " + student.lastName());
-    Consumer<Student> gradeStudent = (student) ->{
-      if(student.gpa() >= 4)
-        log.info("Honor student : {}",student.firstName());
-      else if(student.gpa() >= 3)
-        log.info("Good student : {}",student.firstName());
-      else
-        log.info("Academic Probation : {}",student.firstName());
+    Consumer<Student> printFullNameConsumer = (student)
+        -> log.info("{} {}", student.firstName(), student.lastName());
+    Consumer<Student> gradeStudent = (student) -> {
+      if (student.gpa() >= 4) {
+        log.info("Honor student : {}", student.firstName());
+      } else if (student.gpa() >= 3) {
+        log.info("Good student : {}", student.firstName());
+      } else {
+        log.info("Academic Probation : {}", student.firstName());
+      }
     };
     Consumer<Student> printPrimaryHobbyConsumer = (student) -> {
-      if(!student.hobbies().isEmpty())
-        log.info("{}'s primary hobby is {}",student.firstName(),student.hobbies().getFirst());
+      if (!student.hobbies().isEmpty()) {
+        log.info("{}'s primary hobby is {}", student.firstName(), student.hobbies().getFirst());
+      }
     };
     Consumer<Student> warnStudentHobbiesTooMuchConsumer = (student) -> {
-      if (student.hobbies().size() >= 3 ){
-        log.info("{} , you have too many hobbies",student.firstName());
+      if (student.hobbies().size() >= 3) {
+        log.info("{} , you have too many hobbies", student.firstName());
       }
     };
     Consumer<Student> lineSeparator = (s) -> log.info("------------------------");
 
-    Consumer<Student> chain = printFullNameConsumer
-        .andThen(gradeStudent)
-        .andThen(printPrimaryHobbyConsumer)
-        .andThen(warnStudentHobbiesTooMuchConsumer)
+    Consumer<Student> chain = printFullNameConsumer.andThen(gradeStudent)
+        .andThen(printPrimaryHobbyConsumer).andThen(warnStudentHobbiesTooMuchConsumer)
         .andThen(lineSeparator);
 
     studentList.forEach(chain);
