@@ -10,21 +10,42 @@ repositories {
     mavenCentral()
 }
 
+/**
+ * ✅ DEPENDENCIES – FULLY COMPATIBLE WITH:
+ * - Java 25
+ * - Gradle 9.2.1
+ * - IntelliJ 2025+
+ */
 dependencies {
 
-    // Lombok
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    // ✅ Lombok (Java 25 compatible)
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
 
-    // SLF4J with Logback
+    // ✅ Logging
     implementation 'ch.qos.logback:logback-classic:1.5.21'
 }
 
+/**
+ * ✅ FORCE GRADLE + INTELLIJ TO USE JAVA 25 TOOLCHAIN
+ */
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+/**
+ * ✅ APPLICATION ENTRY POINT
+ */
 application {
     mainClass = 'com.main.App'
 }
 
-jar {
+/**
+ * ✅ FAT JAR CONFIG (Runnable JAR)
+ */
+tasks.named('jar') {
     manifest {
         attributes 'Main-Class': 'com.main.App'
     }
@@ -33,6 +54,5 @@ jar {
         configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }
 
-    // To avoid duplicate files in the JAR
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
