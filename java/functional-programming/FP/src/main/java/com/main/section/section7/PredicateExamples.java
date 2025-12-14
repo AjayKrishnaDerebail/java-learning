@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class PredicateExamples {
 
-  static Predicate<Student> p1 = s -> s.gpa() >= 3.0;
+  public static Predicate<Student> p1 = s -> s.gpa() >= 3.0;
 
   static Predicate<Student> p2 = s -> s.gpa() < 4.0;
 

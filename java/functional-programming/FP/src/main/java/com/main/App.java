@@ -1,10 +1,14 @@
 package com.main;
 
+import static com.main.section.section7.PredicateExamples.p1;
+
+import com.main.database.StudentDatabase;
 import com.main.section.section5.SectionFive;
 import com.main.section.section7.ConsumerAndPredicate;
 import com.main.section.section7.ConsumerAndPredicateChallenge;
 import com.main.section.section7.ConsumerExamples;
 import com.main.section.section6.SectionSix;
+import com.main.section.section7.FunctionExample;
 import com.main.section.section7.PredicateExamples;
 import lombok.extern.slf4j.Slf4j;
 
@@ -48,7 +52,13 @@ public class App {
       log.info("Challenge combination epic rule based solution");
 
       ConsumerAndPredicateChallenge.ruleBasedExecution();
+
+      log.info("BiFunction example");
+
+      log.info("{}",FunctionExample.biFunction.apply(StudentDatabase.getAllStudents(), p1));
     }
+
+
   }
 
 }
