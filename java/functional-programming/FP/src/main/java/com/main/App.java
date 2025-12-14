@@ -1,6 +1,8 @@
 package com.main;
 
 import com.main.section.section5.SectionFive;
+import com.main.section.section7.ConsumerAndPredicate;
+import com.main.section.section7.ConsumerAndPredicateChallenge;
 import com.main.section.section7.ConsumerExamples;
 import com.main.section.section6.SectionSix;
 import com.main.section.section7.PredicateExamples;
@@ -21,11 +23,32 @@ public class App {
 
     /* Section 7 */
 
-    ConsumerExamples.consumerExamples();
+    {
 
-    log.info("Predicate examples");
+      ConsumerExamples.consumerExamples();
 
-    PredicateExamples.filterStudentByGrade();
+      log.info("Predicate examples");
+
+      PredicateExamples.filterStudentByGrade();
+
+      log.info("Predicate and Consumer examples");
+
+      ConsumerAndPredicate.printName();
+
+      log.info("Predicate and Consumer examples challenge by ChatGPT");
+
+      ConsumerAndPredicateChallenge.purePredicateChallenge();
+
+      ConsumerAndPredicateChallenge.purePredicateChallengeUsingStream();
+
+      log.info("Challenge combination epic");
+
+      ConsumerAndPredicateChallenge.ConsumerAndPredicateChatGptChallenge();
+
+      log.info("Challenge combination epic rule based solution");
+
+      ConsumerAndPredicateChallenge.ruleBasedExecution();
+    }
   }
 
 }
