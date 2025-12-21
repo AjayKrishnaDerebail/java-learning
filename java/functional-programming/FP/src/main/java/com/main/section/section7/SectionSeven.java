@@ -6,7 +6,7 @@ import com.main.database.StudentDatabase;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Section7 {
+public class SectionSeven {
 
   public static void javaUtilFunctionPackageExamples() {
     ConsumerExamples.consumerExamples();
@@ -28,6 +28,9 @@ public class Section7 {
 
     log.info("BiFunction example");
     log.info("{}", FunctionExample.biFunction.apply(StudentDatabase.getAllStudents(), p1));
+
+    log.info("Pure BiFunction example");
+    log.info("{}", FunctionExample.biFunctionPurelyFunctional.apply(StudentDatabase.getAllStudents(), p1));
   }
 
 }

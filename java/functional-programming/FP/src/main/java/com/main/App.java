@@ -2,7 +2,7 @@ package com.main;
 
 import com.main.section.section5.SectionFive;
 import com.main.section.section6.SectionSix;
-import com.main.section.section7.Section7;
+import com.main.section.section7.SectionSeven;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,7 +20,7 @@ public class App {
 
     /* Section 7 */
 
-    Section7.javaUtilFunctionPackageExamples();
+    SectionSeven.javaUtilFunctionPackageExamples();
   }
 
 }
