@@ -31,6 +31,9 @@ public class SectionSeven {
 
     log.info("Pure BiFunction example");
     log.info("{}", FunctionExample.biFunctionPurelyFunctional.apply(StudentDatabase.getAllStudents(), p1));
+    
+    log.info("\n===== Function Challenge Demo =====");
+    FunctionChallengeGpt.functionChallengeDemo();
   }
 
 }
