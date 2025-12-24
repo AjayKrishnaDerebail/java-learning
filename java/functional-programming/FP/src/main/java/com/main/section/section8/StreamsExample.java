@@ -17,4 +17,10 @@ public class StreamsExample {
 
     //log.info("{}",studentHobbiesMap);
   }
+
+  public static void streamsMapExample(){
+    StudentDatabase.getAllStudents().stream()
+        .map(s -> s.firstName().toUpperCase() + ' ' + s.lastName())
+        .forEach(log::info);
+  }
 }
