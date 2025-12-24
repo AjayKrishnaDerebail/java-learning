@@ -1,6 +1,6 @@
-package com.main.section.section7;
+package com.main.section.section7.function;
 
-import com.main.database.StudentDatabase;
+import com.main.utility.StudentDatabase;
 import com.main.model.Student;
 import java.util.ArrayList;
 import java.util.Comparator;

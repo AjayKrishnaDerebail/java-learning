@@ -1,6 +1,6 @@
-package com.main.section.section7;
+package com.main.section.section7.consumerandpredicate;
 
-import static com.main.database.StudentDatabase.getAllStudents;
+import static com.main.utility.StudentDatabase.getAllStudents;
 
 import com.main.model.Student;
 import java.util.List;

@@ -1,12 +1,13 @@
-package com.main.section.section7;
+package com.main.section.section7.consumerandpredicate;
 
-import com.main.database.StudentDatabase;
+import com.main.utility.StudentDatabase;
 import com.main.model.Student;
 import java.util.function.Consumer;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class ConsumerExamples {
 
   public static void consumerExamples() {

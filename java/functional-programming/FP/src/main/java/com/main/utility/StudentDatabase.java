@@ -1,4 +1,4 @@
-package com.main.database;
+package com.main.utility;
 
 import com.main.model.Student;
 import java.util.Arrays;

@@ -1,10 +1,10 @@
 package com.main.section.section6;
 
-import com.main.lambdaintros.RunnableExample;
 import java.util.Comparator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class SectionSix {
 
   public static void lambdaExamples(){

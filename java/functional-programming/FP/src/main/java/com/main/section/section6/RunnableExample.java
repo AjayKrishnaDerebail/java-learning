@@ -1,4 +1,4 @@
-package com.main.lambdaintros;
+package com.main.section.section6;
 
 import lombok.extern.slf4j.Slf4j;
 

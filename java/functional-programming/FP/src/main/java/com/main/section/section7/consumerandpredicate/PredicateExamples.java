@@ -1,6 +1,6 @@
-package com.main.section.section7;
+package com.main.section.section7.consumerandpredicate;
 
-import com.main.database.StudentDatabase;
+import com.main.utility.StudentDatabase;
 import com.main.model.Student;
 import java.util.List;
 import java.util.function.Predicate;

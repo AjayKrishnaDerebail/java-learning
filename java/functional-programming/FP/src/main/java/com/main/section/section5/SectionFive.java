@@ -1,10 +1,10 @@
 package com.main.section.section5;
 
-import com.main.comparision.ImperativeVsDeclarative;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 
 @Slf4j
+@SuppressWarnings("unused")
 public class SectionFive {
 
   public static void imperativeVsDeclarativeStyle(){

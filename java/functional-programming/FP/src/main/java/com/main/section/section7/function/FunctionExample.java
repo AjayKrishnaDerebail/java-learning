@@ -1,4 +1,4 @@
-package com.main.section.section7;
+package com.main.section.section7.function;
 
 import com.main.model.Student;
 import java.util.HashMap;
