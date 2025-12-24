@@ -9,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 public class StreamsExample {
   public static void simpleStreamExample(){
     var studentHobbiesMap = StudentDatabase.getAllStudents().parallelStream()
-        .filter(s -> s.gpa() >= 3.0)
+        //.peek(System.out::println)
+        .filter(s -> s.gpa() >= 4.0)
+        .peek(System.out::println)
         .collect(Collectors.toMap(Student::firstName, Student::hobbies));
 
-    log.info("{}",studentHobbiesMap);
+    //log.info("{}",studentHobbiesMap);
   }
 }
