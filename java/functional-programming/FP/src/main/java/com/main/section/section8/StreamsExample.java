@@ -2,6 +2,7 @@ package com.main.section.section8;
 
 import com.main.model.Student;
 import com.main.utility.StudentDatabase;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
@@ -36,6 +37,17 @@ public class StreamsExample {
             .toList();
 
     log.info("{}",flatMap);
+  }
+
+  /**
+   * Sorts students using a custom comparator
+   * @param comparator The sorting logic
+   */
+  public static void sortStudents(Comparator<Student> comparator) {
+    StudentDatabase.getAllStudents()
+        .stream()
+        .sorted(comparator)
+        .forEach(System.out::println);
   }
 
 }
