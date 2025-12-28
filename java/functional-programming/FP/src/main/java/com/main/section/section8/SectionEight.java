@@ -6,5 +6,7 @@ public class SectionEight {
     StreamsExample.simpleStreamExample();
 
     StreamsExample.streamsMapExample();
+
+    StreamsExample.flatMapExample();
   }
 }
