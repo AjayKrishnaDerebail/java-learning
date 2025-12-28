@@ -46,7 +46,7 @@ public class StreamsExample {
   public static void sortStudents(Comparator<Student> comparator) {
     StudentDatabase.getAllStudents()
         .stream()
-        .sorted(comparator)
+        .sorted(comparator.reversed())
         .forEach(System.out::println);
   }
 
