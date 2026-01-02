@@ -3,6 +3,7 @@ package com.main.utility;
 import com.main.model.Student;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 public class StudentDatabase {
     
@@ -26,4 +27,15 @@ public class StudentDatabase {
     public static List<Student> getAllStudents() {
         return List.copyOf(students);
     }
+
+  /**
+   * Simulates searching for a student.
+   * Returns Optional because the student might not exist!
+   */
+  public static Optional<Student> findByName(String firstName) {
+    System.out.println(">>> [DB] Scanning tables for firstName: " + firstName);
+    return students.stream()
+        .filter(s -> s.firstName().equals(firstName))
+        .findFirst();
+  }
 }
