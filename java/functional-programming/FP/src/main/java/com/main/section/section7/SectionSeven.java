@@ -2,6 +2,7 @@ package com.main.section.section7;
 
 import static com.main.section.section7.consumerandpredicate.PredicateExamples.p1;
 
+import com.main.section.section7.supplier.SupplierDemo;
 import com.main.utility.StudentDatabase;
 import com.main.section.section7.consumerandpredicate.ConsumerAndPredicate;
 import com.main.section.section7.consumerandpredicate.ConsumerAndPredicateChallenge;
@@ -41,6 +42,8 @@ public class SectionSeven {
     
     log.info("\n===== Function Challenge Demo =====");
     FunctionChallengeGpt.functionChallengeDemo();
+
+    SupplierDemo.SupplierExercise();
   }
 
 }

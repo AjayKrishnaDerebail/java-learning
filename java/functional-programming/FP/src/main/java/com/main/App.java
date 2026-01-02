@@ -21,11 +21,11 @@ public class App {
 
     /* Section 7 */
 
-    /*SectionSeven.javaUtilFunctionPackageExamples();*/
+    SectionSeven.javaUtilFunctionPackageExamples();
 
     /* Section 8 */
 
-    SectionEight.streams();
+    /*SectionEight.streams();*/
   }
 
 }
