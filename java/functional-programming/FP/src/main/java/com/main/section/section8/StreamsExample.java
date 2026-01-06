@@ -4,6 +4,8 @@ import com.main.model.Student;
 import com.main.utility.StudentDatabase;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
+import java.util.function.BinaryOperator;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
@@ -48,6 +50,21 @@ public class StreamsExample {
         .stream()
         .sorted(comparator.reversed())
         .forEach(System.out::println);
+  }
+
+  public static void streamReduceExample(double initial, BinaryOperator<Double> binaryOperator){
+    val result = StudentDatabase.getAllStudents().stream()
+        .map(Student::gpa)
+        .reduce(initial, binaryOperator);
+
+    log.info("Result of reduce is : {}",result);
+  }
+
+  public static void streamReduceHighestGpa(){
+    Optional<Student> result = StudentDatabase.getAllStudents().stream()
+        .reduce((s1, s2) -> s1.gpa() > s2.gpa() ? s1 : s2);
+
+    log.info("Result of reduce highest gpa is : {}",result);
   }
 
 }

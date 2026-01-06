@@ -1,7 +1,6 @@
 package com.main.section.section8;
 
 import com.main.model.Student;
-import com.main.section.section7.supplier.SupplierDemo;
 import java.util.Comparator;
 import lombok.extern.slf4j.Slf4j;
 
@@ -28,5 +27,11 @@ public class SectionEight {
 
     log.info(LINE_SEPARATOR);
 
+    StreamsExample.streamReduceExample(1.0, (a, b) -> a * b);
+
+    log.info(LINE_SEPARATOR);
+
+    StreamsExample.streamReduceHighestGpa();
   }
+
 }
