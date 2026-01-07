@@ -11,12 +11,12 @@ public class StudentDatabase {
     
     private static List<Student> createSampleStudents() {
         return Arrays.asList(
-            new Student("John", "Doe", 3.8, Arrays.asList("Reading", "Swimming", "Chess","Dancing")),
-            new Student("Alice", "Smith", 2.9, Arrays.asList("Painting", "Dancing")),
-            new Student("Bob", "Johnson", 2.5, Arrays.asList("Coding", "Gaming", "Hiking")),
-            new Student("Emma", "Williams", 3.7, Arrays.asList("Singing", "Photography")),
-            new Student("Michael", "Brown", 4.2, Arrays.asList("Basketball", "Movies", "Cooking")),
-            new Student("Sarah", "Davis", 4.0, Arrays.asList("Debate", "Journalism"))
+            new Student("John", "Doe", 3.8, Arrays.asList("Reading", "Swimming", "Chess","Dancing"),12),
+            new Student("Alice", "Smith", 2.9, Arrays.asList("Painting", "Dancing"),13),
+            new Student("Bob", "Johnson", 2.5, Arrays.asList("Coding", "Gaming", "Hiking"),9),
+            new Student("Emma", "Williams", 3.7, Arrays.asList("Singing", "Photography"),8),
+            new Student("Michael", "Brown", 4.2, Arrays.asList("Basketball", "Movies", "Cooking"),10),
+            new Student("Sarah", "Davis", 4.0, Arrays.asList("Debate", "Journalism"),15)
         );
     }
     

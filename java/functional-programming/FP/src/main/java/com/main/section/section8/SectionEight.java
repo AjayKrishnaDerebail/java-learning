@@ -32,6 +32,10 @@ public class SectionEight {
     log.info(LINE_SEPARATOR);
 
     StreamsExample.streamReduceHighestGpa();
+
+    log.info(LINE_SEPARATOR);
+
+    StreamsExample.filterMapReduceExample();
   }
 
 }

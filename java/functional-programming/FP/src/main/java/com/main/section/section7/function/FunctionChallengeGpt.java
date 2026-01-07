@@ -45,7 +45,8 @@ public class FunctionChallengeGpt {
           student.firstName().trim().toUpperCase(),
           student.lastName().trim().toUpperCase(),
           student.gpa(),
-          student.hobbies()
+          student.hobbies(),
+          student.noteBooks()
       );
 
   // 2. Boost GPA safely
@@ -54,7 +55,8 @@ public class FunctionChallengeGpt {
           student.firstName(),
           student.lastName(),
           Math.min(student.gpa() + 0.2, 4.5),
-          student.hobbies()
+          student.hobbies(),
+          student.noteBooks()
       );
 
   // 3. Fix probation students
@@ -65,7 +67,8 @@ public class FunctionChallengeGpt {
               student.firstName(),
               student.lastName(),
               3.0,
-              student.hobbies()
+              student.hobbies(),
+              student.noteBooks()
           );
         }
         return student;
@@ -90,7 +93,8 @@ public class FunctionChallengeGpt {
             s1.firstName(),
             s1.lastName(),
             Math.max(s1.gpa(), s2.gpa()),
-            merged
+            merged,
+            s1.noteBooks()
         );
       };
 

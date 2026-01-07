@@ -67,4 +67,12 @@ public class StreamsExample {
     log.info("Result of reduce highest gpa is : {}",result);
   }
 
+  public static void filterMapReduceExample() {
+    val noOfBooks = StudentDatabase.getAllStudents().stream()
+        .filter(s -> s.noteBooks() >= 10)
+        .mapToLong(Student::noteBooks)
+        .sum();
+    log.info("No of books : {}", noOfBooks);
+  }
+
 }
