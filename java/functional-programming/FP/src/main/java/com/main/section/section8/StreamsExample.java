@@ -75,4 +75,22 @@ public class StreamsExample {
     log.info("No of books : {}", noOfBooks);
   }
 
+  public static void anyMatchExample(){
+    boolean result = StudentDatabase.getAllStudents().stream()
+        .anyMatch(s -> s.noteBooks() >= 10);
+    log.info("Result of anyMatch is : {}", result);
+  }
+
+  public static void allMatchExample(){
+    boolean result = StudentDatabase.getAllStudents().stream()
+        .allMatch(s -> s.noteBooks() >= 6);
+    log.info("Result of allMatch is : {}", result);
+  }
+
+  public static void noneMatchExample(){
+    boolean result = StudentDatabase.getAllStudents().stream()
+        .noneMatch(s -> s.noteBooks() >= 20);
+    log.info("Result of noneMatch is : {}", result);
+  }
+
 }

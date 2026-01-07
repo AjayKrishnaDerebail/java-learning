@@ -36,6 +36,18 @@ public class SectionEight {
     log.info(LINE_SEPARATOR);
 
     StreamsExample.filterMapReduceExample();
+
+    log.info(LINE_SEPARATOR);
+
+    StreamsExample.allMatchExample();
+
+    log.info(LINE_SEPARATOR);
+
+    StreamsExample.anyMatchExample();
+
+    log.info(LINE_SEPARATOR);
+
+    StreamsExample.noneMatchExample();
   }
 
 }
