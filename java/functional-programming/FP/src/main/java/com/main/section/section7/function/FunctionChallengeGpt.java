@@ -45,6 +45,8 @@ public class FunctionChallengeGpt {
           student.firstName().trim().toUpperCase(),
           student.lastName().trim().toUpperCase(),
           student.gpa(),
+          student.grade(),
+          student.gender(),
           student.hobbies(),
           student.noteBooks()
       );
@@ -55,6 +57,8 @@ public class FunctionChallengeGpt {
           student.firstName(),
           student.lastName(),
           Math.min(student.gpa() + 0.2, 4.5),
+          student.grade(),
+          student.gender(),
           student.hobbies(),
           student.noteBooks()
       );
@@ -67,6 +71,8 @@ public class FunctionChallengeGpt {
               student.firstName(),
               student.lastName(),
               3.0,
+              student.grade(),
+              student.gender(),
               student.hobbies(),
               student.noteBooks()
           );
@@ -93,6 +99,8 @@ public class FunctionChallengeGpt {
             s1.firstName(),
             s1.lastName(),
             Math.max(s1.gpa(), s2.gpa()),
+            s1.gpa() >= s2.gpa() ? s1.grade() : s2.grade(),
+            s1.gender(),
             merged,
             s1.noteBooks()
         );
