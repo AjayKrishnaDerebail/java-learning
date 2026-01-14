@@ -192,6 +192,7 @@ public class StreamTerminalOperationsExample {
   }
 
   public static void callAllMethods() {
+    log.info("Stream Terminal Operations Example Class");
     joiningExample();
     log.info(LINE_SEPARATOR);
     countingExample();

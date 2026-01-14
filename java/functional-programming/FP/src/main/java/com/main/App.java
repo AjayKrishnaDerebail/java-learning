@@ -1,5 +1,6 @@
 package com.main;
 
+import com.main.section.section14.SectionFourteen;
 import com.main.section.section5.SectionFive;
 import com.main.section.section6.SectionSix;
 import com.main.section.section7.SectionSeven;
@@ -25,7 +26,11 @@ public class App {
 
     /* Section 8 */
 
-    SectionEight.streams();
+    /*SectionEight.streams();*/
+
+    /* Section 14 */
+
+    SectionFourteen.streamsTerminalOps();
   }
 
 }

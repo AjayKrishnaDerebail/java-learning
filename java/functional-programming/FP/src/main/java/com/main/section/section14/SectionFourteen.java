@@ -3,9 +3,10 @@ package com.main.section.section14;
 public class SectionFourteen {
 
   public static void streamsTerminalOps() {
-    StreamTerminalOperationsMaster.callTerminalExamples();
 
     StreamTerminalOperationsExample.callAllMethods();
+
+    StreamTerminalOperationsMaster.callTerminalExamples();
   }
 
 }

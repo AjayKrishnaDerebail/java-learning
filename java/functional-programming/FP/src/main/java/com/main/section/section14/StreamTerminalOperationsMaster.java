@@ -21,6 +21,8 @@ public class StreamTerminalOperationsMaster {
 
   public static void callTerminalExamples() {
 
+    log.info("Terminal Operations Master class");
+
     List<Student> students = StudentDatabase.getAllStudents();
 
     runJoiningExamples(students);
