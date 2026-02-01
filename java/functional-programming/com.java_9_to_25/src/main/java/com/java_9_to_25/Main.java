@@ -1,3 +1,5 @@
+String name = "Ajay";
+
 void main() {
-    IO.println("Hello and welcome!");
+    IO.println(name + ", hello and welcome!");
 }
