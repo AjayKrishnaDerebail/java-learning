@@ -1,0 +1,35 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.java_9_to_25'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+/**
+ * ✅ DEPENDENCIES – FULLY COMPATIBLE WITH:
+ * - Java 25
+ * - Gradle 9.2.1
+ * - IntelliJ 2025+
+ */
+dependencies {
+
+    // ✅ Lombok (Java 25 compatible)
+    compileOnly 'org.projectlombok:lombok:1.18.38'
+    annotationProcessor 'org.projectlombok:lombok:1.18.38'
+
+    // ✅ Logging
+    implementation 'ch.qos.logback:logback-classic:1.5.27'
+}
+
+/**
+ * ✅ FORCE GRADLE + INTELLIJ TO USE JAVA 25 TOOLCHAIN
+ */
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
