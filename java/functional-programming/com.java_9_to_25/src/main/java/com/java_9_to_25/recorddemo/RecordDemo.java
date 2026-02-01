@@ -56,6 +56,9 @@ public final class RecordDemo {
 
     var pointB = pointA.translate(10, -2);
     IO.println("pointB (translated) = " + pointB);
+
+    var pointC = pointA.translate(11, -4);
+    IO.println("pointC (translated) = " + pointC);
   }
 
   private static void demoImplementsInterface() {
@@ -71,7 +74,7 @@ public final class RecordDemo {
     IO.println("\n5) Nested records are great for small value aggregates");
 
     var address = new Customer.Address("Bengaluru", "KA", "560001");
-    var customer = new Customer("cust-1", "Ajay", address);
+    var customer = new Customer("customer-1", "Ajay", address);
 
     IO.println("customer = " + customer);
     IO.println("customer.address().city() = " + customer.address().city());
