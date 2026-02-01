@@ -1,4 +1,8 @@
 import com.java_9_to_25.newSwitch.NewSwitch;
+import com.java_9_to_25.recorddemo.RecordDemo;
+
+import java.time.Month;
+import java.util.List;
 
 String name = "Ajay";
 
@@ -16,5 +20,7 @@ void main() {
   IO.print(multiLineString);
 
   IO.println(NewSwitch.getDays(Month.FEBRUARY,1900));
+
+  RecordDemo.run();
 
 }
