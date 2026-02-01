@@ -1,5 +1,6 @@
 import com.java_9_to_25.newSwitch.NewSwitch;
 import com.java_9_to_25.recorddemo.RecordDemo;
+import com.java_9_to_25.sealeddemo.SealedDemo;
 
 import java.time.Month;
 import java.util.List;
@@ -22,5 +23,7 @@ void main() {
   IO.println(NewSwitch.getDays(Month.FEBRUARY,1900));
 
   RecordDemo.run();
+
+  SealedDemo.run();
 
 }
