@@ -6,7 +6,9 @@ public class StreamGatherersMainClass {
 
     /*StreamGathererWindowFixed.streamGathererWindowFixedDemo();*/
 
-    StreamGathererWindowSliding.streamGathererWindowSlidingDemo();
+    /*StreamGathererWindowSliding.streamGathererWindowSlidingDemo();*/
+
+    StreamGatherersFold.streamGatherersFoldDemo();
 
   }
 }
