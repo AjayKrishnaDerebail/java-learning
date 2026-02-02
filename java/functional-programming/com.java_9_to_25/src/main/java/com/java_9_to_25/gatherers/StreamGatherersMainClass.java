@@ -4,7 +4,9 @@ public class StreamGatherersMainClass {
 
   public static void streamGatherersDemo() {
 
-    StreamGathererWindowFixed.streamGathererWindowFixedDemo();
+    /*StreamGathererWindowFixed.streamGathererWindowFixedDemo();*/
+
+    StreamGathererWindowSliding.streamGathererWindowSlidingDemo();
 
   }
 }
