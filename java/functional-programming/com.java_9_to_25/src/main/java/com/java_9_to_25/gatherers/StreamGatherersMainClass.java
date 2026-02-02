@@ -8,7 +8,7 @@ public class StreamGatherersMainClass {
 
     /*StreamGathererWindowSliding.streamGathererWindowSlidingDemo();*/
 
-    StreamGatherersFold.streamGatherersFoldDemo();
+    StreamGatherersFold.streamGatherersFoldAndScanDemo();
 
   }
 }
