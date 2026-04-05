@@ -32,3 +32,6 @@ bin/
 .idea
 
 Multithreading.iml
+
+build
+.gradle
