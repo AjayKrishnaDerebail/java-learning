@@ -1,4 +1,4 @@
-package com.udemy.course.one;
+package com.solve.multithreading;
 
 public class CourseOneMain {
     static void main() {
