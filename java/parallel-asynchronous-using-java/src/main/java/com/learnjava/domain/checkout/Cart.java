@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class Cart {
 
-    private Integer cardId;
-    private List<CartItem> cartItemList;
+  private Integer cardId;
+  private List<CartItem> cartItemList;
 
 }

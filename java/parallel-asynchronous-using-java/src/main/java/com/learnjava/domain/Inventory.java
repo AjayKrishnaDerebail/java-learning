@@ -10,5 +10,6 @@ import lombok.NoArgsConstructor;
 @Data
 @Builder
 public class Inventory {
-    private int count;
+
+  private int count;
 }
