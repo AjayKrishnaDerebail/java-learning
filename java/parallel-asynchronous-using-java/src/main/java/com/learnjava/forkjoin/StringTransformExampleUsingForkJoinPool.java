@@ -22,7 +22,7 @@ public class StringTransformExampleUsingForkJoinPool {
     }
 
     stopWatch.stop();
-    log.info("Total Time Taken : " + stopWatch.getTime());
+    log.info("Total Time Taken : {}ms " , stopWatch.getTime());
   }
 
   static String transform(String name) {
