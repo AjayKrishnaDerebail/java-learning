@@ -21,8 +21,8 @@ public class ProductServiceUsingExecutorService {
 
   private static final ExecutorService executorService = Executors.newFixedThreadPool(
       Runtime.getRuntime().availableProcessors());
-  private ProductInfoService productInfoService;
-  private ReviewService reviewService;
+  private final ProductInfoService productInfoService;
+  private final ReviewService reviewService;
 
   public ProductServiceUsingExecutorService(ProductInfoService productInfoService,
       ReviewService reviewService) {
@@ -32,7 +32,7 @@ public class ProductServiceUsingExecutorService {
 
   public Product retrieveProductDetails(String productId)
       throws ExecutionException, InterruptedException, TimeoutException {
-    log.info("Available cores is {} " , Runtime.getRuntime().availableProcessors());
+    log.info("Available cores is {} ", Runtime.getRuntime().availableProcessors());
     stopWatch.start();
 
     Future<ProductInfo> productInfoFuture = executorService.submit(
@@ -46,11 +46,11 @@ public class ProductServiceUsingExecutorService {
     executorService.shutdownNow();
 
     stopWatch.stop();
-    log.info("Total Time Taken : " + stopWatch.getTime());
+    log.info("Total Time Taken : {} " , stopWatch.getTime());
     return new Product(productId, productInfo, review);
   }
 
-  public static void main(String[] args) throws ExecutionException, InterruptedException, TimeoutException {
+  static void main() throws ExecutionException, InterruptedException, TimeoutException {
 
     ProductInfoService productInfoService = new ProductInfoService();
     ReviewService reviewService = new ReviewService();
@@ -58,7 +58,8 @@ public class ProductServiceUsingExecutorService {
         productInfoService, reviewService);
     String productId = "ABC123";
     Product product = productService.retrieveProductDetails(productId);
-    log.info("Product is " + product.getProductInfo() + " \n Review is " + product.getReview());
+    log.info("Product is {} \n , Review is : {} \n, Thread is : {} ", product.getProductInfo(),
+        product.getReview(), Thread.currentThread().getName());
 
   }
 }
