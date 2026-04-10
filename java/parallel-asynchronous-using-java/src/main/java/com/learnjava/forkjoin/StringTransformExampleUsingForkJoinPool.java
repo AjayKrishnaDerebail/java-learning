@@ -7,18 +7,19 @@ import java.util.List;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.RecursiveTask;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
 
 @Slf4j
 public class StringTransformExampleUsingForkJoinPool {
 
   static void main() {
-    List<String> names = List.of("Alice", "Bob", "Charlie", "David", "Eve");
+    val names = List.of("Alice", "Bob", "Charlie", "David", "Eve");
 
     stopWatch.start();
-    try (ForkJoinPool pool = new ForkJoinPool()) {
-      TransformTask task = new TransformTask(names);
-      List<String> result = pool.invoke(task);
-      System.out.println("Final Result: " + result);
+    try (val pool = new ForkJoinPool()) {
+      val task = new TransformTask(names);
+      val result = pool.invoke(task);
+      log.info("Final Result: {}" , result);
     }
 
     stopWatch.stop();
@@ -43,25 +44,29 @@ class TransformTask extends RecursiveTask<List<String>> {
   protected List<String> compute() {
     // BASE CASE: Threshold is 1
     if (names.size() <= 1) {
-      return names.stream().map(StringTransformExampleUsingForkJoinPool::transform).toList();
+      return
+          names
+              .stream()
+              .map(StringTransformExampleUsingForkJoinPool::transform)
+              .toList();
     }
 
     // RECURSIVE STEP: Split the list in half
-    int mid = names.size() / 2;
-    TransformTask leftTask = new TransformTask(names.subList(0, mid));
-    TransformTask rightTask = new TransformTask(names.subList(mid, names.size()));
+    val mid = names.size() / 2;
+    val leftTask = new TransformTask(names.subList(0, mid));
+    val rightTask = new TransformTask(names.subList(mid, names.size()));
 
     // Fork the left side (asynchronous)
     leftTask.fork();
 
     // Compute the right side in the CURRENT thread (efficiency optimization)
-    List<String> rightResult = rightTask.compute();
+    val rightResult = rightTask.compute();
 
     // Join the left side (wait for result)
-    List<String> leftResult = leftTask.join();
+    val leftResult = leftTask.join();
 
     // Merge results
-    List<String> combined = new ArrayList<>(leftResult);
+    val combined = new ArrayList<>(leftResult);
     combined.addAll(rightResult);
     return combined;
   }
