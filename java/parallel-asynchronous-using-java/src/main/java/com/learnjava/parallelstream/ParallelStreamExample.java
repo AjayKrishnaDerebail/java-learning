@@ -8,11 +8,13 @@ import static com.learnjava.util.LoggerUtil.log;
 import com.learnjava.util.DataSet;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.NoArgsConstructor;
 import lombok.val;
 
+@NoArgsConstructor
 public class ParallelStreamExample {
 
-  static void main() {
+  void main() {
     val namesList = DataSet.namesList();
     startTimer();
     val resultList = stringTransform(namesList);
@@ -20,13 +22,13 @@ public class ParallelStreamExample {
     timeTaken();
   }
 
-  private static List<String> stringTransform(final List<String> namesList) {
+  public List<String> stringTransform(final List<String> namesList) {
     return namesList.parallelStream()
-        .map(ParallelStreamExample::addNameLengthTransform)
+        .map(this::addNameLengthTransform)
         .collect(Collectors.toList());
   }
 
-  private static String addNameLengthTransform(final String name) {
+  private String addNameLengthTransform(final String name) {
     delay(500);
     return name.length() + " - " + name;
   }
