@@ -17,13 +17,14 @@ public class ParallelStreamExample {
   void main() {
     val namesList = DataSet.namesList();
     startTimer();
-    val resultList = stringTransform(namesList);
+    val resultList = stringTransform(namesList,true);
     log("ResultList : " + resultList);
     timeTaken();
   }
 
-  public List<String> stringTransform(final List<String> namesList) {
-    return namesList.parallelStream()
+  public List<String> stringTransform(final List<String> namesList,final boolean isParallel) {
+    val namesStream = isParallel ? namesList.parallelStream() : namesList.stream();
+    return namesStream
         .map(this::addNameLengthTransform)
         .collect(Collectors.toList());
   }
