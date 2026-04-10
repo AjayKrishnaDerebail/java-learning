@@ -30,7 +30,7 @@ public class CheckoutService {
     val priceValidationList = cart.getCartItemList()
         .parallelStream()
         .peek(cartItem -> {
-          boolean isPriceValid = priceValidatorService.isCartItemInvalid(cartItem);
+          val isPriceValid = priceValidatorService.isCartItemInvalid(cartItem);
           cartItem.setExpired(isPriceValid);
         })
         .filter(CartItem::isExpired)
@@ -43,4 +43,5 @@ public class CheckoutService {
 
     return new CheckoutResponse(CheckoutStatus.SUCCESS);
   }
+
 }

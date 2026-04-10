@@ -61,4 +61,5 @@ class CheckoutServiceTest {
     assertEquals(CheckoutStatus.SUCCESS, response.getCheckoutStatus());
     assertEquals(0, response.getErrorList().size());
   }
+
 }
