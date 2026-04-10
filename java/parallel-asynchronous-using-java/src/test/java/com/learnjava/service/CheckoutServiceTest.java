@@ -2,6 +2,7 @@ package com.learnjava.service;
 
 import static com.learnjava.util.CommonUtil.stopWatchReset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.learnjava.domain.checkout.Cart;
 import com.learnjava.domain.checkout.CheckoutStatus;
@@ -29,6 +30,7 @@ class CheckoutServiceTest {
 
     assertEquals(CheckoutStatus.SUCCESS, response.getCheckoutStatus());
     assertEquals(0, response.getErrorList().size());
+    assertTrue(response.getFinalRate() > 0);
   }
 
   @Test

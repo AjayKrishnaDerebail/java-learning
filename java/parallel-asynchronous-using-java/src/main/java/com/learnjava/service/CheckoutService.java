@@ -41,7 +41,28 @@ public class CheckoutService {
       return new CheckoutResponse(CheckoutStatus.FAILURE, priceValidationList);
     }
 
-    return new CheckoutResponse(CheckoutStatus.SUCCESS);
+    val finalPrice = calculateFinalPrice(cart);
+
+    log.info("Final price is : {}", finalPrice);
+
+    return new CheckoutResponse(CheckoutStatus.SUCCESS,finalPrice);
+  }
+
+  private double calculateFinalPrice(final Cart cart){
+    return cart.getCartItemList()
+        .parallelStream()
+        .map(cartItem -> cartItem.getQuantity() * cartItem.getRate())
+        .mapToDouble(Double::doubleValue)
+        .sum();
+  }
+
+  @SuppressWarnings("unused")
+  private double calculateFinalPriceUsingReduce(final Cart cart){
+    return cart.getCartItemList()
+        .parallelStream()
+        .map(cartItem -> cartItem.getQuantity() * cartItem.getRate())
+        .reduce(0.0 , Double::sum);
+        //reduce(0.0 , (x,y) -> x +y);
   }
 
 }
