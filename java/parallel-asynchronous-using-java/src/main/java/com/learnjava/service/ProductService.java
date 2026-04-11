@@ -9,8 +9,8 @@ import static com.learnjava.util.LoggerUtil.log;
 
 public class ProductService {
 
-  private ProductInfoService productInfoService;
-  private ReviewService reviewService;
+  private final ProductInfoService productInfoService;
+  private final ReviewService reviewService;
 
   public ProductService(ProductInfoService productInfoService, ReviewService reviewService) {
     this.productInfoService = productInfoService;
@@ -28,7 +28,7 @@ public class ProductService {
     return new Product(productId, productInfo, review);
   }
 
-  static void main(String[] args) {
+  static void main() {
 
     ProductInfoService productInfoService = new ProductInfoService();
     ReviewService reviewService = new ReviewService();
