@@ -94,6 +94,29 @@ public class ProductServiceUsingCompletableFuture {
     return product;
   }
 
+  public Product retrieveProductDetailsWithInventoryCF(String productId) {
+    stopWatch.start();
+
+    CompletableFuture<ProductInfo> productInfoCompletableFuture = CompletableFuture.supplyAsync(
+            () -> productInfoService.retrieveProductInfo(productId))
+        .thenApply(productInfo -> {
+          productInfo.setProductOptions(updateInventoryCF(productInfo));
+          return productInfo;
+        });
+
+    CompletableFuture<Review> reviewCompletableFuture = CompletableFuture.supplyAsync(
+        () -> reviewService.retrieveReviews(productId));
+
+    Product product = productInfoCompletableFuture
+        .thenCombine(reviewCompletableFuture,
+            (productInfo, review) -> new Product(productId, productInfo, review))
+        .join();
+
+    stopWatch.stop();
+    log("Total Time Taken : " + stopWatch.getTime());
+    return product;
+  }
+
   private List<ProductOption> updateInventory(final ProductInfo productInfo){
     return productInfo.getProductOptions()
         .stream()
@@ -101,6 +124,22 @@ public class ProductServiceUsingCompletableFuture {
           val inventory = inventoryService.retrieveInventory(productOption);
           productOption.setInventory(inventory);
         })
+        .toList();
+  }
+
+  private List<ProductOption> updateInventoryCF(final ProductInfo productInfo){
+    List<CompletableFuture<ProductOption>> productOptionCF = productInfo.getProductOptions()
+        .stream()
+        .map(productOption -> CompletableFuture.supplyAsync(
+                () -> inventoryService.retrieveInventory(productOption))
+            .thenApply(inventory -> {
+              productOption.setInventory(inventory);
+              return productOption;
+            }))
+        .toList();
+
+    return productOptionCF.stream()
+        .map(CompletableFuture::join)
         .toList();
   }
 
