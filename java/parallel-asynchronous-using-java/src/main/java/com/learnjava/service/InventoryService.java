@@ -9,20 +9,20 @@ import static com.learnjava.util.CommonUtil.delay;
 
 public class InventoryService {
 
-  public Inventory addInventory(ProductOption productOption) {
+  public Inventory retrieveInventory(final ProductOption productOption) {
     delay(500);
     return Inventory.builder()
         .count(2).build();
 
   }
 
-  public CompletableFuture<Inventory> addInventory_CF(ProductOption productOption) {
+  public CompletableFuture<Inventory> retrieveInventory_CF(final ProductOption productOption) {
 
     return CompletableFuture.supplyAsync(() -> {
       delay(500);
       return Inventory.builder()
           .count(2).build();
     });
-
   }
+
 }
