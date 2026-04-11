@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 @Slf4j
-public class ProductServiceUsingCompletableFutureTest {
+public class ProductServiceUsingCompletableFutureExceptionallyAndWhenCompleteTest {
 
   private final ProductInfoService productInfoService = new ProductInfoService();
   private final ReviewService reviewService = new ReviewService();

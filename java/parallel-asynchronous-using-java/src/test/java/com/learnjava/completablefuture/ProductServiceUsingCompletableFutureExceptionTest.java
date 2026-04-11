@@ -3,8 +3,13 @@ package com.learnjava.completablefuture;
 import static com.learnjava.util.CommonUtil.stopWatchReset;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 import com.learnjava.service.InventoryService;
 import com.learnjava.service.ProductInfoService;
@@ -58,6 +63,41 @@ public class ProductServiceUsingCompletableFutureExceptionTest {
     assertEquals(0, product.getReview().getNoOfReviews());
 
     log.info("ReviewService exception handled - default review with 0 reviews returned");
+
+  }
+
+  @Test
+  void retrieveProductDetailsWithInventory_ProductInfoServiceException() {
+
+    String productId = "ABC123";
+
+    // Capture System.out to verify whenComplete logs the exception
+    ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+    PrintStream originalOut = System.out;
+    System.setOut(new PrintStream(outputStream));
+
+    when(productInfoService.retrieveProductInfo(productId)).thenThrow(
+        new RuntimeException("Exception in product info service"));
+
+    // whenComplete should log the exception but the join() will throw CompletionException
+    Exception exception = assertThrows(Exception.class,
+        () -> productService.retrieveProductDetailsWithInventory(productId));
+
+    // Restore System.out
+    System.setOut(originalOut);
+
+    String logOutput = outputStream.toString();
+    log.info("Captured log output: {}", logOutput);
+
+    // Verify exception was caught
+    assertNotNull(exception.getCause());
+    assertEquals("Exception in product info service", exception.getCause().getMessage());
+
+    // Verify whenComplete logged the exception
+    assertTrue(logOutput.contains("Exception in CF for this product"));
+    assertTrue(logOutput.contains("Exception in product info service"));
+
+    log.info("ProductInfoService exception logged by whenComplete - verified");
 
   }
 

@@ -93,6 +93,11 @@ public class ProductServiceUsingCompletableFuture {
     Product product = productInfoCompletableFuture
         .thenCombine(reviewCompletableFuture,
             (productInfo, review) -> new Product(productId, productInfo, review))
+        .whenComplete((productEx,ex) -> {
+          if(ex != null) {
+            log("Exception in CF for this product " + productEx + " exception is " + ex.getMessage());
+          }
+        })
         .join();
 
     stopWatch.stop();
