@@ -57,4 +57,13 @@ public class CompletableFutureHelloWorldTest {
     assertEquals(HELLO_WORLD_EXCLAMATION_HI_CF, completableFutureThenCombineResult);
   }
 
+  @Test
+  void helloWorldThenCompose() {
+    val completableFutureThenCombineResult = completableFutureHelloWorld.completableFutureThenCompose();
+
+    completableFutureThenCombineResult.thenAccept(
+        result -> assertEquals(HELLO_WORLD_EXCLAMATION , result)
+    ).join();
+  }
+
 }

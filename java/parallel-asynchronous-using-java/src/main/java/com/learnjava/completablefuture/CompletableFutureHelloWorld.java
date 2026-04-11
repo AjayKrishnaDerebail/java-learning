@@ -69,6 +69,18 @@ public class CompletableFutureHelloWorld {
     return result;
   }
 
+  @SuppressWarnings("Convert2MethodRef")
+  public CompletableFuture<String> completableFutureThenCompose(){
+
+    startTimer();
+
+    val result = CompletableFuture.supplyAsync(() -> helloWorldService.hello())
+            .thenCompose(hello -> helloWorldService.worldFuture(hello))
+            .thenApply(String::toUpperCase);
+    timeTaken();
+
+    return result;
+  }
 
   static void main() {
     val helloWorldService = new HelloWorldService();
