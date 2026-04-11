@@ -16,7 +16,7 @@ public class CompletableFutureHelloWorldException {
   private final HelloWorldService helloWorldService;
 
   @SuppressWarnings("Convert2MethodRef")
-  public String completableFutureThenCombine3Cfs() {
+  public String completableFutureThenCombine3CfsUsingHandle() {
 
     startTimer();
     CompletableFuture<String> hello = CompletableFuture.supplyAsync(
@@ -29,14 +29,45 @@ public class CompletableFutureHelloWorldException {
         .handle((res, e) -> {
           if (e != null) {
             log("Exception is : " + e.getMessage());
+            return "";
           }
-          return "";
+          return res;
         })
         .thenCombine(world, (h, w) -> h + w)
         .handle((res, e) -> {
           if (e != null) {
             log("Exception during world is : " + e.getMessage());
+            return "";
           }
+          return res;
+        })
+        .thenCombine(hi, (helloWorld, hiCf) -> helloWorld + hiCf)
+        .thenApply(String::toUpperCase)
+        .join();
+
+    timeTaken();
+
+    return result;
+  }
+
+  @SuppressWarnings("Convert2MethodRef")
+  public String completableFutureThenCombine3CfsUsingExceptionally() {
+
+    startTimer();
+    CompletableFuture<String> hello = CompletableFuture.supplyAsync(
+        () -> helloWorldService.hello());
+    CompletableFuture<String> world = CompletableFuture.supplyAsync(
+        () -> helloWorldService.world());
+    CompletableFuture<String> hi = CompletableFuture.supplyAsync(() -> helloWorldService.hi());
+
+    val result = hello
+        .exceptionally(( e) -> {
+            log("Exception is : " + e.getMessage());
+          return "";
+        })
+        .thenCombine(world, (h, w) -> h + w)
+        .exceptionally(( e) -> {
+            log("Exception during world is : " + e.getMessage());
           return "";
         })
         .thenCombine(hi, (helloWorld, hiCf) -> helloWorld + hiCf)
@@ -47,6 +78,7 @@ public class CompletableFutureHelloWorldException {
 
     return result;
   }
+
 
   static void main() {
     val helloWorldService = new HelloWorldService();

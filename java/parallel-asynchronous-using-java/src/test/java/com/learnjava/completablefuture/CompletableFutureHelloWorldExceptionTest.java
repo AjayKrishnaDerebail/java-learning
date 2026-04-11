@@ -30,15 +30,15 @@ public class CompletableFutureHelloWorldExceptionTest {
   }
 
   @Test
-  void completableFutureThenCombine3CfsHandleExceptionUsing_CF_Handle() {
+  void completableFutureThenCombine3CfsHandleExceptionUsing_CF_Handle_Hello() {
 
     when(helloWorldService.hello()).thenThrow(new RuntimeException("Exception to test CF handle"));
     when(helloWorldService.world()).thenCallRealMethod();
     when(helloWorldService.hi()).thenCallRealMethod();
 
-    val result = completableFutureHelloWorldException.completableFutureThenCombine3Cfs();
+    val result = completableFutureHelloWorldException.completableFutureThenCombine3CfsUsingHandle();
 
-    assertEquals(" HI COMPLETABLEFUTURE", result);
+    assertEquals(" WORLD! HI COMPLETABLEFUTURE", result);
 
   }
 
@@ -49,7 +49,33 @@ public class CompletableFutureHelloWorldExceptionTest {
     when(helloWorldService.world()).thenThrow(new RuntimeException("Exception to test CF handle"));
     when(helloWorldService.hi()).thenCallRealMethod();
 
-    val result = completableFutureHelloWorldException.completableFutureThenCombine3Cfs();
+    val result = completableFutureHelloWorldException.completableFutureThenCombine3CfsUsingHandle();
+
+    assertEquals(" HI COMPLETABLEFUTURE", result);
+
+  }
+
+  @Test
+  void completableFutureThenCombine3CfsHandleExceptionUsing_CF_Exceptionally_Hello() {
+
+    when(helloWorldService.hello()).thenThrow(new RuntimeException("Exception to test CF handle"));
+    when(helloWorldService.world()).thenCallRealMethod();
+    when(helloWorldService.hi()).thenCallRealMethod();
+
+    val result = completableFutureHelloWorldException.completableFutureThenCombine3CfsUsingExceptionally();
+
+    assertEquals(" WORLD! HI COMPLETABLEFUTURE", result);
+
+  }
+
+  @Test
+  void completableFutureThenCombine3CfsHandleExceptionUsing_CF_Exceptionally_Hello_And_World() {
+
+    when(helloWorldService.hello()).thenThrow(new RuntimeException("Exception to test CF handle"));
+    when(helloWorldService.world()).thenThrow(new RuntimeException("Exception to test CF handle"));
+    when(helloWorldService.hi()).thenCallRealMethod();
+
+    val result = completableFutureHelloWorldException.completableFutureThenCombine3CfsUsingExceptionally();
 
     assertEquals(" HI COMPLETABLEFUTURE", result);
 
