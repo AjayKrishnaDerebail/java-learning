@@ -9,7 +9,7 @@ public class HelloWorldService {
 
   public String helloWorld() {
     delay(1000);
-    log("inside helloWorld");
+    log("Inside helloWorld");
     return "hello world";
   }
 

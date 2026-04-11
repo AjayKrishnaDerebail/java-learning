@@ -13,7 +13,7 @@ public class CompletableFutureHelloWorld {
 
   private final HelloWorldService helloWorldService;
 
-  public CompletableFuture<String> helloWorld(final HelloWorldService helloWorldService){
+  public CompletableFuture<String> helloWorld(){
     //noinspection Convert2MethodRef
     return CompletableFuture.supplyAsync(() -> helloWorldService.helloWorld())
         .thenApply(String::toUpperCase)
