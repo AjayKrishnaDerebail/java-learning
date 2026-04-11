@@ -1,5 +1,7 @@
 package com.learnjava.completablefuture;
 
+import static com.learnjava.util.CommonUtil.startTimer;
+import static com.learnjava.util.CommonUtil.timeTaken;
 import static com.learnjava.util.LoggerUtil.log;
 
 import com.learnjava.service.HelloWorldService;
@@ -31,6 +33,42 @@ public class CompletableFutureHelloWorld {
         //.join()
         ;
   }
+
+  @SuppressWarnings("Convert2MethodRef")
+  public String completableFutureThenCombine(){
+
+    startTimer();
+
+    CompletableFuture<String> hello = CompletableFuture.supplyAsync(() -> helloWorldService.hello());
+    CompletableFuture<String> world = CompletableFuture.supplyAsync(() -> helloWorldService.world());
+
+    val result = hello.thenCombine(world,(h,w) -> h + w)
+        .thenApply(String::toUpperCase)
+        .join();
+
+    timeTaken();
+
+    return result;
+  }
+
+  @SuppressWarnings("Convert2MethodRef")
+  public String completableFutureThenCombine3Cfs(){
+
+    startTimer();
+    CompletableFuture<String> hello = CompletableFuture.supplyAsync(() -> helloWorldService.hello());
+    CompletableFuture<String> world = CompletableFuture.supplyAsync(() -> helloWorldService.world());
+    CompletableFuture<String> hi = CompletableFuture.supplyAsync(() -> helloWorldService.hi());
+
+    val result = hello.thenCombine(world,(h,w) -> h + w)
+        .thenCombine(hi,(helloWorld,hiCf) -> helloWorld + hiCf)
+        .thenApply(String::toUpperCase)
+        .join();
+
+    timeTaken();
+
+    return result;
+  }
+
 
   static void main() {
     val helloWorldService = new HelloWorldService();
