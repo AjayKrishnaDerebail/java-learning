@@ -28,7 +28,7 @@ public class ProductService {
     return new Product(productId, productInfo, review);
   }
 
-  public static void main(String[] args) {
+  static void main(String[] args) {
 
     ProductInfoService productInfoService = new ProductInfoService();
     ReviewService reviewService = new ReviewService();
