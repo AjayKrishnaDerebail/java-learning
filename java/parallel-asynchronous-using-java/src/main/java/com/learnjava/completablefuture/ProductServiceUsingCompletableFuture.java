@@ -117,6 +117,7 @@ public class ProductServiceUsingCompletableFuture {
     return product;
   }
 
+  @SuppressWarnings("SimplifyStreamApiCallChains")
   private List<ProductOption> updateInventory(final ProductInfo productInfo){
     return productInfo.getProductOptions()
         .stream()
