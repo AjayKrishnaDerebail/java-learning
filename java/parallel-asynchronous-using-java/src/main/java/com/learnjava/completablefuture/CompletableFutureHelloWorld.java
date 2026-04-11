@@ -12,7 +12,8 @@ public class CompletableFutureHelloWorld {
 
     //noinspection Convert2MethodRef
     CompletableFuture.supplyAsync(() -> helloWorldService.helloWorld())
-        .thenAccept(result -> log("Result is "+ result))
+        .thenApply(String::toUpperCase)
+        .thenAccept(result -> log("Result is " + result))
         .join();
 
     log("Done");
