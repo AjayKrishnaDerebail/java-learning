@@ -6,12 +6,16 @@ import static com.learnjava.util.LoggerUtil.log;
 
 import com.learnjava.service.HelloWorldService;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import lombok.RequiredArgsConstructor;
 import lombok.val;
 
 @RequiredArgsConstructor
 @SuppressWarnings("unused")
 public class CompletableFutureHelloWorld {
+
+  private final ExecutorService fixedThreadPoolExecutor = Executors.newFixedThreadPool(4);
 
   private final HelloWorldService helloWorldService;
 
@@ -55,9 +59,12 @@ public class CompletableFutureHelloWorld {
   public String completableFutureThenCombine3Cfs(){
 
     startTimer();
-    CompletableFuture<String> hello = CompletableFuture.supplyAsync(() -> helloWorldService.hello());
-    CompletableFuture<String> world = CompletableFuture.supplyAsync(() -> helloWorldService.world());
-    CompletableFuture<String> hi = CompletableFuture.supplyAsync(() -> helloWorldService.hi());
+    CompletableFuture<String> hello = CompletableFuture.supplyAsync(() -> helloWorldService.hello(),
+        fixedThreadPoolExecutor);
+    CompletableFuture<String> world = CompletableFuture.supplyAsync(() -> helloWorldService.world(),
+        fixedThreadPoolExecutor);
+    CompletableFuture<String> hi = CompletableFuture.supplyAsync(
+        () -> helloWorldService.hi()), fixedThreadPoolExecutor;
 
     val result = hello.thenCombine(world,(h,w) -> h + w)
         .thenCombine(hi,(helloWorld,hiCf) -> helloWorld + hiCf)
