@@ -10,6 +10,7 @@ import com.learnjava.service.ProductInfoService;
 import com.learnjava.service.ReviewService;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
+import lombok.val;
 
 @RequiredArgsConstructor
 public class ProductServiceUsingCompletableFuture {
@@ -30,6 +31,24 @@ public class ProductServiceUsingCompletableFuture {
         .thenCombine(reviewCompletableFuture,
             (productInfo, review) -> new Product(productId, productInfo, review))
         .join();
+
+    stopWatch.stop();
+    log("Total Time Taken : " + stopWatch.getTime());
+    return product;
+  }
+
+  public CompletableFuture<Product> retrieveProductDetailsServerStyleProgramming(String productId) {
+    stopWatch.start();
+
+    CompletableFuture<ProductInfo> productInfoCompletableFuture = CompletableFuture.supplyAsync(
+        () -> productInfoService.retrieveProductInfo(productId));
+
+    CompletableFuture<Review> reviewCompletableFuture = CompletableFuture.supplyAsync(
+        () -> reviewService.retrieveReviews(productId));
+
+    val product = productInfoCompletableFuture
+        .thenCombine(reviewCompletableFuture,
+            (productInfo, review) -> new Product(productId, productInfo, review));
 
     stopWatch.stop();
     log("Total Time Taken : " + stopWatch.getTime());
