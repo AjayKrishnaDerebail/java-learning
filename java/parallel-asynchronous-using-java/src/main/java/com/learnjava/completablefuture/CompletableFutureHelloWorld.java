@@ -22,6 +22,16 @@ public class CompletableFutureHelloWorld {
         ;
   }
 
+  public CompletableFuture<String> helloWorldAppendStringLength(){
+    //noinspection Convert2MethodRef
+    return CompletableFuture.supplyAsync(() -> helloWorldService.helloWorld())
+        .thenApply(String::toUpperCase)
+        .thenApply(result -> result.length() + " - " + result)
+        //.thenAccept(result -> log("Result is " + result))
+        //.join()
+        ;
+  }
+
   static void main() {
     val helloWorldService = new HelloWorldService();
 

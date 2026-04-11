@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 public class CompletableFutureHelloWorldTest {
 
   private static final String HELLO_WORLD = "HELLO WORLD";
+  private static final String HELLO_WORLD_APPEND_LENGTH = "11 - HELLO WORLD";
 
   HelloWorldService helloWorldService = new HelloWorldService();
   CompletableFutureHelloWorld completableFutureHelloWorld = new CompletableFutureHelloWorld(
@@ -20,6 +21,15 @@ public class CompletableFutureHelloWorldTest {
 
     completableFuture
         .thenAccept(actualResult -> assertEquals(HELLO_WORLD, actualResult)
+        ).join();
+  }
+
+  @Test
+  void helloWorldAppendStringLength() {
+    CompletableFuture<String> completableFuture = completableFutureHelloWorld.helloWorldAppendStringLength();
+
+    completableFuture
+        .thenAccept(actualResult -> assertEquals(HELLO_WORLD_APPEND_LENGTH, actualResult)
         ).join();
   }
 
