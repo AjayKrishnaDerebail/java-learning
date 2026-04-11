@@ -120,9 +120,10 @@ public class ProductServiceUsingCompletableFuture {
   private List<ProductOption> updateInventory(final ProductInfo productInfo){
     return productInfo.getProductOptions()
         .stream()
-        .peek(productOption -> {
+        .map(productOption -> {
           val inventory = inventoryService.retrieveInventory(productOption);
           productOption.setInventory(inventory);
+          return productOption;
         })
         .toList();
   }
