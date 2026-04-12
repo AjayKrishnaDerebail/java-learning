@@ -18,7 +18,11 @@ target/
 
 ### NetBeans ###
 nbproject/private/
-build/
+build/classes
+build/generated
+build/reports
+build/test-results
+build/tmp
 nbbuild/
 dist/
 nbdist/
