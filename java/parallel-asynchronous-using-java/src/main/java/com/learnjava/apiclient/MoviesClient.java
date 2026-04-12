@@ -45,22 +45,31 @@ public class MoviesClient {
     MoviesClient moviesClient = new MoviesClient();
     startTimer();
     val movie = moviesClient.retrieveMovieInfo(1L);
+    log.info("I.001 : Movie is : {} ", movie);
     timeTaken();
-    log.info("Movie is : {} ", movie);
 
     stopWatchReset();
 
     startTimer();
     val movieCF = moviesClient.retrieveMovieInfoCF(2L);
+    log.info("I.002 :CompletableFuture : Movie is : {} ", movieCF);
     timeTaken();
-    log.info("Movie is : {} ", movieCF);
 
     stopWatchReset();
 
     startTimer();
-    val moviesList = moviesClient.retrieveMoviesListInfoCF(List.of(1L, 2L, 3L));
+    val moviesListSequential = moviesClient.retrieveMoviesListInfoSequential(
+        List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L));
+    log.info("I.003 : Sequential List : Movies list size: {}, Movies: {}", moviesListSequential.size(), moviesListSequential);
     timeTaken();
-    log.info("Movies list size: {}, Movies: {}", moviesList.size(), moviesList);
+
+    stopWatchReset();
+
+    startTimer();
+    val moviesListCF = moviesClient.retrieveMoviesListInfoCF(
+        List.of(1L, 2L, 3L, 4L, 5L, 6L, 7L));
+    log.info("I.004 : CompletableFuture List : Movies list size: {}, Movies: {}", moviesListCF.size(), moviesListCF);
+    timeTaken();
 
   }
 
@@ -88,6 +97,28 @@ public class MoviesClient {
         thenCombine(reviewsFuture, Movie::new)
         .join();
   }
+
+  /**
+   * Retrieves a list of movies sequentially (one after the other).
+   * * Performance: O(n * (T1 + T2))
+   * where n = number of movies, T1 = Info latency, T2 = Review latency.
+   */
+  public List<Movie> retrieveMoviesListInfoSequential(final List<Long> movieInfoIds) {
+    // We iterate through the IDs one by one on the MAIN thread.
+    return movieInfoIds.stream()
+        .map(movieId -> {
+          // Task 1: Main thread waits for Info Service
+          val movieInfo = invokeMovieInfoService(movieId);
+
+          // Task 2: Main thread waits for Reviews Service
+          val reviews = invokeReviewsInfoService(movieId);
+
+          // Task 3: Construct movie
+          return new Movie(movieInfo, reviews);
+        })
+        .toList(); // Results are collected in order
+  }
+
   /**
    * Executes a high-concurrency, non-blocking scatter-gather pipeline to reconstruct
    * {@link Movie} objects from multiple asynchronous data sources.
