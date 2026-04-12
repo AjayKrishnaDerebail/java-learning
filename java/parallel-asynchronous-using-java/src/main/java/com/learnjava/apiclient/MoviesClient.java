@@ -56,6 +56,12 @@ public class MoviesClient {
     log.info("Movie is : {} ", movieCF);
 
     stopWatchReset();
+
+    startTimer();
+    val moviesList = moviesClient.retrieveMoviesListInfoCF(List.of(1L, 2L, 3L));
+    timeTaken();
+    log.info("Movies list size: {}, Movies: {}", moviesList.size(), moviesList);
+
   }
 
   public Movie retrieveMovieInfo(final Long movieInfoId) {
@@ -65,6 +71,15 @@ public class MoviesClient {
   }
 
 
+  /**
+   * Retrieves a single movie's info and reviews in parallel using CompletableFuture.
+   *
+   * <p>Uses supplyAsync to fetch movie info and reviews concurrently,
+   * then combines them using thenCombine into a Movie object.
+   *
+   * @param movieInfoId the movie ID to fetch
+   * @return Movie object with populated info and reviews
+   */
   public Movie retrieveMovieInfoCF(final Long movieInfoId) {
     val movieInfoFuture = CompletableFuture.supplyAsync(() -> invokeMovieInfoService(movieInfoId));
     val reviewsFuture = CompletableFuture.supplyAsync(() -> invokeReviewsInfoService(movieInfoId));
@@ -74,11 +89,48 @@ public class MoviesClient {
         .join();
   }
 
+  /**
+   * Retrieves a list of movies in parallel using CompletableFuture.
+   *
+   * <p>For each movie ID, this method concurrently fetches:
+   * <ul>
+   *   <li>Movie info (name, year, cast, release date)</li>
+   *   <li>Reviews for that movie</li>
+   * </ul>
+   *
+   * <p>Execution flow:
+   * <ol>
+   *   <li>Creates a CompletableFuture for each movie ID that fetches both movie info
+   *       and reviews asynchronously in parallel (using thenCombine)</li>
+   *   <li>Uses CompletableFuture.allOf() to wait for all futures to complete</li>
+   *   <li>Collects all results into a List<Movie></li>
+   * </ol>
+   *
+   * @param movieInfoIds list of movie IDs to fetch
+   * @return list of Movie objects with populated info and reviews
+   */
+  public List<Movie> retrieveMoviesListInfoCF(final List<Long> movieInfoIds) {
+    val movieFutures = movieInfoIds.stream()
+        .map(movieId -> CompletableFuture.supplyAsync(() -> invokeMovieInfoService(movieId))
+            .thenCombine(
+                CompletableFuture.supplyAsync(() -> invokeReviewsInfoService(movieId)),
+                Movie::new))
+        .toList();
+
+    val allMoviesFuture = CompletableFuture.allOf(
+            movieFutures.toArray(new CompletableFuture[0]))
+        .thenApply(_ -> movieFutures.stream()
+            .map(CompletableFuture::join)
+            .toList());
+
+    return allMoviesFuture.join();
+  }
+
   private MovieInfo invokeMovieInfoService(final Long movieInfoId) {
     var moviesInfoUrlPath = "/v1/movie_infos/{movieInfoId}";
 
     return webClient.get()
-        .uri(moviesInfoUrlPath,movieInfoId)
+        .uri(moviesInfoUrlPath, movieInfoId)
         .retrieve()
         .bodyToMono(MovieInfo.class)
         .block();
@@ -88,7 +140,7 @@ public class MoviesClient {
 
     @SuppressWarnings("VulnerableCodeUsages")
     var reviewUri = UriComponentsBuilder.fromUriString("/v1/reviews")
-        .queryParam("movieInfoId",movieInfoId)
+        .queryParam("movieInfoId", movieInfoId)
         .buildAndExpand()
         .toString();
 
