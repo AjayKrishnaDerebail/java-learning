@@ -88,26 +88,55 @@ public class MoviesClient {
         thenCombine(reviewsFuture, Movie::new)
         .join();
   }
-
   /**
-   * Retrieves a list of movies in parallel using CompletableFuture.
+   * Executes a high-concurrency, non-blocking scatter-gather pipeline to reconstruct
+   * {@link Movie} objects from multiple asynchronous data sources.
    *
-   * <p>For each movie ID, this method concurrently fetches:
+   * <p><b>Technical Execution Stages:</b>
+   *
+   * <h3>1. The Async Dispatch (The Scatter Phase)</h3>
+   * For each identifier in {@code movieInfoIds}, the pipeline initiates a
+   * <b>Fork-Join</b> sequence. Using {@code supplyAsync}, two independent tasks
+   * are dispatched to the {@code ForkJoinPool.commonPool()}.
    * <ul>
-   *   <li>Movie info (name, year, cast, release date)</li>
-   *   <li>Reviews for that movie</li>
+   * <li><b>Task A:</b> Execution of {@code invokeMovieInfoService(movieId)}.</li>
+   * <li><b>Task B:</b> Execution of {@code invokeReviewsInfoService(movieId)}.</li>
    * </ul>
+   * This phase offloads I/O-intensive work from the calling thread, potentially
+   * saturating available worker threads to minimize overall latency.
    *
-   * <p>Execution flow:
-   * <ol>
-   *   <li>Creates a CompletableFuture for each movie ID that fetches both movie info
-   *       and reviews asynchronously in parallel (using thenCombine)</li>
-   *   <li>Uses CompletableFuture.allOf() to wait for all futures to complete</li>
-   *   <li>Collects all results into a List<Movie></li>
-   * </ol>
+   * <h3>2. Binary Task Fusion (Internal Synchronization)</h3>
+   * The {@code thenCombine} operator functions as a <b>Dependency Node</b> in the
+   * execution graph. It manages internal synchronization by ensuring that the
+   * {@link Movie} constructor is only invoked once both Task A and Task B transition
+   * to the {@code COMPLETED} state. This prevents partial object construction
+   * and eliminates the need for manual lock management or "wait-and-notify" logic.
    *
-   * @param movieInfoIds list of movie IDs to fetch
-   * @return list of Movie objects with populated info and reviews
+   * <h3>3. Aggregate Barrier (The allOf Synchronization)</h3>
+   * To handle the collection of individual pipelines, {@link CompletableFuture#allOf}
+   * is utilized as a <b>Synchronization Barrier</b>. It transforms a {@code List}
+   * of disparate futures into a single aggregate "Master Future." This master
+   * future only resolves when every individual movie future in the stream has reached
+   * a terminal state (Success or Failure).
+   *
+   * <h3>4. Non-Blocking Data Gathering</h3>
+   * Upon the resolution of the {@code allOf} barrier, the {@code thenApply} block
+   * initiates the "Gather" phase. While {@link CompletableFuture#join()} is
+   * technically a blocking call, it is <b>non-blocking in this context</b> because
+   * the preceding barrier guarantees that all data is already available in memory.
+   * The final terminal {@code join()} is the only point where the calling thread
+   * suspends execution.
+   *
+   * <p><b>Threading Considerations:</b>
+   * This method is sensitive to <b>Common Pool Saturation</b>. If the input list
+   * size exceeds the available parallelism of the {@code ForkJoinPool}, tasks will
+   * be queued, increasing latency. For high-volume production environments,
+   * consider passing a custom {@code Executor} to the {@code supplyAsync} calls
+   * to isolate these I/O tasks.
+   * {@code @movieInfoIds} A list of IDs to be processed; size directly impacts
+   * worker thread demand.
+   * @return A list of reconstructed Movie objects.
+   * {@code @throwsCompletionException} if any internal future fails during execution.
    */
   public List<Movie> retrieveMoviesListInfoCF(final List<Long> movieInfoIds) {
     val movieFutures = movieInfoIds.stream()
