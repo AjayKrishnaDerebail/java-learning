@@ -1,11 +1,16 @@
 package com.learnjava.apiclient;
 
+import static com.learnjava.util.CommonUtil.startTimer;
+import static com.learnjava.util.CommonUtil.stopWatchReset;
+import static com.learnjava.util.CommonUtil.timeTaken;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.learnjava.domain.movie.Movie;
 import com.learnjava.domain.movie.MovieInfo;
 import com.learnjava.domain.movie.Review;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 import lombok.extern.slf4j.Slf4j;
 import lombok.val;
 import org.springframework.http.codec.json.Jackson2JsonDecoder;
@@ -38,15 +43,35 @@ public class MoviesClient {
 
   static void main() {
     MoviesClient moviesClient = new MoviesClient();
+    startTimer();
     val movie = moviesClient.retrieveMovieInfo(1L);
-
+    timeTaken();
     log.info("Movie is : {} ", movie);
+
+    stopWatchReset();
+
+    startTimer();
+    val movieCF = moviesClient.retrieveMovieInfoCF(2L);
+    timeTaken();
+    log.info("Movie is : {} ", movieCF);
+
+    stopWatchReset();
   }
 
   public Movie retrieveMovieInfo(final Long movieInfoId) {
     val movieInfo = invokeMovieInfoService(movieInfoId);
     val reviews = invokeReviewsInfoService(movieInfoId);
     return new Movie(movieInfo, reviews);
+  }
+
+
+  public Movie retrieveMovieInfoCF(final Long movieInfoId) {
+    val movieInfoFuture = CompletableFuture.supplyAsync(() -> invokeMovieInfoService(movieInfoId));
+    val reviewsFuture = CompletableFuture.supplyAsync(() -> invokeReviewsInfoService(movieInfoId));
+
+    return movieInfoFuture.
+        thenCombine(reviewsFuture, Movie::new)
+        .join();
   }
 
   private MovieInfo invokeMovieInfoService(final Long movieInfoId) {
