@@ -1,0 +1,61 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
+}
+
+ext {
+    versions = [lombok     : '1.18.44',
+                commonsLang: '3.20.0',
+                slf4j      : '2.0.17',
+                logback    : '1.5.18',
+                junitBom   : '6.0.3',
+                mockito    : '5.23.0']
+}
+
+group = 'org.virtual.threads'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+tasks.test {
+    useJUnitPlatform() // enables Junit5
+}
+
+dependencies {
+
+    //lombok
+    compileOnly "org.projectlombok:lombok:${versions.lombok}"
+    annotationProcessor("org.projectlombok:lombok:${versions.lombok}")
+    testAnnotationProcessor("org.projectlombok:lombok:${versions.lombok}")
+
+    testCompileOnly "org.projectlombok:lombok:${versions.lombok}"
+
+
+    // StopWatch
+    implementation("org.apache.commons:commons-lang3:${versions.commonsLang}")
+
+    implementation("org.slf4j:slf4j-api:${versions.slf4j}")
+    runtimeOnly("ch.qos.logback:logback-classic:${versions.logback}")
+
+    //junit5-dependencies
+    testImplementation(platform("org.junit:junit-bom:${versions.junitBom}"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    //mockito
+    testImplementation "org.mockito:mockito-core:${versions.mockito}"
+    testImplementation "org.mockito:mockito-junit-jupiter:${versions.mockito}"
+
+}
