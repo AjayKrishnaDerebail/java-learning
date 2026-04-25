@@ -1,7 +1,6 @@
 package org.virtual.threads.section2;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
 import lombok.extern.slf4j.Slf4j;
 
@@ -9,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 public class Client {
 
   private static final String PRODUCT_REQUEST_FORMAT = "http://localhost:7070/sec01/product/%d";
-  private static final String RATING_REQUEST_FORMAT = "http://localhost:7070/sec02/rating/%d";
+  private static final String RATING_REQUEST_FORMAT = "http://localhost:7070/sec01/rating/%d";
 
   public static String getProduct(final int id) {
     return callExternalService(String.format(PRODUCT_REQUEST_FORMAT, id));

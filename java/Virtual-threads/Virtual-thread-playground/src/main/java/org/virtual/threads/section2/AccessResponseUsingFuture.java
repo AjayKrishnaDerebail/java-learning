@@ -18,8 +18,10 @@ public class AccessResponseUsingFuture {
 
     val result2 = CompletableFuture.supplyAsync(() -> Client.getProduct(2)).join();
     val result3 = CompletableFuture.supplyAsync(() -> Client.getProduct(3)).join();
+    val result4 = CompletableFuture.supplyAsync(() -> Client.getRating(3)).join();
     log.info(result2);
     log.info(result3);
+    log.info(result4);
   }
 
 }
