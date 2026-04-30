@@ -5,6 +5,7 @@ import com.virtualthreads.trip.dto.TripPlan;
 import com.virtualthreads.trip.dto.TripReservationRequest;
 import com.virtualthreads.trip.service.TripPlanService;
 import com.virtualthreads.trip.service.TripReservationService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("trip")
+@Slf4j
 public class TripController {
 
   private final TripPlanService planService;
@@ -27,6 +29,8 @@ public class TripController {
 
   @GetMapping("{airportCode}")
   public TripPlan planTrip(@PathVariable String airportCode) {
+    log.info("Planning trip for airport code: {} and thread name : {}", airportCode,
+        Thread.currentThread().getName());
     return this.planService.getTripPlan(airportCode);
   }
 
