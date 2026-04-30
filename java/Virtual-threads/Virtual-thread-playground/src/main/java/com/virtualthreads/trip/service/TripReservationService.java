@@ -7,7 +7,9 @@ import com.virtualthreads.trip.dto.FlightReservationRequest;
 import com.virtualthreads.trip.dto.FlightReservationResponse;
 import com.virtualthreads.trip.dto.TripReservationRequest;
 import java.util.Comparator;
+import org.springframework.stereotype.Service;
 
+@Service
 public class TripReservationService {
 
   private final FlightSearchServiceClient searchServiceClient;

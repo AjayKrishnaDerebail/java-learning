@@ -28,9 +28,9 @@ public class TripController {
   }
 
   @GetMapping("{airportCode}")
-  public TripPlan planTrip(@PathVariable String airportCode) {
-    log.info("Planning trip for airport code: {} and thread name : {}", airportCode,
-        Thread.currentThread().getName());
+  public TripPlan planTrip(@PathVariable("airportCode") String airportCode) {
+    log.info("Planning trip for airport code: {} and thread name : {} and isVirtual : {}", airportCode,
+        Thread.currentThread().getName(),Thread.currentThread().isVirtual());
     return this.planService.getTripPlan(airportCode);
   }
 
