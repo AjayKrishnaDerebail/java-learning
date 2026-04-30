@@ -14,7 +14,8 @@ ext {
                 slf4j      : '2.0.17',
                 logback    : '1.5.18',
                 junitBom   : '6.0.3',
-                mockito    : '5.23.0']
+                mockito    : '5.23.0',
+                springboot : '4.0.6']
 }
 
 group = 'org.virtual.threads'
@@ -35,6 +36,9 @@ tasks.test {
 }
 
 dependencies {
+
+    implementation("org.springframework.boot:spring-boot:${versions.springboot}")
+    implementation("org.springframework.boot:spring-boot-starter-web:4.0.6")
 
     //lombok
     compileOnly "org.projectlombok:lombok:${versions.lombok}"
